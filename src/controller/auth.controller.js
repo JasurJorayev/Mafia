@@ -3,9 +3,10 @@
 // Register, Login (JWT), Google OAuth, Profil
 // ===============================================================
 
-import pool      from '../config/db.js';
-import bcrypt from 'bcryptjs';
-import jwt       from 'jsonwebtoken';
+import pool         from '../config/db.js';
+import bcrypt       from 'bcryptjs';
+import jwt          from 'jsonwebtoken';
+import crypto       from 'crypto';
 import { OAuth2Client } from 'google-auth-library';
 
 const GOOGLE_CLIENT = process.env.GOOGLE_CLIENT_ID
@@ -16,14 +17,14 @@ const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     console.error('❌ XATO: JWT_SECRET .env faylida yo\'q! Auth ishlamaydi.');
 }
-const SALT_ROUNDS   = 10;
+const SALT_ROUNDS = 10;
 
 // ---------------------------------------------------------------
 // YORDAMCHI: input tozalash
 // ---------------------------------------------------------------
 function clean(str, max = 50) {
     if (typeof str !== 'string') return '';
-    return str.trim().slice(0, max).replace(/[<>\"'`]/g, '');
+    return str.trim().slice(0, max).replace(/[<>"'`]/g, '');
 }
 
 // ---------------------------------------------------------------
@@ -31,6 +32,13 @@ function clean(str, max = 50) {
 // ---------------------------------------------------------------
 function signToken(userId) {
     return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '30d' });
+}
+
+// ---------------------------------------------------------------
+// YORDAMCHI: session token yaratish
+// ---------------------------------------------------------------
+function generateSessionToken() {
+    return crypto.randomBytes(32).toString('hex');
 }
 
 // ---------------------------------------------------------------
@@ -76,19 +84,20 @@ export const register = async (req, res) => {
         if (exists.rowCount > 0)
             return res.status(409).json({ message: "Bu username allaqachon band!" });
 
-        const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
+        const password_hash  = await bcrypt.hash(password, SALT_ROUNDS);
+        const sessionToken   = generateSessionToken();
 
         const result = await pool.query(
-            `INSERT INTO users (username, password_hash)
-             VALUES ($1, $2)
+            `INSERT INTO users (username, password_hash, session_token)
+             VALUES ($1, $2, $3)
              RETURNING *`,
-            [username, password_hash]
+            [username, password_hash, sessionToken]
         );
 
         const user  = result.rows[0];
         const token = signToken(user.id);
 
-        res.status(201).json({ token, user: safeUser(user) });
+        res.status(201).json({ token, session_token: sessionToken, user: safeUser(user) });
 
     } catch (err) {
         console.error('register xato:', err.message);
@@ -127,14 +136,16 @@ export const login = async (req, res) => {
         if (!match)
             return res.status(401).json({ message: "Username yoki parol noto'g'ri!" });
 
-        // last_login yangilash
+        // Yangi session token — eski sessiyani bekor qiladi
+        const sessionToken = generateSessionToken();
+
         await pool.query(
-            'UPDATE users SET last_login = NOW() WHERE id = $1',
-            [user.id]
+            'UPDATE users SET last_login = NOW(), session_token = $1 WHERE id = $2',
+            [sessionToken, user.id]
         );
 
         const token = signToken(user.id);
-        res.json({ token, user: safeUser(user) });
+        res.json({ token, session_token: sessionToken, user: safeUser(user) });
 
     } catch (err) {
         console.error('login xato:', err.message);
@@ -168,6 +179,7 @@ export const googleAuth = async (req, res) => {
         }
 
         const { sub: google_id, email, name, picture } = payload;
+        const sessionToken = generateSessionToken();
 
         // Mavjud foydalanuvchimi?
         let userResult = await pool.query(
@@ -176,17 +188,20 @@ export const googleAuth = async (req, res) => {
         );
 
         if (userResult.rowCount > 0) {
-            // Mavjud — last_login yangilash
+            // Mavjud — last_login va session yangilash
             await pool.query(
-                'UPDATE users SET last_login = NOW(), avatar_url = $1 WHERE id = $2',
-                [picture, userResult.rows[0].id]
+                'UPDATE users SET last_login = NOW(), avatar_url = $1, session_token = $2 WHERE id = $3',
+                [picture, sessionToken, userResult.rows[0].id]
             );
             const token = signToken(userResult.rows[0].id);
-            return res.json({ token, user: safeUser(userResult.rows[0]) });
+            return res.json({
+                token,
+                session_token: sessionToken,
+                user: safeUser(userResult.rows[0]),
+            });
         }
 
         // Yangi foydalanuvchi — username yasaymiz
-        // Google name dan olamiz, band bo'lsa raqam qo'shamiz
         let baseUsername = clean(name?.split(' ')[0] || 'user', 25);
         if (baseUsername.length < 2) baseUsername = 'user';
 
@@ -203,17 +218,18 @@ export const googleAuth = async (req, res) => {
         }
 
         const result = await pool.query(
-            `INSERT INTO users (google_id, email, username, avatar_url, last_login)
-             VALUES ($1, $2, $3, $4, NOW())
+            `INSERT INTO users (google_id, email, username, avatar_url, last_login, session_token)
+             VALUES ($1, $2, $3, $4, NOW(), $5)
              RETURNING *`,
-            [google_id, email, username, picture]
+            [google_id, email, username, picture, sessionToken]
         );
 
         const token = signToken(result.rows[0].id);
         res.status(201).json({
             token,
+            session_token: sessionToken,
             user: safeUser(result.rows[0]),
-            is_new: true,  // frontendda "username o'zgartirmoqchimisiz?" deb so'rash uchun
+            is_new: true,
         });
 
     } catch (err) {
@@ -228,7 +244,6 @@ export const googleAuth = async (req, res) => {
 // ===============================================================
 export const getMe = async (req, res) => {
     try {
-        // req.userId middleware tomonidan qo'yiladi
         const result = await pool.query(
             'SELECT * FROM users WHERE id = $1 AND is_active = true',
             [req.userId]
@@ -249,7 +264,6 @@ export const getMe = async (req, res) => {
 // Ochiq — token shart emas
 // ===============================================================
 export const getProfile = async (req, res) => {
-    // Cache o'chirish — har safar yangi ma'lumot olsin
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     try {
@@ -326,7 +340,6 @@ export const updateProfile = async (req, res) => {
             if (username.length < 2)
                 return res.status(400).json({ message: "Username kamida 2 ta harf!" });
 
-            // Band emasligini tekshiramiz (o'zidan tashqari)
             const taken = await pool.query(
                 'SELECT id FROM users WHERE LOWER(username) = LOWER($1) AND id != $2',
                 [username, userId]
@@ -344,7 +357,6 @@ export const updateProfile = async (req, res) => {
         if (req.body.avatar_url !== undefined) {
             const url = typeof req.body.avatar_url === 'string'
                 ? req.body.avatar_url.trim().slice(0, 500) : '';
-            // Faqat http/https manzillar
             if (url && !url.startsWith('http'))
                 return res.status(400).json({ message: "Avatar URL noto'g'ri format!" });
             updates.avatar_url = url || null;
@@ -353,7 +365,6 @@ export const updateProfile = async (req, res) => {
         if (Object.keys(updates).length === 0)
             return res.status(400).json({ message: "O'zgartirish uchun ma'lumot kiriting!" });
 
-        // Dinamik SET yaratamiz
         const setClauses = Object.keys(updates).map(k => {
             params.push(updates[k]);
             return `${k} = $${idx++}`;
@@ -395,7 +406,6 @@ export const changePassword = async (req, res) => {
         );
         const user = result.rows[0];
 
-        // Agar oldin paroli bo'lsa — eski parolni tekshiramiz
         if (user.password_hash) {
             if (!oldPassword)
                 return res.status(400).json({ message: "Eski parolni kiriting!" });
@@ -405,12 +415,19 @@ export const changePassword = async (req, res) => {
         }
 
         const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+        // Parol o'zgarganda ham sessiyani yangilaymiz — boshqa qurilmalar chiqariladi
+        const sessionToken = generateSessionToken();
+
         await pool.query(
-            'UPDATE users SET password_hash = $1 WHERE id = $2',
-            [hash, userId]
+            'UPDATE users SET password_hash = $1, session_token = $2 WHERE id = $3',
+            [hash, sessionToken, userId]
         );
 
-        res.json({ message: "Parol muvaffaqiyatli o'zgartirildi!" });
+        res.json({
+            message:       "Parol muvaffaqiyatli o'zgartirildi!",
+            session_token: sessionToken,  // frontendda yangi session saqlansin
+        });
 
     } catch (err) {
         console.error('changePassword xato:', err.message);
