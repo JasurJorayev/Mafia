@@ -1,0 +1,1157 @@
+:root {
+    --primary: #e94560;
+    --secondary: #533483;
+    --bg-dark: #1a1a2e;
+    --card-bg: #16213e;
+    --text-gold: #f1c40f;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px 0 40px;
+    overscroll-behavior: none;
+    box-sizing: border-box;
+}
+
+/* To'liq ekranda ham markazda */
+:-webkit-full-screen body,
+:-moz-full-screen body,
+:fullscreen body {
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 6px;
+    text-shadow: 2px 2px 10px rgba(233, 69, 96, 0.3);
+}
+
+.timer-display {
+    font-size: 3.2rem;
+    font-weight: 800;
+    color: var(--text-gold);
+    margin: 10px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin-top: 16px;
+}
+
+/* ===== INPUT ===== */
+input[type="text"] {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 12px;
+    border: 2px solid #0f3460;
+    background: #0f3460;
+    color: white;
+    font-size: 16px; /* iOS zoom oldini olish uchun min 16px bo'lishi kerak */
+    outline: none;
+    transition: 0.3s;
+    margin-bottom: 14px;
+}
+
+input[type="text"]:focus { border-color: var(--primary); }
+
+/* password-input va code-input global override ni bekor qiladi */
+input.password-input[type="text"],
+input.password-input[type="password"],
+input.code-input[type="text"],
+input.code-input[type="password"] {
+    width: auto;
+    padding: 9px 0;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    margin-bottom: 0;
+    outline: none;
+}
+input.code-input[type="text"],
+input.code-input[type="password"] {
+    font-size: 1.15rem;
+    padding: 11px 0;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 6px;
+}
+
+/* ===== LOBBI TUGMALARI ===== */
+.lobby-btn-row {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-lobby {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-rejoin {
+    background: #1a1a3a;
+    border: 2px solid #7c3aed;
+    color: #a78bfa;
+}
+.btn-rejoin:hover {
+    background: #2d1b69;
+    border-color: #9f67ff;
+}
+
+.btn-create  { background: #27ae60; color: white; }
+.btn-create:hover  { background: #2ecc71; transform: translateY(-2px); }
+
+.btn-join-l  { background: var(--primary); color: white; }
+.btn-join-l:hover  { background: #ff2e63; transform: translateY(-2px); }
+
+.btn-back    { background: #2c3e50; color: #aaa; }
+.btn-back:hover { background: #34495e; }
+
+/* ===== LOBBI KOD DISPLAY ===== */
+.lobby-info-card { text-align: center; }
+
+.lobby-code-display { margin-bottom: 12px; }
+
+.big-code {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--text-gold);
+    letter-spacing: 8px;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 20px rgba(241, 196, 15, 0.4);
+    margin: 8px 0;
+}
+
+.admin-badge {
+    display: inline-block;
+    background: rgba(83, 52, 131, 0.4);
+    border: 1px solid var(--secondary);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #c9b7ff;
+    margin-top: 8px;
+}
+
+/* ===== O'YINCHILAR RO'YXATI ===== */
+#player-list, #game-player-list {
+    margin-top: 10px;
+}
+
+.player-row {
+    padding: 10px 14px;
+    margin: 6px 0;
+    background: #1a2744;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #2a3a5a;
+    font-size: 0.95rem;
+}
+
+/* ===== ROL KO'RSATISH ===== */
+.role-box {
+    margin-top: 14px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--secondary), #0f3460);
+    border-radius: 14px;
+    border-left: 5px solid var(--primary);
+    display: none;
+    text-align: left;
+}
+
+/* ===== ADMIN PANEL ===== */
+.admin-panel {
+    margin-top: 20px;
+    padding: 18px;
+    background: rgba(22,33,62,0.7);
+    border: 1px dashed var(--primary);
+    border-radius: 14px;
+}
+
+.admin-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-admin {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-size: 0.88rem;
+}
+
+.btn-start { background: #27ae60; color: white; box-shadow: 0 4px 15px rgba(39,174,96,0.3); }
+.btn-start:hover { background: #2ecc71; transform: scale(1.04); }
+
+.btn-reset { background: #c0392b; color: white; box-shadow: 0 4px 15px rgba(192,57,43,0.3); }
+.btn-reset:hover { background: #e74c3c; transform: scale(1.04); }
+
+/* ===== ACTION TUGMASI ===== */
+.btn-action {
+    padding: 5px 12px;
+    cursor: pointer;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btn-action:hover { background: #ff2e63; }
+
+/* ===== O'YIN TUGADI ===== */
+.game-over-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.game-over-card {
+    background: #1f293d;
+    padding: 28px;
+    border-radius: 18px;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 30px rgba(233,69,96,0.3);
+    max-width: 400px;
+    width: 90%;
+    animation: fadeIn 0.5s ease;
+}
+
+.game-over-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ef4444;
+    text-shadow: 0 0 10px rgba(239,68,68,0.5);
+    margin: 0 0 10px;
+}
+
+.citizen-victory {
+    color: #10b981 !important;
+    text-shadow: 0 0 10px rgba(16,185,129,0.5) !important;
+}
+
+.winner-banner {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-gold);
+    margin-bottom: 14px;
+}
+
+.game-details-box {
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #cbd5e1;
+    text-align: left;
+}
+
+.btn-menu-back {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 12px 24px;
+    background: #2c3e50;
+    color: white;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-menu-back:hover { background: #3498db; transform: scale(1.04); }
+
+/* ===== ROL NISHONLAR ===== */
+.role-badge { padding: 2px 7px; border-radius: 5px; font-weight: bold; font-size: 0.82rem; }
+.role-mafia  { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.4); }
+.role-doctor { background: rgba(0,209,255,0.15); color: #00d1ff; border: 1px solid rgba(0,209,255,0.3); }
+.role-citizen{ background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid rgba(16,185,129,0.4); }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ===== TO'LIQ EKRAN TUGMASI ===== */
+.btn-fullscreen {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    background: rgba(22,33,62,0.85);
+    border: 1px solid #334155;
+    color: #94a3b8;
+    font-size: 1.3rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-fullscreen:hover { background: #1e3a5f; color: white; }
+
+/* ===== LOBBYDAN CHIQISH ===== */
+.btn-leave {
+    background: transparent;
+    border: 1px solid #334155;
+    color: #64748b;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+.btn-leave:hover { border-color: #e94560; color: #e94560; }
+
+/* ===== MODAL ANIMATSIYA ===== */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+
+.btn-info-open {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: #1a2235;
+    border: 1px solid #2d3f5e;
+    color: #94a3b8;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 999;
+    transition: .15s;
+}
+.btn-info-open:hover {
+    background: #243050;
+    color: #e2e8f0;
+}
+/* ===== ONLINE LOBBI STILLARI ===== */
+.online-range-btn, .online-type-btn {
+    flex: 1;
+    padding: 9px 0;
+    border-radius: 10px;
+    border: 2px solid #2d3f5e;
+    background: #1a2540;
+    color: #aaa;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all .15s;
+    font-weight: 600;
+}
+.online-range-btn.active, .online-type-btn.active {
+    background: linear-gradient(135deg,#6366f1,#0ea5e9);
+    border-color: #6366f1;
+    color: #fff;
+}
+.online-range-btn:active, .online-type-btn:active { transform: scale(.96); }
+
+/* Ochiq lobbilar ro'yxati */
+.public-lobby-item {
+    background: #151f35;
+    border: 1px solid #2d3f5e;
+    border-radius: 12px;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.public-lobby-item:hover { border-color: #6366f1; background: #1a2540; }
+.public-lobby-item.private { border-color: #7c3aed; }
+.public-lobby-left { flex: 1; }
+.public-lobby-code { font-size: 1.1rem; font-weight: 800; color: #e2e8f0; letter-spacing: 2px; }
+.public-lobby-host { font-size: 0.78rem; color: #6b7280; margin-top: 2px; }
+.public-lobby-right { text-align: right; }
+.public-lobby-count { font-size: 0.9rem; font-weight: 700; color: #22c55e; }
+.public-lobby-max { font-size: 0.75rem; color: #6b7280; }
+.public-lobby-badge {
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-top: 4px;
+    display: inline-block;
+}
+.badge-open { background:#0f3a1e; color:#22c55e; border:1px solid #166534; }
+.badge-private { background:#2d1f5e; color:#a78bfa; border:1px solid #6d28d9; }
+
+/* ===== ONLINE STEP — STEP LABEL ===== */
+.step-label {
+    margin: 0 0 16px 0;
+    color: #94a3b8;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 600;
+}
+
+/* ===== ONLINE STEP — ASOSIY TUGMALAR ===== */
+.online-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.online-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 10px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all .18s;
+    font-size: 0.92rem;
+}
+.online-action-btn:active { transform: scale(.96); }
+
+.oab-icon { font-size: 1.3rem; line-height: 1; }
+.oab-text  { font-size: 0.85rem; }
+
+.online-action-create {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    border-color: #4ade8044;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(34,197,94,0.35);
+}
+.online-action-create:hover {
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    box-shadow: 0 6px 22px rgba(34,197,94,0.5);
+    transform: translateY(-2px);
+}
+
+.online-action-join {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    border-color: #f8717144;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(239,68,68,0.35);
+}
+.online-action-join:hover {
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    box-shadow: 0 6px 22px rgba(239,68,68,0.5);
+    transform: translateY(-2px);
+}
+
+/* Orqaga — kichik, quyi */
+.btn-back-inline {
+    background: transparent;
+    border: 1px solid #2d3f5e;
+    color: #64748b;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all .15s;
+    width: 100%;
+}
+.btn-back-inline:hover { border-color: #4f6380; color: #94a3b8; }
+
+/* ===== LOBBILAR HEADER ===== */
+.lobbies-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e2d45;
+}
+.lobbies-title {
+    font-size: 0.78rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.btn-refresh {
+    background: none;
+    border: 1px solid #2d3f5e;
+    color: #6366f1;
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .15s;
+}
+.btn-refresh:hover { background: #1a2540; }
+
+/* ===== SETTINGS BLOCK (yaratish ekrani) ===== */
+.settings-block {
+    margin-bottom: 14px;
+}
+.settings-label {
+    display: block;
+    color: #64748b;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.toggle-row {
+    display: flex;
+    gap: 8px;
+}
+
+/* ===== PAROL MAYDONI ===== */
+.password-field-wrap {
+    display: flex;
+    align-items: center;
+    background: #0d1f3c;
+    border: 2px solid #1e3a5f;
+    border-radius: 12px;
+    padding: 0 8px 0 12px;
+    transition: border-color .2s, box-shadow .2s;
+    margin-bottom: 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.password-field-wrap:focus-within {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+.password-icon {
+    font-size: 1rem;
+    margin-right: 10px;
+    opacity: .7;
+    flex-shrink: 0;
+}
+.password-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e2e8f0;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 9px 0;
+    width: auto;
+    margin-bottom: 0;
+    text-align: center;
+}
+.password-input::placeholder { color: #4a5568; text-align: center; }
+.btn-eye {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    color: #818cf8;
+    padding: 5px 7px;
+    margin-left: 6px;
+    transition: background .18s, color .18s, border-color .18s, transform .12s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.btn-eye:hover {
+    background: rgba(99,102,241,0.22);
+    color: #c7d2fe;
+    border-color: rgba(99,102,241,0.5);
+    transform: scale(1.08);
+}
+.btn-eye:active { transform: scale(0.95); }
+.btn-eye svg { display: block; }
+
+/* ===== KOD MAYDONI (kirish ekrani) ===== */
+.code-field-wrap {
+    display: flex;
+    align-items: center;
+    background: #0d1f3c;
+    border: 2px solid #1e3a5f;
+    border-radius: 12px;
+    padding: 0 14px;
+    margin-bottom: 14px;
+    transition: border-color .2s;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.code-field-wrap:focus-within {
+    border-color: #e94560;
+    box-shadow: 0 0 0 3px rgba(233,69,96,0.15);
+}
+.code-icon {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #4a5568;
+    margin-right: 10px;
+    font-family: monospace;
+}
+.code-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #e2e8f0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    padding: 11px 0;
+    width: auto;
+    margin-bottom: 0;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+}
+.code-input::placeholder { color: #2d3f5e; font-size: 0.9rem; letter-spacing: 1px; font-weight: 400; font-family: 'Poppins', sans-serif; }
+
+/* ===== TOGGLE SWITCH (parol kerakmi) ===== */
+.password-toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+}
+.toggle-switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #1e3a5f;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: .2s;
+    border: 1px solid #2d3f5e;
+}
+.toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    left: 2px; top: 2px;
+    background: #64748b;
+    border-radius: 50%;
+    transition: .2s;
+}
+.toggle-switch input:checked + .toggle-slider { background: #6366f1; border-color: #6366f1; }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(18px); background: #fff; }
+.toggle-label { color: #94a3b8; font-size: 0.85rem; }
+
+/* ===== YARATISH/KIRISH TUGMALAR QATORI ===== */
+.create-btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+.btn-create-main {
+    flex: 2;
+    background: linear-gradient(135deg, #166534, #15803d);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all .18s;
+}
+.btn-create-main:hover { background: linear-gradient(135deg, #15803d, #16a34a); transform: translateY(-1px); }
+.btn-join-main {
+    flex: 2;
+    background: linear-gradient(135deg, #9b1c1c, #dc2626);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all .18s;
+}
+.btn-join-main:hover { background: linear-gradient(135deg, #dc2626, #ef4444); transform: translateY(-1px); }
+
+/* ===== O'Z SATRINI BELGILASH ===== */
+.player-row-me {
+    border-color: #6366f1 !important;
+    background: linear-gradient(90deg, #1a1f45 0%, #1a2744 100%) !important;
+    box-shadow: inset 3px 0 0 #6366f1;
+}
+
+.me-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+    margin-left: 4px;
+    text-transform: uppercase;
+}
+
+/* ============================================================
+   CHAT PANEL — Muhokama fazasi uchun
+   ============================================================ */
+
+/* ===== GAME TAB BAR ===== */
+.game-tab-bar {
+    display: flex;
+    margin-top: 16px;
+    background: rgba(13, 18, 32, 0.8);
+    border-radius: 14px;
+    padding: 4px;
+    gap: 2px;
+    border: 1px solid rgba(99,102,241,0.2);
+}
+
+.game-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 6px 8px;
+    background: transparent;
+    border: none;
+    border-radius: 11px;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    position: relative;
+    font-family: inherit;
+}
+
+.game-tab svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    flex-shrink: 0;
+    transition: stroke 0.18s;
+}
+
+.game-tab.active {
+    background: linear-gradient(135deg, rgba(79,70,229,0.35), rgba(99,102,241,0.2));
+    color: #818cf8;
+    border: 1px solid rgba(99,102,241,0.3);
+}
+
+.game-tab:not(.active):hover {
+    background: rgba(99,102,241,0.08);
+    color: #64748b;
+}
+
+.chat-unread-badge {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    min-width: 16px;
+    height: 16px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    border-radius: 8px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #0d1220;
+    line-height: 1;
+}
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+#tab-content-chat.tab-content {
+    display: none;
+}
+#tab-content-chat.tab-content.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== CHAT PANEL (tab ichida) ===== */
+#chat-panel {
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0d1220 0%, #111827 100%);
+    border: 1px solid rgba(99,102,241,0.25);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(99,102,241,0.1);
+    display: flex;
+    flex-direction: column;
+    /* Content ga mos, ortiqcha bo'sh joy yo'q */
+    height: auto;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ===== MA'LUMOT TAB ===== */
+.info-tab-card h3 {
+    font-size: 0.95rem;
+    color: #818cf8;
+    letter-spacing: 0.3px;
+}
+
+.info-role-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-role-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(15, 20, 40, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(99,102,241,0.1);
+}
+
+.info-role-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.info-role-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.info-role-desc {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.info-phases {
+    border-top: 1px solid rgba(99,102,241,0.15);
+    padding-top: 12px;
+}
+
+.info-phases h3 {
+    font-size: 0.9rem;
+}
+
+.info-phase-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    padding: 5px 0;
+}
+
+.phase-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.phase-dot.day   { background: #facc15; box-shadow: 0 0 6px rgba(250,204,21,0.5); }
+.phase-dot.vote  { background: #f97316; box-shadow: 0 0 6px rgba(249,115,22,0.5); }
+.phase-dot.night { background: #818cf8; box-shadow: 0 0 6px rgba(129,140,248,0.5); }
+
+#chat-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, rgba(99,102,241,0.18) 0%, rgba(129,140,248,0.08) 100%);
+    border-bottom: 1px solid rgba(99,102,241,0.2);
+    user-select: none;
+}
+
+#chat-panel-header .chat-header-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+#chat-panel-header .chat-header-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #818cf8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    flex: 1;
+}
+
+#chat-panel-header .chat-header-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    background: rgba(99,102,241,0.25);
+    color: #818cf8;
+    border-radius: 20px;
+    border: 1px solid rgba(99,102,241,0.35);
+    animation: chat-badge-pulse 2.5s infinite;
+}
+
+@keyframes chat-badge-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.55; }
+}
+
+/* Messages area */
+#chat-messages {
+    overflow-y: auto;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* Faqat 4ta xabar ko'rinsin */
+    height: 200px;
+    max-height: 200px;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(99,102,241,0.3) transparent;
+}
+
+#chat-messages::-webkit-scrollbar { width: 4px; }
+#chat-messages::-webkit-scrollbar-track { background: transparent; }
+#chat-messages::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.35); border-radius: 4px; }
+
+/* Bir xabar (bubble) */
+.chat-msg {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    animation: chat-msg-in 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes chat-msg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.chat-msg.chat-mine {
+    align-items: flex-end;
+}
+
+.chat-msg.chat-other {
+    align-items: flex-start;
+}
+
+/* Meta: ism + rol */
+.chat-msg-meta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+}
+
+.chat-msg.chat-mine .chat-msg-meta {
+    flex-direction: row-reverse;
+}
+
+.chat-msg-author {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.chat-msg.chat-mine .chat-msg-author {
+    color: #818cf8;
+}
+
+/* Rol tagi — muhokama vaqtida */
+.chat-role-tag {
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    opacity: 0.92;
+}
+
+.chat-role-tag.role-citizen   { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+.chat-role-tag.role-doctor    { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+.chat-role-tag.role-mafia     { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3);  }
+.chat-role-tag.role-don       { background: rgba(239,68,68,0.22);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); font-size: 0.6rem; }
+.chat-role-tag.role-hidden    { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.2); }
+
+/* Bubble */
+.chat-msg-bubble {
+    max-width: 78%;
+    padding: 8px 13px;
+    border-radius: 16px;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    word-break: break-word;
+    position: relative;
+}
+
+.chat-msg.chat-mine .chat-msg-bubble {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 2px 12px rgba(99,102,241,0.35);
+}
+
+.chat-msg.chat-other .chat-msg-bubble {
+    background: rgba(30, 41, 59, 0.95);
+    color: #e2e8f0;
+    border: 1px solid rgba(99,102,241,0.12);
+    border-bottom-left-radius: 5px;
+}
+
+/* System xabarlari */
+.chat-system-msg {
+    text-align: center;
+    font-size: 0.72rem;
+    color: #475569;
+    padding: 3px 0;
+    font-style: italic;
+}
+
+/* Input area */
+#chat-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(99,102,241,0.15);
+    background: rgba(15, 20, 35, 0.95);
+    /* Doim pastda ko'rinib turishi uchun */
+    position: sticky;
+    bottom: 0;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+#chat-input {
+    flex: 1;
+    background: rgba(30,41,59,0.8);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 24px;
+    padding: 9px 16px;
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+#chat-input::placeholder {
+    color: #475569;
+}
+
+#chat-input:focus {
+    border-color: rgba(99,102,241,0.5);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+#chat-send-btn {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 10px rgba(99,102,241,0.4);
+}
+
+#chat-send-btn:hover  { transform: scale(1.08); box-shadow: 0 4px 16px rgba(99,102,241,0.55); }
+#chat-send-btn:active { transform: scale(0.95); }
+#chat-send-btn:disabled { background: #1e293b; box-shadow: none; cursor: not-allowed; opacity: 0.4; }
+
+/* Send icon SVG */
+#chat-send-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+

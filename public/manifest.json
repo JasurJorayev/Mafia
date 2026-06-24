@@ -1,0 +1,24 @@
+{
+  "name": "Mafia.uz",
+  "short_name": "Mafia",
+  "description": "Mafia Online O'yini",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1e",
+  "theme_color": "#0a0f1e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./svg/LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./svg/LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
