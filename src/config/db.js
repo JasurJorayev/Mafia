@@ -9,18 +9,13 @@ if (!process.env.DB_PASSWORD || process.env.DB_PASSWORD === 'CHANGE_THIS_PASSWOR
 }
 
 const pool = new Pool({
-    user:     process.env.DB_USER     || 'postgres',
-    host:     process.env.DB_HOST     || 'localhost',
-    database: process.env.DB_NAME     || 'mafia',
-    password: process.env.DB_PASSWORD,
-    port:     parseInt(process.env.DB_PORT) || 5432,
-
-    // Connection pool sozlamalari
-    max:                    20,   // max parallel ulanishlar
-    min:                    2,    // har doim 2 ta tayyor ulanish
-    idleTimeoutMillis:      30000, // 30s ishlatilmasa yopiladi
-    connectionTimeoutMillis: 3000, // 3s ichida ulanolmasa xato
-    allowExitOnIdle:         false,
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+    max: 20,
+    min: 2,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 3000,
+    allowExitOnIdle: false,
 });
 
 pool.on('error', (err) => {
