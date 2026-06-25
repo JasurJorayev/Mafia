@@ -1453,7 +1453,7 @@ function updateWaitingUI(players) {
             const isMe = p.username === myUsername;
             div.className = 'player-row' + (isMe ? ' player-row-me' : '');
             const crown   = p.username === adminUsername ? ' 👑' : '';
-            const meBadge = isMe ? '<span class="me-badge">Sen</span>' : '';
+            const meBadge = isMe ? '<span class="me-badge">Siz</span>' : '';
             // Skin bo'lsa — ikonka renderPlayerName ichida chiqadi, bo'lmasa rangli doira
             const hasSkin = playerSkinCache[p.username] && SKIN_DATA[playerSkinCache[p.username]];
             const prefix  = hasSkin ? '' : `<span style="margin-right:4px;">${colorEmoji(p.player_color)}</span>`;
@@ -1522,7 +1522,7 @@ function updateGameUI(me, players) {
         const deadMark = p.is_alive ? '✅' : '💀';
         const isMe    = p.username === myUsername;
         if (isMe) div.classList.add('player-row-me');
-        const meBadge      = isMe ? '<span class="me-badge">Sen</span>' : '';
+        const meBadge      = isMe ? '<span class="me-badge">Siz</span>' : '';
         const readyBadge   = (gamePhase === 'discussion' && voteReadyUsers.has(p.username))
             ? '<span style="color:#22c55e;font-size:0.75rem;font-weight:700;margin-left:6px;">✅ Tayyor</span>'
             : '';
