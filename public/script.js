@@ -1126,6 +1126,27 @@ function roleDisplayInfo(role) {
     return { name: 'Tinch aholi', icon: '👤', color: '#4ade80' };
 }
 
+function buildPlayerRowsHtml(list) {
+    return list.map(p => {
+        const info = roleDisplayInfo(p.role);
+        const aliveTag = p.is_alive
+            ? ''
+            : '<span style="font-size:0.68rem;color:#64748b;margin-left:6px;">(o\'lik)</span>';
+        return `
+            <div style="
+                display:flex; align-items:center; gap:8px;
+                padding:7px 10px;
+                background:rgba(255,255,255,0.04);
+                border:1px solid ${info.color}33;
+                border-radius:10px;
+            ">
+                <span style="font-size:1rem;">${info.icon}</span>
+                <span style="flex:1;text-align:left;color:#e2e8f0;font-size:0.85rem;font-weight:600;">${esc(p.username)}${aliveTag}</span>
+                <span style="font-size:0.68rem;font-weight:800;color:${info.color};text-transform:uppercase;letter-spacing:0.3px;">${info.name}</span>
+            </div>`;
+    }).join('');
+}
+
 function showGameOver(winner, message, players) {
     clearInterval(gameLoopInterval);
     stopMusic();
@@ -1139,42 +1160,44 @@ function showGameOver(winner, message, players) {
     const borderColor= winner === 'MAFIA' ? '#e94560' : '#27ae60';
     const titleColor = winner === 'MAFIA' ? '#e94560' : '#27ae60';
 
-    // G'olib bo'lgan jamoa a'zolarini ajratib olamiz
-    let winnersListHtml = '';
+    // G'olib va mag'lub jamoa a'zolarini ajratib olamiz
+    let teamsHtml = '';
     if (Array.isArray(players) && players.length) {
-        const isWinnerRole = (role) => winner === 'MAFIA' ? role.includes('Mafia') : !role.includes('Mafia');
-        const winners = players.filter(p => isWinnerRole(p.role));
+        const isMafiaRole = (role) => role.includes('Mafia');
+        const winners = players.filter(p => winner === 'MAFIA' ? isMafiaRole(p.role) : !isMafiaRole(p.role));
+        const losers  = players.filter(p => winner === 'MAFIA' ? !isMafiaRole(p.role) : isMafiaRole(p.role));
 
+        let winnersHtml = '';
         if (winners.length) {
-            const rowsHtml = winners.map(p => {
-                const info = roleDisplayInfo(p.role);
-                const aliveTag = p.is_alive
-                    ? ''
-                    : '<span style="font-size:0.68rem;color:#64748b;margin-left:6px;">(o\'lik)</span>';
-                return `
-                    <div style="
-                        display:flex; align-items:center; gap:8px;
-                        padding:7px 10px;
-                        background:rgba(255,255,255,0.04);
-                        border:1px solid ${info.color}33;
-                        border-radius:10px;
-                    ">
-                        <span style="font-size:1rem;">${info.icon}</span>
-                        <span style="flex:1;text-align:left;color:#e2e8f0;font-size:0.85rem;font-weight:600;">${esc(p.username)}${aliveTag}</span>
-                        <span style="font-size:0.68rem;font-weight:800;color:${info.color};text-transform:uppercase;letter-spacing:0.3px;">${info.name}</span>
-                    </div>`;
-            }).join('');
-
-            winnersListHtml = `
-                <div style="text-align:left;margin-bottom:16px;">
-                    <div style="font-size:0.72rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;">
+            winnersHtml = `
+                <div style="text-align:left;margin-bottom:12px;">
+                    <div style="font-size:0.72rem;color:${borderColor};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;font-weight:700;">
                         🏆 G'olib jamoa a'zolari
                     </div>
-                    <div style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;">
-                        ${rowsHtml}
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                        ${buildPlayerRowsHtml(winners)}
                     </div>
                 </div>`;
         }
+
+        let losersHtml = '';
+        if (losers.length) {
+            losersHtml = `
+                <div style="text-align:left;margin-bottom:16px;opacity:0.75;">
+                    <div style="font-size:0.72rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;font-weight:700;">
+                        💀 Mag'lub jamoa a'zolari
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                        ${buildPlayerRowsHtml(losers)}
+                    </div>
+                </div>`;
+        }
+
+        teamsHtml = `
+            <div style="max-height:320px;overflow-y:auto;">
+                ${winnersHtml}
+                ${losersHtml}
+            </div>`;
     }
 
     const panel = document.createElement('div');
@@ -1219,7 +1242,7 @@ function showGameOver(winner, message, players) {
             ">
                 🏆 G'olib: ${golibJamoa}
             </div>
-            ${winnersListHtml}
+            ${teamsHtml}
             <div style="
                 color: #ccc;
                 font-size: 0.9rem;
