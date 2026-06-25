@@ -1514,56 +1514,30 @@ if (tgApp) {
     tgApp.expand();
 }
 
-// Telegram foydalanuvchi ID sini olish
-function getTelegramUserId() {
-    return tgApp?.initDataUnsafe?.user?.id || null;
-}
+// Paket ID → bot komandasi
+const PKG_TO_CMD = {
+    'pack_150': 'buy_150',
+    'pack_300': 'buy_300',
+    'pack_500': 'buy_500',
+};
 
 // Tanga paketi — Telegram Stars orqali
 async function buyCoinPackage(packageId) {
     if (!_authUser) { closeShopModal(); openAuthModal(); return; }
 
-    const tgUserId = getTelegramUserId();
-    if (!tgUserId) {
-        showToast("❌ Telegram orqali kiring! Bu Mini App Telegram ichida ishlaydi.", 4000);
+    const cmd    = PKG_TO_CMD[packageId] || 'buy_150';
+    const botUrl = 'https://t.me/MafiaOnline_bot';
+
+    // Telegram ichida — to'g'ridan bot ga yo'naltirish
+    if (tgApp) {
+        tgApp.openTelegramLink(`${botUrl}?start=${cmd}`);
+        showToast("⭐ Telegram botda to'lov qiling!", 3000);
         return;
     }
 
-    showToast("⭐ To'lov so'rovi yuborilmoqda...", 2000);
-
-    try {
-        const { ok, data } = await authFetch('/api/payment/stars/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                package_id:       packageId,
-                telegram_user_id: tgUserId,
-            }),
-        });
-
-        if (!ok) {
-            showToast('❌ ' + (data.message || 'Xato!'), 3500);
-            return;
-        }
-        if (!ok) {
-            showToast('❌ ' + (data.message || 'Xato!'), 3500);
-            return;
-        }
-
-        // Telegram Stars to'lov oynasini ochish
-        if (tgApp?.openInvoice) {
-            // Bot to'lov linkini ochish
-            showToast('⭐ Telegram to\'lov oynasi ochilmoqda...', 2500);
-        } else {
-            showToast('✅ ' + data.message, 4000);
-        }
-
-        // To'lov tasdiqlanganda balans yangilanadi (webhook orqali)
-        // Foydalanuvchi to'lovdan keyin do'konni qayta ochsa yangi balans ko\'rinadi
-
-    } catch (err) {
-        showToast('❌ Server bilan bog\'lanib bo\'lmadi!', 3000);
-    }
+    // Telegram tashqarisida (brauzer) — yangi tab da ochish
+    window.open(`${botUrl}?start=${cmd}`, '_blank');
+    showToast("⭐ Telegram botda to'lov qiling!", 3000);
 }
 
 // Stars to'lov natijasini tekshirish (shop ochilganda)

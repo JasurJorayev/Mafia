@@ -4,6 +4,7 @@ import os from 'os';
 import { fileURLToPath } from 'url';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import TelegramBot from 'node-telegram-bot-api';
 import playerRouter from './router/player.route.js';
 import pool from './config/db.js';
 import dotenv from 'dotenv';
@@ -30,7 +31,6 @@ const io = new Server(server, {
 // ===============================================================
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    // X-Frame-Options: DENY o'rniga Telegram Mini App uchun ruxsat beramiz
     res.setHeader('Content-Security-Policy', "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org");
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 
 // ===============================================================
-// RATE LIMITING — yaxshilangan: window o'tganda avtomatik reset
+// RATE LIMITING
 // ===============================================================
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60 * 1000;
@@ -48,7 +48,6 @@ function rateLimiter(req, res, next) {
     const ip  = req.ip || req.socket.remoteAddress;
     const now = Date.now();
     const rec = rateLimitMap.get(ip);
-
     if (!rec || now - rec.start > RATE_LIMIT_WINDOW) {
         rateLimitMap.set(ip, { count: 1, start: now });
         return next();
@@ -60,7 +59,6 @@ function rateLimiter(req, res, next) {
     next();
 }
 
-// Eski yozuvlarni tozalash — har 5 daqiqa
 setInterval(() => {
     const cutoff = Date.now() - RATE_LIMIT_WINDOW * 5;
     for (const [ip, rec] of rateLimitMap) {
@@ -78,7 +76,163 @@ app.use('/api', rateLimiter, authRouter);
 app.set('io', io);
 app.use('/api', rateLimiter, playerRouter);
 app.use('/api', rateLimiter, shopRouter);
-app.use('/api', paymentRouter);   // To'lov webhook rate limit olmaydi (Telegram IP dan keladi)
+app.use('/api', paymentRouter);
+
+// ===============================================================
+// TELEGRAM BOT — tanga sotib olish uchun
+// ===============================================================
+const COIN_PACKAGES = {
+    'buy_150': { coins: 150, stars: 75,  title: '💰 150 Tanga', desc: "Mafia Online uchun 150 tanga to'plami" },
+    'buy_300': { coins: 300, stars: 140, title: '💰 300 Tanga', desc: "Mafia Online uchun 300 tanga to'plami" },
+    'buy_500': { coins: 500, stars: 220, title: '💰 500 Tanga', desc: "Mafia Online uchun 500 tanga to'plami" },
+};
+
+let bot = null;
+
+if (process.env.BOT_TOKEN) {
+    try {
+        bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
+
+        // /start komandasi
+        bot.onText(/\/start(?:\s+(.+))?/, async (msg, match) => {
+            const chatId = msg.chat.id;
+            const param  = match[1];
+
+            // Agar /start buy_150 kabi parametr kelsa — to'g'ridan invoice yuboramiz
+            if (param && COIN_PACKAGES[param]) {
+                const pkg = COIN_PACKAGES[param];
+                try {
+                    await bot.sendInvoice(
+                        chatId,
+                        pkg.title,
+                        pkg.desc,
+                        JSON.stringify({ telegram_id: chatId, coins: pkg.coins, pkg_key: param }),
+                        '',
+                        'XTR',
+                        [{ label: pkg.title, amount: pkg.stars }]
+                    );
+                } catch (e) {
+                    console.error('[bot] invoice xato:', e.message);
+                    bot.sendMessage(chatId, "❌ To'lov yaratishda xato. Qayta urinib ko'ring.");
+                }
+                return;
+            }
+
+            // Oddiy /start
+            bot.sendMessage(chatId,
+                `👋 Salom! *Mafia Online* botiga xush kelibsiz!\n\n` +
+                `🎮 O'yin: [Mafia Online](https://mafia-production-7dd2.up.railway.app)\n\n` +
+                `💰 *Tanga sotib olish:*\n` +
+                `/buy\\_150 — 150 tanga (75 ⭐ Stars)\n` +
+                `/buy\\_300 — 300 tanga (140 ⭐ Stars)\n` +
+                `/buy\\_500 — 500 tanga (220 ⭐ Stars)`,
+                { parse_mode: 'Markdown' }
+            );
+        });
+
+        // /buy_150, /buy_300, /buy_500
+        bot.onText(/\/(buy_150|buy_300|buy_500)/, async (msg, match) => {
+            const chatId = msg.chat.id;
+            const key    = match[1];
+            const pkg    = COIN_PACKAGES[key];
+            try {
+                await bot.sendInvoice(
+                    chatId,
+                    pkg.title,
+                    pkg.desc,
+                    JSON.stringify({ telegram_id: chatId, coins: pkg.coins, pkg_key: key }),
+                    '',
+                    'XTR',
+                    [{ label: pkg.title, amount: pkg.stars }]
+                );
+            } catch (e) {
+                console.error('[bot] invoice xato:', e.message);
+                bot.sendMessage(chatId, "❌ To'lov yaratishda xato. Qayta urinib ko'ring.");
+            }
+        });
+
+        // To'lovni tasdiqlash
+        bot.on('pre_checkout_query', (query) => {
+            bot.answerPreCheckoutQuery(query.id, true).catch(e => {
+                console.error('[bot] pre_checkout xato:', e.message);
+            });
+        });
+
+        // To'lov muvaffaqiyatli
+        bot.on('successful_payment', async (msg) => {
+            try {
+                const payment = msg.successful_payment;
+                const payload = JSON.parse(payment.invoice_payload);
+                const { telegram_id, coins } = payload;
+
+                // telegram_id orqali userni topib tanga beramiz
+                const userRes = await pool.query(
+                    'SELECT id, username, coins FROM users WHERE telegram_id = $1',
+                    [telegram_id]
+                );
+
+                if (userRes.rowCount === 0) {
+                    // User topilmadi — telegram_id saytdagi akkauntga bog'lanmagan
+                    bot.sendMessage(msg.chat.id,
+                        `⚠️ Hisobingiz topilmadi!\n\n` +
+                        `Mafia Online saytiga kiring va profilingizdagi *Telegram ID* ni tekshiring.\n` +
+                        `Sizning Telegram ID: \`${telegram_id}\``,
+                        { parse_mode: 'Markdown' }
+                    );
+                    return;
+                }
+
+                const user = userRes.rows[0];
+
+                // Tanga berish + log
+                const client = await pool.connect();
+                try {
+                    await client.query('BEGIN');
+                    await client.query(
+                        'UPDATE users SET coins = coins + $1 WHERE id = $2',
+                        [coins, user.id]
+                    );
+                    await client.query(
+                        `INSERT INTO payment_logs (user_id, package_id, coins, stars, status, telegram_charge_id, completed_at)
+                         VALUES ($1, $2, $3, $4, 'completed', $5, NOW())`,
+                        [user.id, payload.pkg_key, coins, payment.total_amount, payment.telegram_payment_charge_id]
+                    );
+                    await client.query('COMMIT');
+                } catch (e) {
+                    await client.query('ROLLBACK');
+                    throw e;
+                } finally {
+                    client.release();
+                }
+
+                const newBalance = user.coins + coins;
+                bot.sendMessage(msg.chat.id,
+                    `✅ *${coins} tanga* hisobingizga tushdi!\n\n` +
+                    `👤 Hisob: *${user.username}*\n` +
+                    `💰 Yangi balans: *${newBalance} tanga*\n\n` +
+                    `🎮 [O'yinga qaytish](https://mafia-production-7dd2.up.railway.app)`,
+                    { parse_mode: 'Markdown' }
+                );
+
+                console.log(`[bot] ✅ ${user.username} ga ${coins} tanga berildi (telegram_id: ${telegram_id})`);
+
+            } catch (e) {
+                console.error('[bot] successful_payment xato:', e.message);
+                bot.sendMessage(msg.chat.id, "❌ To'lov qayta ishlashda xato yuz berdi. Admin bilan bog'laning.");
+            }
+        });
+
+        console.log('🤖 Telegram bot ishga tushdi!');
+
+    } catch (e) {
+        console.error('❌ Telegram bot xato:', e.message);
+    }
+} else {
+    console.warn('⚠️ BOT_TOKEN yo\'q — Telegram bot o\'chirilgan.');
+}
+
+// Bot ni boshqa controllerlarga export qilamiz (kerak bo'lsa)
+export { bot };
 
 // ===============================================================
 // SOCKET
@@ -103,7 +257,6 @@ io.on('connection', (socket) => {
         const clean = text.trim().slice(0, 200);
         if (!clean) return;
 
-        // Faqat discussion fazasida ruxsat
         try {
             const lobbyQ = await pool.query(
                 'SELECT current_phase FROM lobbies WHERE lobby_code=$1',
@@ -111,13 +264,12 @@ io.on('connection', (socket) => {
             );
             if (!lobbyQ.rowCount || lobbyQ.rows[0].current_phase !== 'discussion') return;
 
-            // O'yinchining rolini olish
             const playerQ = await pool.query(
                 'SELECT role FROM players WHERE lobby_code=$1 AND username=$2',
                 [lobbyCode, username]
             );
             const pRole = playerQ.rowCount ? playerQ.rows[0].role : null;
-            const role = (pRole && pRole !== 'unassigned') ? pRole : null;
+            const role  = (pRole && pRole !== 'unassigned') ? pRole : null;
 
             const msgData = { username, text: clean, role, ts: Date.now() };
             io.to(lobbyCode).emit('chat-message', msgData);
@@ -143,7 +295,6 @@ io.on('connection', (socket) => {
                 if (lobbyQ.rowCount === 0) return;
                 const { current_phase, admin_username } = lobbyQ.rows[0];
 
-                // Hamma socketdan chiqib ketgan — lobbini to'liq tozalaymiz
                 if (activeCount === 0) {
                     console.log(`Lobbi ${lobbyCode} bo'sh — o'chirildi.`);
                     await pool.query('DELETE FROM players WHERE lobby_code=$1', [lobbyCode]);
@@ -153,15 +304,11 @@ io.on('connection', (socket) => {
                     return;
                 }
 
-                // Waiting fazasida disconnect — o'yinchini DB dan O'CHIRMAYMIZ
-                // Qayta ulanishi uchun saqlab qo'yamiz
-                // Faqat admin o'zgartirish kerak bo'lsa yangilaymiz
                 if (admin_username === username) {
                     const anyQ = await pool.query(
                         'SELECT username FROM players WHERE lobby_code=$1 AND username!=$2 ORDER BY id ASC LIMIT 1',
                         [lobbyCode, username]
                     );
-
                     if (anyQ.rowCount > 0) {
                         const newAdmin = anyQ.rows[0].username;
                         await pool.query(
@@ -171,7 +318,6 @@ io.on('connection', (socket) => {
                         console.log(`[disconnect] Yangi admin: ${newAdmin}`);
                         io.to(lobbyCode).emit('admin-changed', { newAdmin, currentPhase: current_phase });
                     } else {
-                        // Boshqa o'yinchi yo'q
                         await pool.query('DELETE FROM players WHERE lobby_code=$1', [lobbyCode]);
                         await pool.query('DELETE FROM lobbies WHERE lobby_code=$1', [lobbyCode]);
                         io.to(lobbyCode).emit('lobby-closed');
@@ -197,14 +343,12 @@ io.on('connection', (socket) => {
 // ===============================================================
 async function cleanupInactiveLobbies() {
     try {
-        // ON DELETE CASCADE bo'lmagan hollarda players ham o'chiriladi
         const res = await pool.query(`
             DELETE FROM lobbies
-            WHERE last_activity < NOW() - INTERVAL '10 minutes'
+            WHERE last_activity < NOW() - INTERVAL '30 minutes'
             RETURNING lobby_code
         `);
         for (const row of res.rows) {
-            // players ON DELETE CASCADE bo'lsa shart emas, bo'lmasa:
             await pool.query('DELETE FROM players WHERE lobby_code=$1', [row.lobby_code]);
             io.to(row.lobby_code).emit('lobby-closed');
             console.log(`⏰ Harakatsiz lobbi o'chirildi: ${row.lobby_code}`);
@@ -216,16 +360,13 @@ async function cleanupInactiveLobbies() {
 setInterval(cleanupInactiveLobbies, 2 * 60 * 1000);
 
 // ===============================================================
-// SERVER-SIDE FAZA SCHEDULER — har 3s o'rniga 5s (kamroq load)
-// Optimizatsiya: bitta query bilan hamma overdue lobbilarni olamiz
+// SERVER-SIDE FAZA SCHEDULER — har 5s
 // ===============================================================
 const schedulerLocks = new Set();
 
 async function serverPhaseScheduler() {
     try {
         const now = new Date();
-
-        // Barcha overdue lobbilarni bitta queryda olamiz
         const allOverdue = await pool.query(`
             SELECT lobby_code, current_phase, admin_username
             FROM lobbies
@@ -257,7 +398,7 @@ async function serverPhaseScheduler() {
     }
 }
 
-setInterval(serverPhaseScheduler, 5000); // 3s → 5s (33% kamroq DB load)
+setInterval(serverPhaseScheduler, 5000);
 console.log('✅ Server-side faza scheduler yoqildi (har 5 soniya)');
 
 // ===============================================================
