@@ -11,17 +11,17 @@ import pool from '../config/db.js';
 const SHOP_NAMES = [
     //---------------------------Epic-----------------------------------
 
-    {
-        id:       'water',
-        label:    'Suv Tomchi',
-        price:    100,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#0284c7)',
-        icon:     '💧',
-        iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
-        border:   '#0ea5e9',
-        desc:     'Epic isim • Moviy gradient',
-    },
+    // {
+    //     id:       'water',
+    //     label:    'Suv Tomchi',
+    //     price:    100,
+    //     rarity:   'Epic',
+    //     gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#0284c7)',
+    //     icon:     '💧',
+    //     iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
+    //     border:   '#0ea5e9',
+    //     desc:     'Epic isim • Moviy gradient',
+    // },
     {
         
         id:       'fire_boss',
