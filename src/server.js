@@ -262,7 +262,10 @@ io.on('connection', (socket) => {
                 'SELECT current_phase FROM lobbies WHERE lobby_code=$1',
                 [lobbyCode]
             );
-            if (!lobbyQ.rowCount || lobbyQ.rows[0].current_phase !== 'discussion') return;
+            if (!lobbyQ.rowCount) return;
+            // Faqat tanishuv va muhokama fazalarida ishlaydi
+            const allowedPhases = ['introduction', 'discussion'];
+            if (!allowedPhases.includes(lobbyQ.rows[0].current_phase)) return;
 
             const playerQ = await pool.query(
                 'SELECT role FROM players WHERE lobby_code=$1 AND username=$2',
@@ -286,17 +289,13 @@ io.on('connection', (socket) => {
         if (!clean) return;
 
         try {
-            // 1. Lobbining joriy fazasini tekshir
+            // Lobbining mavjudligini tekshir
             const lobbyQ = await pool.query(
                 'SELECT current_phase FROM lobbies WHERE lobby_code=$1',
                 [lobbyCode]
             );
             if (!lobbyQ.rowCount) return;
-            const { current_phase } = lobbyQ.rows[0];
-
-            // Faqat tun fazalarida ishlaydi
-            const nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
-            if (!nightPhases.includes(current_phase)) return;
+            // Faza tekshiruvi yo'q — mafia har doim yoza oladi
 
             // 2. O'yinchining rolini tekshir — faqat mafia
             const playerQ = await pool.query(
@@ -306,7 +305,7 @@ io.on('connection', (socket) => {
             if (!playerQ.rowCount) return;
 
             const { role, is_alive } = playerQ.rows[0];
-            if (role !== 'mafia') return; // Faqat mafialar yoza oladi
+            if (!role.toLowerCase().includes('mafia')) return; // Mafia va Don yoza oladi
             if (!is_alive) return;         // O'lik mafia yoza olmaydi
 
             // 3. Faqat mafia xona'siga yuborish
@@ -332,11 +331,13 @@ io.on('connection', (socket) => {
                 [lobbyCode, username]
             );
             if (!playerQ.rowCount) return;
-            if (playerQ.rows[0].role !== 'mafia') return; // Faqat mafia
+            const role = playerQ.rows[0].role || '';
+            // Mafia va Don (Mafia DON) ham kirishi mumkin
+            if (!role.toLowerCase().includes('mafia')) return;
 
             const mafiaRoomKey = `mafia:${lobbyCode}`;
             socket.join(mafiaRoomKey);
-            console.log(`[mafia-room] ${username} mafia xonasiga qo'shildi: ${lobbyCode}`);
+            console.log(`[mafia-room] ${username} (${role}) mafia xonasiga qo'shildi: ${lobbyCode}`);
         } catch (e) {
             console.error('[mafia-room] Xato:', e.message);
         }

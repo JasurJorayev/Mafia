@@ -1453,7 +1453,7 @@ function updateWaitingUI(players) {
             const isMe = p.username === myUsername;
             div.className = 'player-row' + (isMe ? ' player-row-me' : '');
             const crown   = p.username === adminUsername ? ' 👑' : '';
-            const meBadge = isMe ? '<span class="me-badge">Siz</span>' : '';
+            const meBadge = isMe ? '<span class="me-badge">Sen</span>' : '';
             // Skin bo'lsa — ikonka renderPlayerName ichida chiqadi, bo'lmasa rangli doira
             const hasSkin = playerSkinCache[p.username] && SKIN_DATA[playerSkinCache[p.username]];
             const prefix  = hasSkin ? '' : `<span style="margin-right:4px;">${colorEmoji(p.player_color)}</span>`;
@@ -1522,7 +1522,7 @@ function updateGameUI(me, players) {
         const deadMark = p.is_alive ? '✅' : '💀';
         const isMe    = p.username === myUsername;
         if (isMe) div.classList.add('player-row-me');
-        const meBadge      = isMe ? '<span class="me-badge">Siz</span>' : '';
+        const meBadge      = isMe ? '<span class="me-badge">Sen</span>' : '';
         const readyBadge   = (gamePhase === 'discussion' && voteReadyUsers.has(p.username))
             ? '<span style="color:#22c55e;font-size:0.75rem;font-weight:700;margin-left:6px;">✅ Tayyor</span>'
             : '';
@@ -2131,7 +2131,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!input) return;
         var text = input.value.trim();
         if (!text || !myLobbyCode || !myUsername) return;
-        if (gamePhase !== 'discussion') return;
+        // Faqat tanishuv va muhokama fazalarida
+        var allowedPhases = ['introduction', 'discussion'];
+        if (!allowedPhases.includes(gamePhase)) return;
         socket.emit('chat-message', {
             lobbyCode : myLobbyCode,
             username  : myUsername,
@@ -2203,15 +2205,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var badge = document.getElementById('chat-phase-badge');
         if (!panel) return;
 
-        var isDiscussion = (gamePhase === 'discussion');
+        var allowedPhases = ['introduction', 'discussion'];
+        var isChatActive  = allowedPhases.includes(gamePhase);
         panel.style.display = 'flex';
 
         if (input) {
-            input.disabled    = !isDiscussion;
-            input.placeholder = isDiscussion ? 'Xabar yozing...' : '⏳ Muhokama fazasida yozing';
+            input.disabled    = !isChatActive;
+            input.placeholder = isChatActive ? 'Xabar yozing...' : '🌙 Tunda chat yopiq';
         }
-        if (btn)   btn.disabled = !isDiscussion;
-        if (badge) badge.textContent = isDiscussion ? '☀️ Kun' : '🌙 Tun';
+        if (btn)   btn.disabled = !isChatActive;
+        if (badge) {
+            if (gamePhase === 'introduction') badge.textContent = '👋 Tanishuv';
+            else if (gamePhase === 'discussion') badge.textContent = '☀️ Muhokama';
+            else badge.textContent = '🌙 Tun';
+        }
 
         // Mafia chat tabini ko'rsatish/yashirish
         window.updateMafiaChatTab();
@@ -2222,25 +2229,21 @@ document.addEventListener('DOMContentLoaded', function() {
         var mafiaTab = document.getElementById('tab-btn-mafia-chat');
         if (!mafiaTab) return;
 
-        // players ro'yxatidan o'z rolimni topish
         var players = window._lastPlayers || [];
         var me = players.find(function(p) { return p.username === myUsername; });
         var myRole = me ? me.role : '';
 
         var isMafia = myRole && (myRole.includes('Mafia') || myRole.includes('mafia'));
-        var nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
-        var isNight = nightPhases.includes(gamePhase);
 
-        // Mafia tab faqat mafia o'yinchilariga va faqat tunda ko'rinadi
-        if (isMafia && isNight && me && me.is_alive) {
+        // Mafia tab — o'yin boshlangandan so'ng har doim ko'rinadi (faza farqi yo'q)
+        if (isMafia && me && me.is_alive && gamePhase !== 'waiting') {
             mafiaTab.style.display = 'flex';
-            // Mafia xonasiga qo'shilish
+            // Mafia xonasiga qo'shilish (har safar faza o'zgarganda ham)
             if (myLobbyCode && myUsername) {
                 socket.emit('join-mafia-room', { lobbyCode: myLobbyCode, username: myUsername });
             }
         } else {
             mafiaTab.style.display = 'none';
-            // Agar mafia-chat tabida bo'lsa, chat tabiga o'tish
             var mafiaContent = document.getElementById('tab-content-mafia-chat');
             if (mafiaContent && mafiaContent.style.display === 'block') {
                 switchGameTab('chat');
@@ -2288,9 +2291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!input) return;
         var text = input.value.trim();
         if (!text || !myLobbyCode || !myUsername) return;
-
-        var nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
-        if (!nightPhases.includes(gamePhase)) return;
+        if (gamePhase === 'waiting') return; // Faqat o'yin boshlanmagan payt yopiq
 
         socket.emit('mafia-chat-message', {
             lobbyCode : myLobbyCode,
