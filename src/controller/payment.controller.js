@@ -11,21 +11,21 @@ export const COIN_PACKAGES = [
     {
         id:          'pack_150',
         coins:       150,
-        stars:       75,          // 75 Telegram Star ≈ ~1.5$
+        stars:       100,         // 100 Telegram Star
         title:       '💰 150 Tanga',
         description: 'Mafia Online uchun 150 tanga to\'plami',
     },
     {
         id:          'pack_300',
         coins:       300,
-        stars:       140,         // 140 Telegram Star ≈ ~2.8$
+        stars:       200,         // 200 Telegram Star
         title:       '💰 300 Tanga',
         description: 'Mafia Online uchun 300 tanga to\'plami (Mashhur!)',
     },
     {
         id:          'pack_500',
         coins:       500,
-        stars:       220,         // 220 Telegram Star ≈ ~4.4$
+        stars:       300,         // 300 Telegram Star
         title:       '💰 500 Tanga',
         description: 'Mafia Online uchun 500 tanga to\'plami (Katta to\'plam)',
     },
