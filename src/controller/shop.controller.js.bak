@@ -35,17 +35,6 @@ const SHOP_NAMES = [
         desc:     'Rare isim • Qizil gradient',
     },
     {
-        id:       'rose_garden',
-        label:    'Atr Gul',
-        price:    150,
-        rarity:   'Rare',
-        gradient: 'linear-gradient(90deg,#f43f5e,#fb7185,#e11d48)',
-        icon:     '🌹',
-        iconBg:   'linear-gradient(135deg,#881337,#f43f5e)',
-        border:   '#f43f5e',
-        desc:     'Rare isim • Qizil gul • Petalli animatsiya',
-    },
-    {
         id:       'ninja',
         label:    'Ninja',
         price:    150,

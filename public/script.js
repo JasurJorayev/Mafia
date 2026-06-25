@@ -220,7 +220,15 @@ var SKIN_DATA = {
         border:   '#d946ef',
         rarity:   'Legendary',
         glow:     'rgba(217, 70, 239, 0.4)',
-        },
+    },
+    rose_garden: {
+        icon:     '🌹',
+        gradient: 'linear-gradient(90deg,#f43f5e,#fb7185,#e11d48)',
+        iconBg:   'linear-gradient(135deg,#881337,#f43f5e)',
+        border:   '#f43f5e',
+        rarity:   'Rare',
+        glow:     'rgba(244,63,94,0.45)',
+    },
 };
 // username → skin_id cache (o'yin davomida)
 const playerSkinCache = {};
@@ -228,43 +236,182 @@ const playerSkinCache = {};
 // O'yinchi ismini skin bilan render qilish
 function renderPlayerName(username, activeSkinId) {
     const skinId = activeSkinId || playerSkinCache[username];
-    if (skinId && SKIN_DATA[skinId]) {
-        // ⚡ LIGHTNING STORM — alohida animatsiyali render
-        if (skinId === 'lightning_storm') {
-            return `<span class="lightning-name-wrap">
-                <span class="lightning-icon-container">
-                    <span class="lightning-ring"></span>
-                    <span class="lightning-ring ring2"></span>
-                    <span class="lightning-icon-inner">⚡</span>
-                    <span class="lightning-orbits">
-                        <span class="lightning-spark" style="animation:lightning-orbit 2.1s linear infinite;"></span>
-                        <span class="lightning-spark" style="animation:lightning-orbit2 2.1s linear infinite;"></span>
-                        <span class="lightning-spark" style="animation:lightning-orbit3 2.1s linear infinite;"></span>
-                    </span>
-                </span>
-                <span class="lightning-text">${esc(username)}</span>
-            </span>`;
-        }
-        const s = SKIN_DATA[skinId];
-        return `<span style="display:inline-flex;align-items:center;gap:6px;">
-            <span style="
-                background:${s.iconBg};
-                border-radius:7px;
-                width:26px; height:26px;
-                display:inline-flex; align-items:center; justify-content:center;
-                font-size:0.9rem; flex-shrink:0;
-                box-shadow:0 0 6px ${s.glow};
-            ">${s.icon}</span>
-            <span style="
-                background:${s.gradient};
-                -webkit-background-clip:text;
-                -webkit-text-fill-color:transparent;
-                background-clip:text;
-                font-weight:800;
-            ">${esc(username)}</span>
+    if (!skinId || !SKIN_DATA[skinId]) {
+        return `<span style="font-weight:600;">${esc(username)}</span>`;
+    }
+
+    // ---- Yordamchi: umumiy animatsiyali skin wrapper ----
+    function skinWrap({ iconBg, iconAnim, iconShadow, icon, ringStyle1, ringStyle2, orbits, textStyle, textClass, nameHtml }) {
+        return `<span class="skin-name-wrap">
+            <span class="skin-icon-container">
+                <span class="skin-ring" style="${ringStyle1}"></span>
+                ${ringStyle2 ? `<span class="skin-ring" style="${ringStyle2}"></span>` : ''}
+                <span class="skin-icon-inner" style="background:${iconBg}; box-shadow:${iconShadow}; animation:${iconAnim};">${icon}</span>
+                <span class="skin-orbits">${orbits}</span>
+            </span>
+            <span class="${textClass}" style="${textStyle}">${nameHtml}</span>
         </span>`;
     }
-    return `<span style="font-weight:600;">${esc(username)}</span>`;
+
+    const u = esc(username);
+
+    // ---- FIRE BOSS 🔥 ----
+    if (skinId === 'fire_boss') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#dc2626,#f97316)',
+            iconShadow: '0 0 10px rgba(249,115,22,0.7), 0 0 20px rgba(239,68,68,0.5)',
+            iconAnim: 'fire-icon-flicker 1.8s ease-in-out infinite',
+            icon: '🔥',
+            ringStyle1: 'inset:-4px; border-top-color:#f97316; border-right-color:#ef4444; animation:fire-ring-spin 1.6s linear infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#fbbf24; border-left-color:#f97316; animation:fire-ring-spin 2.4s linear infinite reverse; opacity:0.5;',
+            orbits: `
+                <span class="skin-spark fire-spark" style="animation:fire-orbit  1.8s linear infinite;"></span>
+                <span class="skin-spark fire-spark" style="animation:fire-orbit2 1.8s linear infinite; background:#fbbf24; box-shadow:0 0 6px #fbbf24;"></span>
+                <span class="skin-spark fire-spark" style="animation:fire-orbit3 1.8s linear infinite; background:#ef4444;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#f97316,#ef4444,#fbbf24,#f97316); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fire-text-pulse 2s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- NINJA 🥷 ----
+    if (skinId === 'ninja') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#1e1b4b,#6366f1)',
+            iconShadow: '0 0 8px rgba(99,102,241,0.6), 0 0 18px rgba(139,92,246,0.4)',
+            iconAnim: 'ninja-icon-pulse 2s ease-in-out infinite',
+            icon: '🥷',
+            ringStyle1: 'inset:-4px; border-top-color:#8b5cf6; border-right-color:#6366f1; animation:ninja-ring-spin 1.8s linear infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#a78bfa; border-left-color:#8b5cf6; animation:ninja-ring-spin 2.6s linear infinite; opacity:0.55;',
+            orbits: `
+                <span class="skin-spark ninja-spark" style="animation:ninja-orbit  2.2s linear infinite;"></span>
+                <span class="skin-spark ninja-spark" style="animation:ninja-orbit2 2.2s linear infinite; background:#a78bfa; box-shadow:0 0 5px #a78bfa;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#6366f1,#8b5cf6,#a78bfa,#6366f1); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:ninja-text-pulse 2.2s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- GHOST 👻 ----
+    if (skinId === 'ghost') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#4c1d95,#a855f7)',
+            iconShadow: '0 0 10px rgba(168,85,247,0.6), 0 0 22px rgba(236,72,153,0.4)',
+            iconAnim: 'ghost-icon-float 2.4s ease-in-out infinite',
+            icon: '👻',
+            ringStyle1: 'inset:-4px; border-top-color:#a855f7; border-right-color:#ec4899; animation:ghost-ring-float 3s ease-in-out infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#c084fc; border-left-color:#a855f7; animation:ghost-ring-float 4s ease-in-out infinite reverse; opacity:0.5;',
+            orbits: `
+                <span class="skin-spark ghost-spark" style="animation:ghost-orbit  3s ease-in-out infinite;"></span>
+                <span class="skin-spark ghost-spark" style="animation:ghost-orbit2 3s ease-in-out infinite; background:rgba(236,72,153,0.6); box-shadow:0 0 8px #ec4899;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#a855f7,#ec4899,#c084fc,#a855f7); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:ghost-text-float 2.4s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- KING 👑 ----
+    if (skinId === 'king') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#92400e,#f59e0b)',
+            iconShadow: '0 0 10px rgba(245,158,11,0.7), 0 0 24px rgba(251,191,36,0.5)',
+            iconAnim: 'king-icon-crown 2s ease-in-out infinite',
+            icon: '👑',
+            ringStyle1: 'inset:-4px; border-top-color:#f59e0b; border-right-color:#fbbf24; animation:king-ring-spin 1.6s linear infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#fcd34d; border-left-color:#f59e0b; animation:king-ring-spin 2.2s linear infinite reverse; opacity:0.55;',
+            orbits: `
+                <span class="skin-spark king-spark" style="animation:king-orbit  2s linear infinite;"></span>
+                <span class="skin-spark king-spark" style="animation:king-orbit2 2s linear infinite; background:#fcd34d; box-shadow:0 0 5px #fcd34d;"></span>
+                <span class="skin-spark king-spark" style="animation:king-orbit3 2s linear infinite;"></span>
+                <span class="skin-spark king-spark" style="animation:king-orbit4 2s linear infinite; background:#f59e0b;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#f59e0b,#fbbf24,#fcd34d,#f59e0b); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:king-text-shine 2s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- COSMIC NEBULA 🌌 ----
+    if (skinId === 'cosmic_nebula') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#6d28d9,#ec4899)',
+            iconShadow: '0 0 10px rgba(217,70,239,0.6), 0 0 22px rgba(139,92,246,0.5)',
+            iconAnim: 'cosmic-icon-rotate 4s linear infinite',
+            icon: '🌌',
+            ringStyle1: 'inset:-4px; border-top-color:#d946ef; border-right-color:#8b5cf6; animation:cosmic-ring-spin 1.8s linear infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#a855f7; border-left-color:#d946ef; animation:cosmic-ring-spin 2.8s linear infinite reverse; opacity:0.5;',
+            orbits: `
+                <span class="skin-spark cosmic-spark" style="animation:cosmic-orbit  2.8s linear infinite;"></span>
+                <span class="skin-spark cosmic-spark" style="animation:cosmic-orbit2 2.8s linear infinite; background:#c084fc;"></span>
+                <span class="skin-spark cosmic-spark" style="animation:cosmic-orbit3 2.8s linear infinite; background:#f0abfc;"></span>
+                <span class="skin-spark cosmic-spark" style="animation:cosmic-orbit4 2.8s linear infinite;"></span>
+                <span class="skin-spark cosmic-spark" style="animation:cosmic-orbit5 2.8s linear infinite; background:#e879f9;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#d946ef,#8b5cf6,#e879f9,#d946ef); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:cosmic-text-pulse 2.4s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- DRAGON 🐉 ----
+    if (skinId === 'dragon') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#064e3b,#10b981)',
+            iconShadow: '0 0 10px rgba(34,211,238,0.6), 0 0 22px rgba(16,185,129,0.5)',
+            iconAnim: 'dragon-icon-roar 2.2s ease-in-out infinite',
+            icon: '🐉',
+            ringStyle1: 'inset:-4px; border-top-color:#22d3ee; border-right-color:#10b981; animation:dragon-ring-breathe 2s ease-in-out infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#34d399; border-left-color:#22d3ee; animation:dragon-ring-breathe 3s ease-in-out infinite reverse; opacity:0.5;',
+            orbits: `
+                <span class="skin-spark dragon-spark" style="animation:dragon-orbit  2s linear infinite;"></span>
+                <span class="skin-spark dragon-spark" style="animation:dragon-orbit2 2s linear infinite; background:#34d399; box-shadow:0 0 6px #34d399;"></span>
+                <span class="skin-spark dragon-spark" style="animation:dragon-orbit3 2s linear infinite; background:#6ee7b7; box-shadow:0 0 6px #6ee7b7;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#22d3ee,#10b981,#6ee7b7,#22d3ee); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:dragon-text-breathe 2.2s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- LIGHTNING STORM ⚡ ----
+    if (skinId === 'lightning_storm') {
+        return `<span class="lightning-name-wrap">
+            <span class="lightning-icon-container">
+                <span class="lightning-ring"></span>
+                <span class="lightning-ring ring2"></span>
+                <span class="lightning-icon-inner">⚡</span>
+                <span class="lightning-orbits">
+                    <span class="lightning-spark" style="animation:lightning-orbit 2.1s linear infinite;"></span>
+                    <span class="lightning-spark" style="animation:lightning-orbit2 2.1s linear infinite;"></span>
+                    <span class="lightning-spark" style="animation:lightning-orbit3 2.1s linear infinite;"></span>
+                </span>
+            </span>
+            <span class="lightning-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- ROSE GARDEN 🌹 ----
+    if (skinId === 'rose_garden') {
+        return skinWrap({
+            iconBg: 'linear-gradient(135deg,#881337,#f43f5e)',
+            iconShadow: '0 0 10px rgba(244,63,94,0.7), 0 0 22px rgba(225,29,72,0.5)',
+            iconAnim: 'rose-icon-bloom 2s ease-in-out infinite',
+            icon: '🌹',
+            ringStyle1: 'inset:-4px; border-top-color:#f43f5e; border-right-color:#e11d48; animation:rose-ring-spin 1.8s linear infinite;',
+            ringStyle2: 'inset:-7px; border-bottom-color:#fb7185; border-left-color:#f43f5e; animation:rose-ring-spin 2.6s linear infinite reverse; opacity:0.55;',
+            orbits: `
+                <span class="skin-spark rose-spark" style="animation:rose-orbit  2.2s linear infinite;"></span>
+                <span class="skin-spark rose-spark" style="animation:rose-orbit2 2.2s linear infinite; background:#fb7185; box-shadow:0 0 6px #fb7185;"></span>
+                <span class="skin-spark rose-spark" style="animation:rose-orbit3 2.2s linear infinite; background:#e11d48;"></span>`,
+            textClass: '',
+            textStyle: 'font-weight:800; background:linear-gradient(90deg,#f43f5e,#fb7185,#e11d48,#f43f5e); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:rose-text-pulse 2s ease-in-out infinite;',
+            nameHtml: u,
+        });
+    }
+
+    // ---- Fallback: oddiy render ----
+    const s = SKIN_DATA[skinId];
+    return `<span style="display:inline-flex;align-items:center;gap:6px;">
+        <span style="background:${s.iconBg};border-radius:7px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;box-shadow:0 0 6px ${s.glow};">${s.icon}</span>
+        <span style="background:${s.gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">${u}</span>
+    </span>`;
 }
 
 // O'yinchi skinini serverdan olish (cache bilan)
