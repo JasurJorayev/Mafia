@@ -427,22 +427,23 @@
             <input type="text" id="username-input" placeholder="Ismingiz..." maxlength="20"
                    onkeydown="if(event.key==='Enter') goToCreate()">
             <div class="lobby-btn-row">
-                <button class="btn-lobby btn-create" onclick="goToCreate()">➕ Lobbi Ochish</button>
-                <button class="btn-lobby btn-join-l" onclick="goToJoin()">🚪 Lobbiga Kirish</button>
+                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#22c55e;" onclick="goToCreate()">➕ Lobbi Ochish</button>
+                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#e94560;" onclick="goToJoin()">🚪 Lobbiga Kirish</button>
             </div>
             <div style="margin-top:10px;">
-                <button class="btn-lobby btn-online" onclick="goToOnline()"
-                    style="width:100%; background:linear-gradient(135deg,#0ea5e9,#6366f1);
-                    border:2px solid #6366f1; color:#fff; font-size:1rem; margin-top:6px;">
+                <button class="btn-lobby btn-online glow-btn" onclick="goToOnline()"
+                    style="width:100%; background:linear-gradient(135deg,#1d4ed8,#1e40af);
+                    border:2px solid #3b82f6; color:#fff; font-size:1rem; margin-top:6px;
+                    box-shadow:0 4px 18px rgba(29,78,216,0.55); --glow-color:#3b82f6;">
                     🌐 Online
                 </button>
             </div>
             <div style="margin-top:10px;text-align:center;">
-                <button class="btn-lobby" onclick="goToRejoin()" 
+                <button class="btn-lobby glow-btn" onclick="goToRejoin()" 
                     style="width:100%; background:#1a1a3a;
                     border:2px solid #7c3aed; 
                     color:#a78bfa; font-size:1rem; 
-                    margin-top:6px;">🔄 Qayta Kirish
+                    margin-top:6px; --glow-color:#a78bfa;">🔄 Qayta Kirish
                 </button>
             </div>
         </div>
@@ -453,7 +454,7 @@
                    inputmode="numeric" onkeydown="if(event.key==='Enter') joinLobbyAction()">
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToName()">← Orqaga</button>
-                <button class="btn-lobby btn-join-l" onclick="joinLobbyAction()">Kirish ✓</button>
+                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#e94560;" onclick="joinLobbyAction()">Kirish ✓</button>
             </div>
         </div>
 
@@ -462,7 +463,7 @@
             <p style="margin-bottom:12px;color:#aaa;font-size:0.95rem;">Yangi lobbi</p>
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToNameFromCreate()">← Orqaga</button>
-                <button class="btn-lobby btn-create" onclick="createLobbyNow()">✓ Ochish</button>
+                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#22c55e;" onclick="createLobbyNow()">✓ Ochish</button>
             </div>
         </div>
 
@@ -473,7 +474,7 @@
                    inputmode="numeric" style="margin-bottom:10px;" onkeydown="if(event.key==='Enter') rejoinLobbyAction()">
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToName()">← Orqaga</button>
-                <button class="btn-lobby btn-join-l" onclick="rejoinLobbyAction()" style="background:#27ae60;border-color:#27ae60;color:#ffffff;">🔄 Qayta Kirish</button>
+                <button class="btn-lobby btn-join-l glow-btn" onclick="rejoinLobbyAction()" style="background:#27ae60;border-color:#27ae60;color:#ffffff;--glow-color:#4ade80;">🔄 Qayta Kirish</button>
             </div>
         </div>
 
@@ -483,11 +484,11 @@
 
             <!-- Asosiy harakatlar -->
             <div class="online-action-row">
-                <button class="online-action-btn online-action-create" onclick="goToOnlineCreate()">
+                <button class="online-action-btn online-action-create glow-btn" style="--glow-color:#22c55e;" onclick="goToOnlineCreate()">
                     <span class="oab-icon">➕</span>
                     <span class="oab-text">Lobbi Ochish</span>
                 </button>
-                <button class="online-action-btn online-action-join" onclick="goToOnlineJoin()">
+                <button class="online-action-btn online-action-join glow-btn" style="--glow-color:#ef4444;" onclick="goToOnlineJoin()">
                     <span class="oab-icon">🚪</span>
                     <span class="oab-text">Kirish</span>
                 </button>
@@ -543,7 +544,7 @@
 
             <div class="create-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToOnline()">← Orqaga</button>
-                <button class="btn-lobby btn-create-main" onclick="createOnlineLobbyAction()">✓ Yaratish</button>
+                <button class="btn-lobby btn-create-main glow-btn" style="--glow-color:#22c55e;" onclick="createOnlineLobbyAction()">✓ Yaratish</button>
             </div>
         </div>
 
@@ -578,7 +579,7 @@
 
             <div class="create-btn-row" style="margin-top:16px;">
                 <button class="btn-lobby btn-back" onclick="backToOnline()">← Orqaga</button>
-                <button class="btn-lobby btn-join-main" onclick="joinOnlineLobbyAction()">Kirish ✓</button>
+                <button class="btn-lobby btn-join-main glow-btn" style="--glow-color:#ef4444;" onclick="joinOnlineLobbyAction()">Kirish ✓</button>
             </div>
         </div>
     </div>
@@ -602,8 +603,8 @@
         <!-- Admin paneli -->
         <div class="admin-panel" id="admin-panel" style="display:none;">
             <div class="admin-btns">
-                <button class="btn-admin btn-start" onclick="startGameAction()">▶ O'yinni Boshlash</button>
-                <button class="btn-admin btn-reset" onclick="resetGameAction()">🔄 Qayta Tiklash</button>
+                <button class="btn-admin btn-start glow-btn" style="--glow-color:#22c55e;" onclick="startGameAction()">▶ O'yinni Boshlash</button>
+                <button class="btn-admin btn-reset glow-btn" style="--glow-color:#e74c3c;" onclick="resetGameAction()">🔄 Qayta Tiklash</button>
             </div>
         </div>
 

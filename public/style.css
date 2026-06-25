@@ -6,6 +6,52 @@
     --text-gold: #f1c40f;
 }
 
+/* ===== AYLANMA CHIROQ EFFEKTI (glow-btn) ===== */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.glow-btn {
+    position: relative;
+    z-index: 0;
+    overflow: visible;
+}
+
+.glow-btn::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 14px;
+    padding: 3px;
+    background: conic-gradient(from var(--angle, 0deg), transparent 60%, var(--glow-color, #ffffff) 80%, transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: glow-spin 2s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes glow-spin {
+    to { --angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glow-btn::before { animation: none; }
+}
+
+/* @property/conic-gradient animatsiyasini qo'llab-quvvatlamaydigan eski brauzerlar uchun:
+   statik (aylanmaydigan) porlash chizig'i ko'rinadi */
+@supports not (background: conic-gradient(from 0deg, red, blue)) {
+    .glow-btn::before {
+        background: var(--glow-color, #ffffff);
+        opacity: 0.5;
+        animation: none;
+    }
+}
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -86,7 +132,23 @@ input[type="text"] {
 
 input[type="text"]:focus { border-color: var(--primary); }
 
-/* password-input va code-input global override ni bekor qiladi */
+/* Brauzer autofill (ism eslab qolinganda) qutini oqartirib yubormasligi uchun */
+input[type="text"]:-webkit-autofill,
+input[type="text"]:-webkit-autofill:hover,
+input[type="text"]:-webkit-autofill:focus,
+input[type="text"]:-webkit-autofill:active {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0 1000px #0f3460 inset !important;
+    box-shadow: 0 0 0 1000px #0f3460 inset !important;
+    caret-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type="text"]:autofill {
+    -webkit-text-fill-color: #ffffff !important;
+    box-shadow: 0 0 0 1000px #0f3460 inset !important;
+    caret-color: #ffffff;
+}
 input.password-input[type="text"],
 input.password-input[type="password"],
 input.code-input[type="text"],
@@ -136,11 +198,33 @@ input.code-input[type="password"] {
     border-color: #9f67ff;
 }
 
-.btn-create  { background: #27ae60; color: white; }
-.btn-create:hover  { background: #2ecc71; transform: translateY(-2px); }
+.btn-create  {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    box-shadow: 0 4px 16px rgba(34,197,94,0.45);
+}
+.btn-create:hover  {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    box-shadow: 0 6px 22px rgba(34,197,94,0.6);
+    transform: translateY(-2px);
+}
 
-.btn-join-l  { background: var(--primary); color: white; }
-.btn-join-l:hover  { background: #ff2e63; transform: translateY(-2px); }
+.btn-join-l  {
+    background: linear-gradient(135deg, #fb6090, var(--primary));
+    color: white;
+    box-shadow: 0 4px 16px rgba(233,69,96,0.45);
+}
+.btn-join-l:hover  {
+    background: linear-gradient(135deg, #ff7fa8, #ff2e63);
+    box-shadow: 0 6px 22px rgba(233,69,96,0.6);
+    transform: translateY(-2px);
+}
+
+.btn-online:hover {
+    background: linear-gradient(135deg,#2563eb,#1d4ed8) !important;
+    box-shadow: 0 6px 24px rgba(29,78,216,0.7) !important;
+    transform: translateY(-2px);
+}
 
 .btn-back    { background: #2c3e50; color: #aaa; }
 .btn-back:hover { background: #34495e; }
