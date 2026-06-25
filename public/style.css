@@ -1398,3 +1398,139 @@ input.code-input[type="password"] {
 }
 
 
+
+/* ===== LIGHTNING STORM SKIN ANIMATSIYALARI ===== */
+
+/* Chaqmoq nomi: ranglar yonib o'chib turadi */
+@keyframes lightning-text-pulse {
+    0%   { text-shadow: 0 0 6px #00d2ff, 0 0 14px #00d2ff, 0 0 28px #0066ff; opacity: 1; }
+    40%  { text-shadow: 0 0 2px #00d2ff, 0 0 6px  #0066ff, 0 0 10px #0066ff; opacity: 0.75; }
+    50%  { text-shadow: 0 0 18px #ffffff, 0 0 32px #00d2ff, 0 0 50px #0066ff; opacity: 1; }
+    60%  { text-shadow: 0 0 2px #00d2ff, 0 0 6px  #0066ff, 0 0 10px #0066ff; opacity: 0.75; }
+    100% { text-shadow: 0 0 6px #00d2ff, 0 0 14px #00d2ff, 0 0 28px #0066ff; opacity: 1; }
+}
+
+/* Icon atrofida aylanib turadigan chaqmoq halqasi */
+@keyframes lightning-ring-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Icon o'zi miltillab turadi */
+@keyframes lightning-icon-flicker {
+    0%, 100% { opacity: 1;    filter: drop-shadow(0 0 6px #00d2ff) drop-shadow(0 0 12px #0066ff); }
+    20%       { opacity: 0.85; filter: drop-shadow(0 0 2px #00d2ff); }
+    21%       { opacity: 1;    filter: drop-shadow(0 0 14px #fff)    drop-shadow(0 0 24px #00d2ff); }
+    45%       { opacity: 0.9;  filter: drop-shadow(0 0 4px #00d2ff); }
+    46%       { opacity: 1;    filter: drop-shadow(0 0 12px #fff)    drop-shadow(0 0 20px #0066ff); }
+}
+
+/* Isim atrofidagi aylanuvchi zarrachalar */
+@keyframes lightning-orbit {
+    0%   { transform: rotate(0deg)   translateX(18px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
+}
+@keyframes lightning-orbit2 {
+    0%   { transform: rotate(120deg) translateX(18px) rotate(-120deg); }
+    100% { transform: rotate(480deg) translateX(18px) rotate(-480deg); }
+}
+@keyframes lightning-orbit3 {
+    0%   { transform: rotate(240deg) translateX(18px) rotate(-240deg); }
+    100% { transform: rotate(600deg) translateX(18px) rotate(-600deg); }
+}
+
+/* Zarrachalar miltillab turadi */
+@keyframes lightning-spark-blink {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%       { opacity: 0.3; transform: scale(0.6); }
+}
+
+/* Wrapper uchun class */
+.lightning-name-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+/* Zarrachalar konteyneri — icon ustida mutlaq joylashadi */
+.lightning-orbits {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.lightning-spark {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #00d2ff;
+    box-shadow: 0 0 6px #00d2ff, 0 0 12px #0066ff;
+    left: calc(50% - 2.5px);
+    top: calc(50% - 2.5px);
+    transform-origin: 50% 50%;
+}
+.lightning-spark:nth-child(2) { background: #ffffff; box-shadow: 0 0 6px #fff, 0 0 10px #00d2ff; }
+.lightning-spark:nth-child(3) { background: #93c5fd; box-shadow: 0 0 6px #93c5fd, 0 0 10px #0066ff; }
+
+/* Icon container */
+.lightning-icon-container {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+/* Aylanib turadigan ring (orqa) */
+.lightning-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: #00d2ff;
+    border-right-color: #0066ff;
+    animation: lightning-ring-spin 1.4s linear infinite;
+    pointer-events: none;
+}
+.lightning-ring.ring2 {
+    inset: -7px;
+    border-color: transparent;
+    border-bottom-color: #60a5fa;
+    border-left-color: #00d2ff;
+    animation-duration: 2.2s;
+    animation-direction: reverse;
+    opacity: 0.6;
+}
+
+/* Icon o'zi */
+.lightning-icon-inner {
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    box-shadow: 0 0 8px rgba(0,210,255,0.6), 0 0 16px rgba(0,102,255,0.4);
+    animation: lightning-icon-flicker 2.5s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+/* Matn */
+.lightning-text {
+    background: linear-gradient(90deg, #00d2ff, #60a5fa, #0066ff, #00d2ff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    animation: lightning-text-pulse 2.5s ease-in-out infinite;
+}
+

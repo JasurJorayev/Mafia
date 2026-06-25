@@ -229,6 +229,22 @@ const playerSkinCache = {};
 function renderPlayerName(username, activeSkinId) {
     const skinId = activeSkinId || playerSkinCache[username];
     if (skinId && SKIN_DATA[skinId]) {
+        // ⚡ LIGHTNING STORM — alohida animatsiyali render
+        if (skinId === 'lightning_storm') {
+            return `<span class="lightning-name-wrap">
+                <span class="lightning-icon-container">
+                    <span class="lightning-ring"></span>
+                    <span class="lightning-ring ring2"></span>
+                    <span class="lightning-icon-inner">⚡</span>
+                    <span class="lightning-orbits">
+                        <span class="lightning-spark" style="animation:lightning-orbit 2.1s linear infinite;"></span>
+                        <span class="lightning-spark" style="animation:lightning-orbit2 2.1s linear infinite;"></span>
+                        <span class="lightning-spark" style="animation:lightning-orbit3 2.1s linear infinite;"></span>
+                    </span>
+                </span>
+                <span class="lightning-text">${esc(username)}</span>
+            </span>`;
+        }
         const s = SKIN_DATA[skinId];
         return `<span style="display:inline-flex;align-items:center;gap:6px;">
             <span style="
