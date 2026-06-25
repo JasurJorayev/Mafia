@@ -34,28 +34,28 @@ const SHOP_NAMES = [
         border:   '#f97316',
         desc:     'Rare isim • Qizil gradient',
     },
-    {
-        id:       'ninja',
-        label:    'Ninja',
-        price:    150,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
-        icon:     '🥷',
-        iconBg:   'linear-gradient(135deg,#1e1b4b,#6366f1)',
-        border:   '#6366f1',
-        desc:     'Epic isim • Binafsha gradient',
-    },
-    {
-        id:       'ghost',
-        label:    'Arvoh',
-        price:    200,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#a855f7,#ec4899)',
-        icon:     '👻',
-        iconBg:   'linear-gradient(135deg,#4c1d95,#a855f7)',
-        border:   '#a855f7',
-        desc:     'Epic isim • Binafsha gradient',
-    },
+    // {
+    //     id:       'ninja',
+    //     label:    'Ninja',
+    //     price:    150,
+    //     rarity:   'Epic',
+    //     gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
+    //     icon:     '🥷',
+    //     iconBg:   'linear-gradient(135deg,#1e1b4b,#6366f1)',
+    //     border:   '#6366f1',
+    //     desc:     'Epic isim • Binafsha gradient',
+    // },
+    // {
+    //     id:       'ghost',
+    //     label:    'Arvoh',
+    //     price:    200,
+    //     rarity:   'Epic',
+    //     gradient: 'linear-gradient(90deg,#a855f7,#ec4899)',
+    //     icon:     '👻',
+    //     iconBg:   'linear-gradient(135deg,#4c1d95,#a855f7)',
+    //     border:   '#a855f7',
+    //     desc:     'Epic isim • Binafsha gradient',
+    // },
     
     
     //----------------------------Legendary-------------------------------------
@@ -70,30 +70,30 @@ const SHOP_NAMES = [
         border:   '#b45309',
         desc:     'Legendary isim • Oltin gradient',
     },
-    {
-        id:       'cosmic_nebula',
-        label:    'Galaktika',
-        price:    280,
-        rarity:   'Legendary',
-        gradient: 'linear-gradient(90deg, #d946ef, #8b5cf6)',
-        icon:     '🌌',
-        iconBg:   'linear-gradient(135deg, #6d28d9, #ec4899)',
-        border:   '#d946ef',
-        desc:     'Legendary ism • Kosmik binafsha',
-    },
+    // {
+    //     id:       'cosmic_nebula',
+    //     label:    'Galaktika',
+    //     price:    280,
+    //     rarity:   'Legendary',
+    //     gradient: 'linear-gradient(90deg, #d946ef, #8b5cf6)',
+    //     icon:     '🌌',
+    //     iconBg:   'linear-gradient(135deg, #6d28d9, #ec4899)',
+    //     border:   '#d946ef',
+    //     desc:     'Legendary ism • Kosmik binafsha',
+    // },
     
     //-----------------------------Mythic-----------------------------------------
-    {
-        id:       'dragon',
-        label:    'Ajdaho',
-        price:    300,
-        rarity:   'Mythic',
-        gradient: 'linear-gradient(90deg,#22d3ee,#10b981,#22d3ee)',
-        icon:     '🐉',
-        iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
-        border:   '#10b981',
-        desc:     'Mythic isim • Zangori-yashil gradient',
-    },
+    // {
+    //     id:       'dragon',
+    //     label:    'Ajdaho',
+    //     price:    300,
+    //     rarity:   'Mythic',
+    //     gradient: 'linear-gradient(90deg,#22d3ee,#10b981,#22d3ee)',
+    //     icon:     '🐉',
+    //     iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
+    //     border:   '#10b981',
+    //     desc:     'Mythic isim • Zangori-yashil gradient',
+    // },
     {
         id:       'lightning_storm',
         label:    'Chaqmoq',
@@ -109,11 +109,11 @@ const SHOP_NAMES = [
 ];
 
 // Tanga paketlari
-const COIN_PACKAGES = [
-    { id: 'pack_150', price_uzs: 12999, coins: 150 },
-    { id: 'pack_200', price_uzs: 16999, coins: 200 },
-    { id: 'pack_300', price_uzs: 19999, coins: 300 },
-];
+// const COIN_PACKAGES = [
+//     { id: 'pack_150', price_uzs: 12999, coins: 150 },
+//     { id: 'pack_200', price_uzs: 16999, coins: 200 },
+//     { id: 'pack_300', price_uzs: 19999, coins: 300 },
+// ];
 
 // ---------------------------------------------------------------
 // Foydalanuvchi tanga balansini olish

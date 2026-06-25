@@ -173,14 +173,14 @@ var SKIN_DATA = {
         rarity:   'Epic',
         glow:     'rgba(14,165,233,0.35)',
     },
-     ninja: {
-        icon:     '🥷',
-        gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
-        iconBg:   'linear-gradient(135deg,#1e1b4b,#6366f1)',
-        border:   '#6366f1',
-        rarity:   'Epic',
-        glow:     'rgba(99,102,241,0.35)',
-    },
+    //  ninja: {
+    //     icon:     '🥷',
+    //     gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
+    //     iconBg:   'linear-gradient(135deg,#1e1b4b,#6366f1)',
+    //     border:   '#6366f1',
+    //     rarity:   'Epic',
+    //     glow:     'rgba(99,102,241,0.35)',
+    // },
     king: {
         icon:     '👑',
         gradient: 'linear-gradient(90deg,#f59e0b,#fbbf24,#f59e0b)',
@@ -189,22 +189,22 @@ var SKIN_DATA = {
         rarity:   'Legendary',
         glow:     'rgba(245,158,11,0.35)',
     },
-    ghost: {
-        icon:     '👻',
-        gradient: 'linear-gradient(90deg,#a855f7,#ec4899)',
-        iconBg:   'linear-gradient(135deg,#4c1d95,#a855f7)',
-        border:   '#a855f7',
-        rarity:   'Epic',
-        glow:     'rgba(168,85,247,0.35)',
-    },
-    dragon: {
-        icon:     '🐉',
-        gradient: 'linear-gradient(90deg,#22d3ee,#10b981,#22d3ee)',
-        iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
-        border:   '#10b981',
-        rarity:   'Mythic',
-        glow:     'rgba(16,185,129,0.35)',
-    },
+    // ghost: {
+    //     icon:     '👻',
+    //     gradient: 'linear-gradient(90deg,#a855f7,#ec4899)',
+    //     iconBg:   'linear-gradient(135deg,#4c1d95,#a855f7)',
+    //     border:   '#a855f7',
+    //     rarity:   'Epic',
+    //     glow:     'rgba(168,85,247,0.35)',
+    // },
+    // dragon: {
+    //     icon:     '🐉',
+    //     gradient: 'linear-gradient(90deg,#22d3ee,#10b981,#22d3ee)',
+    //     iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
+    //     border:   '#10b981',
+    //     rarity:   'Mythic',
+    //     glow:     'rgba(16,185,129,0.35)',
+    // },
     lightning_storm: {
         icon:     '⚡',
         gradient: 'linear-gradient(90deg, #00d2ff, #0066ff)',
@@ -213,14 +213,14 @@ var SKIN_DATA = {
         rarity:   'Mythic',
         glow:     'rgba(0, 210, 255, 0.6)', // Moviy chiroq kuchliroq yonib turishi uchun 0.6 qildim
 },
-    cosmic_nebula: {
-        icon:     '🌌',
-        gradient: 'linear-gradient(90deg, #d946ef, #8b5cf6)',
-        iconBg:   'linear-gradient(135deg, #6d28d9, #ec4899)',
-        border:   '#d946ef',
-        rarity:   'Legendary',
-        glow:     'rgba(217, 70, 239, 0.4)',
-        },
+    // cosmic_nebula: {
+    //     icon:     '🌌',
+    //     gradient: 'linear-gradient(90deg, #d946ef, #8b5cf6)',
+    //     iconBg:   'linear-gradient(135deg, #6d28d9, #ec4899)',
+    //     border:   '#d946ef',
+    //     rarity:   'Legendary',
+    //     glow:     'rgba(217, 70, 239, 0.4)',
+    //     },
 };
 // username → skin_id cache (o'yin davomida)
 const playerSkinCache = {};
