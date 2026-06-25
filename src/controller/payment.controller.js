@@ -32,13 +32,13 @@ export const COIN_PACKAGES = [
 ];
 
 // ---------------------------------------------------------------
-// Stars invoice yaratish
+// Stars invoice link yaratish (Mini App ichida openInvoice uchun)
 // POST /api/payment/stars/create
-// Body: { package_id, telegram_user_id }
+// Body: { package_id }
 // ---------------------------------------------------------------
 export const createStarsInvoice = async (req, res) => {
     try {
-        const { package_id, telegram_user_id } = req.body;
+        const { package_id } = req.body;
         const userId = req.userId;
 
         const pkg = COIN_PACKAGES.find(p => p.id === package_id);
@@ -50,36 +50,31 @@ export const createStarsInvoice = async (req, res) => {
             return res.status(503).json({ message: "Bot token sozlanmagan!" });
         }
 
-        if (!telegram_user_id) {
-            return res.status(400).json({ message: "Telegram foydalanuvchi ID kerak!" });
-        }
-
-        // Telegram Bot API orqali invoice yuborish
         const invoicePayload = JSON.stringify({
             user_id:    userId,
             package_id: package_id,
             coins:      pkg.coins,
         });
 
+        // createInvoiceLink — sendInvoice emas!
+        // Mini App ichida tgApp.openInvoice(link) bilan ochiladi
         const tgRes = await fetch(
-            `https://api.telegram.org/bot${BOT_TOKEN}/sendInvoice`,
+            `https://api.telegram.org/bot${BOT_TOKEN}/createInvoiceLink`,
             {
                 method:  'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    chat_id:         telegram_user_id,
-                    title:           pkg.title,
-                    description:     pkg.description,
-                    payload:         invoicePayload,
-                    provider_token:  '',           // Stars uchun bo'sh string
-                    currency:        'XTR',        // Telegram Stars valyutasi
+                    title:          pkg.title,
+                    description:    pkg.description,
+                    payload:        invoicePayload,
+                    provider_token: '',      // Stars uchun bo'sh string
+                    currency:       'XTR',  // Telegram Stars valyutasi
                     prices: [
                         {
                             label:  pkg.title,
-                            amount: pkg.stars,     // Stars soni
+                            amount: pkg.stars,
                         }
                     ],
-                    photo_url:   'https://i.imgur.com/placeholder.png',
                     need_name:   false,
                     need_email:  false,
                     need_phone:  false,
@@ -97,17 +92,19 @@ export const createStarsInvoice = async (req, res) => {
             });
         }
 
-        // To'lov yozuvini DB ga saqlaymiz
+        const invoiceLink = tgData.result; // string link
+
+        // DB ga pending yozuv qo'shamiz
         await pool.query(
-            `INSERT INTO payment_logs (user_id, package_id, coins, stars, status, telegram_message_id)
-             VALUES ($1, $2, $3, $4, 'pending', $5)`,
-            [userId, package_id, pkg.coins, pkg.stars, tgData.result?.message_id || null]
+            `INSERT INTO payment_logs (user_id, package_id, coins, stars, status)
+             VALUES ($1, $2, $3, $4, 'pending')`,
+            [userId, package_id, pkg.coins, pkg.stars]
         );
 
         res.json({
-            ok:      true,
-            message: "To'lov so'rovi yuborildi! Telegram ilovangizni tekshiring.",
-            package: pkg,
+            ok:           true,
+            invoice_link: invoiceLink,
+            package:      pkg,
         });
 
     } catch (err) {
@@ -119,7 +116,6 @@ export const createStarsInvoice = async (req, res) => {
 // ---------------------------------------------------------------
 // Telegram webhook — Stars to'lovi tasdiqlanganda
 // POST /api/payment/stars/webhook
-// (Telegram bot webhook dan keladi)
 // ---------------------------------------------------------------
 export const handleStarsWebhook = async (req, res) => {
     try {
@@ -146,12 +142,11 @@ export const handleStarsWebhook = async (req, res) => {
 
             const { user_id, package_id, coins } = payload;
 
-            // Foydalanuvchiga tanga beramiz (bir marta)
             const client = await pool.connect();
             try {
                 await client.query('BEGIN');
 
-                // Avval log ni yangilaymiz
+                // Log ni yangilaymiz
                 const logRes = await client.query(
                     `UPDATE payment_logs
                      SET status = 'completed',
@@ -164,7 +159,7 @@ export const handleStarsWebhook = async (req, res) => {
                     [payment.telegram_payment_charge_id, user_id, package_id]
                 );
 
-                // Agar allaqachon ishlangan bo'lsa — o'tkazib yuboramiz (idempotency)
+                // Allaqachon ishlangan bo'lsa — o'tkazib yuboramiz
                 if (logRes.rowCount === 0) {
                     await client.query('ROLLBACK');
                     console.log('[payment] Allaqachon ishlangan to\'lov:', payment.telegram_payment_charge_id);

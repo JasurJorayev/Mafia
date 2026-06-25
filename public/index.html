@@ -718,46 +718,17 @@
 // AUTH — Kirish / Ro'yxat / Profil
 // ===============================================================
 
-let _authUser     = null;
-let _authToken    = localStorage.getItem('mafia_token')   || null;
-let _sessionToken = localStorage.getItem('mafia_session') || null;
-// --- Barcha authenticated fetch lar shu orqali o'tadi ---
-async function authFetch(url, options = {}) {
-    const headers = { ...(options.headers || {}) };
-    if (_authToken)    headers['Authorization']   = 'Bearer ' + _authToken;
-    if (_sessionToken) headers['X-Session-Token'] = _sessionToken;
-
-    const res  = await fetch(url, { ...options, headers });
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok && data.code === 'SESSION_CONFLICT') {
-        _authToken = null; _authUser = null; _sessionToken = null;
-        localStorage.removeItem('mafia_token');
-        localStorage.removeItem('mafia_session');
-        updateAuthBtn();
-        showToast('Hisobingizga boshqa qurilmadan kirildi. Qayta login qiling.', 5000);
-        return { ok: false, data, _raw: res };
-    }
-    return { ok: res.ok, status: res.status, data, _raw: res };
-}
+let _authUser  = null;
+let _authToken = localStorage.getItem('mafia_token') || null;
 
 // --- Sahifa ochilganda tokenni tekshiramiz ---
 (async function initAuth() {
     if (!_authToken) return;
     try {
         const res = await fetch('/api/auth/me', {
-            headers: {
-                'Authorization':   'Bearer ' + _authToken,
-                'X-Session-Token': _sessionToken || '',
-            }
+            headers: { 'Authorization': 'Bearer ' + _authToken }
         });
-        if (!res.ok) {
-            _authToken = null;
-            _sessionToken = null;
-            localStorage.removeItem('mafia_token');
-            localStorage.removeItem('mafia_session');
-            return;
-        }
+        if (!res.ok) { _authToken = null; localStorage.removeItem('mafia_token'); return; }
         const data = await res.json();
         _authUser = data.user;
         updateAuthBtn();
@@ -853,11 +824,9 @@ async function submitAuth() {
             const data = await res.json();
             if (!res.ok) return showAuthError(data.message || "Xato!");
 
-            _authToken    = data.token;
-            _authUser     = data.user;
-            _sessionToken = data.session_token;
-            localStorage.setItem('mafia_token',   _authToken);
-            localStorage.setItem('mafia_session', _sessionToken);
+            _authToken = data.token;
+            _authUser  = data.user;
+            localStorage.setItem('mafia_token', _authToken);
 
             // Username inputni to'ldiramiz va lock qilamiz
             const inp = document.getElementById('username-input');
@@ -882,11 +851,9 @@ async function submitAuth() {
             const data = await res.json();
             if (!res.ok) return showAuthError(data.message || "Xato!");
 
-            _authToken    = data.token;
-            _authUser     = data.user;
-            _sessionToken = data.session_token;
-            localStorage.setItem('mafia_token',   _authToken);
-            localStorage.setItem('mafia_session', _sessionToken);
+            _authToken = data.token;
+            _authUser  = data.user;
+            localStorage.setItem('mafia_token', _authToken);
 
             const inp = document.getElementById('username-input');
             if (inp) inp.value = _authUser.username;
@@ -1004,8 +971,11 @@ async function loadSkinsPage() {
         '<div style="color:#475569;font-size:0.82rem;text-align:center;padding:16px;">Yuklanmoqda...</div>';
 
     try {
-        const { ok, data } = await authFetch("/api/shop/items");
-        if (!ok || !data) return;
+        const res  = await fetch('/api/shop/items', {
+            headers: _authToken ? { 'Authorization': 'Bearer ' + _authToken } : {},
+        });
+        const data = res.ok ? await res.json() : null;
+        if (!data) return;
 
         _skinsData = data.items;
         const activeSkinId = _authUser?.active_skin || null;
@@ -1204,20 +1174,21 @@ async function buyNameFromSkinsPage(itemId, itemLabel, price) {
     if (!confirmed) return;
 
     try {
-        const { ok, data } = await authFetch('/api/shop/buy', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        const res  = await fetch('/api/shop/buy', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
             body: JSON.stringify({ item_id: itemId }),
         });
-        if (!ok) { showToast('❌ ' + data.message, 3500); return; }
+        const data = await res.json();
+        if (!res.ok) { showToast('❌ ' + data.message, 3500); return; }
 
         _authUser.active_skin = itemId;
         document.getElementById('skins-page-coins').textContent = data.coins;
 
         // Skin avtomatik aktiv bo'ladi
-        await authFetch('/api/shop/set-skin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        await fetch('/api/shop/set-skin', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
             body: JSON.stringify({ skin_id: itemId }),
         });
 
@@ -1233,12 +1204,13 @@ async function setActiveSkin(skinId) {
     if (!_authUser) return;
 
     try {
-        const { ok, data } = await authFetch('/api/shop/set-skin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        const res  = await fetch('/api/shop/set-skin', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
             body: JSON.stringify({ skin_id: skinId }),
         });
-        if (!ok) { showToast('❌ ' + data.message, 3000); return; }
+        const data = await res.json();
+        if (!res.ok) { showToast('❌ ' + data.message, 3000); return; }
 
         _authUser.active_skin = skinId;
         renderProfileUsername(_authUser.username, skinId);
@@ -1275,11 +1247,9 @@ function closeProfileModal() {
 }
 
 function logoutUser() {
-    _authToken    = null;
-    _authUser     = null;
-    _sessionToken = null;
+    _authToken = null;
+    _authUser  = null;
     localStorage.removeItem('mafia_token');
-    localStorage.removeItem('mafia_session');
     closeProfileModal();
     updateAuthBtn();
     // Input ni unlock qilamiz — istalgan ism yozish mumkin bo'ladi
@@ -1362,8 +1332,12 @@ async function openShopModal(tab) {
     switchShopTab(tab || 'names');
 
     try {
-        const { ok, data } = await authFetch('/api/shop/items');
-        if (!ok) throw new Error(data.message || 'Xato');
+        const headers = {};
+        if (_authToken) headers['Authorization'] = 'Bearer ' + _authToken;
+
+        const res  = await fetch('/api/shop/items', { headers });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Xato');
 
         if (_authUser) {
             document.getElementById('shop-coins').textContent = data.coins;
@@ -1459,19 +1433,17 @@ async function buyName(itemId, itemLabel) {
     if (btn) { btn.disabled = true; btn.textContent = '…'; }
 
     try {
-        const { ok, data } = await authFetch('/api/shop/buy', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        const res  = await fetch('/api/shop/buy', {
+            method:  'POST',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + _authToken,
+            },
             body: JSON.stringify({ item_id: itemId }),
         });
+        const data = await res.json();
 
-        if (!ok) {
-            showToast('❌ ' + (data.message || 'Xato!'), 3500);
-            if (btn) { btn.disabled = false; btn.textContent = 'Sotib ol'; }
-            return;
-        }
-
-        if (!ok) {
+        if (!res.ok) {
             showToast('❌ ' + (data.message || 'Xato!'), 3500);
             if (btn) { btn.disabled = false; btn.textContent = 'Sotib ol'; }
             return;
@@ -1491,9 +1463,14 @@ async function buyName(itemId, itemLabel) {
 
         // active_skin ni yangilaymiz
         _authUser.active_skin = itemId;
-        await authFetch('/api/shop/set-skin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+
+        // Skin avtomatik aktiv bo'ladi
+        await fetch('/api/shop/set-skin', {
+            method:  'POST',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + _authToken,
+            },
             body: JSON.stringify({ skin_id: itemId }),
         });
 
@@ -1514,38 +1491,71 @@ if (tgApp) {
     tgApp.expand();
 }
 
-// Paket ID → bot komandasi
-const PKG_TO_CMD = {
-    'pack_150': 'buy_150',
-    'pack_300': 'buy_300',
-    'pack_500': 'buy_500',
-};
+// Telegram foydalanuvchi ID sini olish
+function getTelegramUserId() {
+    return tgApp?.initDataUnsafe?.user?.id || null;
+}
 
 // Tanga paketi — Telegram Stars orqali
 async function buyCoinPackage(packageId) {
     if (!_authUser) { closeShopModal(); openAuthModal(); return; }
 
-    const cmd    = PKG_TO_CMD[packageId] || 'buy_150';
-    const botUrl = 'https://t.me/MafiaOnline_bot';
-
-    // Telegram ichida — to'g'ridan bot ga yo'naltirish
-    if (tgApp) {
-        tgApp.openTelegramLink(`${botUrl}?start=${cmd}`);
-        showToast("⭐ Telegram botda to'lov qiling!", 3000);
+    if (!tgApp) {
+        showToast("❌ Bu funksiya faqat Telegram Mini App ichida ishlaydi.", 4000);
         return;
     }
 
-    // Telegram tashqarisida (brauzer) — yangi tab da ochish
-    window.open(`${botUrl}?start=${cmd}`, '_blank');
-    showToast("⭐ Telegram botda to'lov qiling!", 3000);
+    showToast("⭐ To'lov so'rovi yuborilmoqda...", 2000);
+
+    try {
+        const res = await fetch('/api/payment/stars/create', {
+            method:  'POST',
+            headers: {
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + _authToken,
+            },
+            body: JSON.stringify({
+                package_id: packageId,
+            }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            showToast('❌ ' + (data.message || 'Xato!'), 3500);
+            return;
+        }
+
+        if (!data.invoice_link) {
+            showToast("❌ To'lov linki yaratilmadi.", 3500);
+            return;
+        }
+
+        // Mini App ichida to'lov oynasini ochish
+        tgApp.openInvoice(data.invoice_link, (status) => {
+            if (status === 'paid') {
+                showToast("✅ To'lov muvaffaqiyatli! Tanga qo'shildi. 💰", 4000);
+                setTimeout(() => refreshCoinsBalance(), 2000);
+            } else if (status === 'cancelled') {
+                showToast("❌ To'lov bekor qilindi.", 2500);
+            } else if (status === 'failed') {
+                showToast("❌ To'lov amalga oshmadi. Qaytadan urinib ko'ring.", 3000);
+            }
+        });
+
+    } catch (err) {
+        showToast("❌ Server bilan bog'lanib bo'lmadi!", 3000);
+    }
 }
 
 // Stars to'lov natijasini tekshirish (shop ochilganda)
 async function refreshCoinsBalance() {
     if (!_authToken) return;
     try {
-        const { ok, data } = await authFetch('/api/shop/balance');
-        if (ok) {
+        const res  = await fetch('/api/shop/balance', {
+            headers: { 'Authorization': 'Bearer ' + _authToken }
+        });
+        const data = await res.json();
+        if (res.ok) {
             const el = document.getElementById('shop-coins');
             if (el) el.textContent = data.coins + ' tanga 💰';
         }
