@@ -2267,15 +2267,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var isMine = (data.username === myUsername);
         var msgEl  = document.createElement('div');
         msgEl.className = 'chat-msg ' + (isMine ? 'chat-mine' : 'chat-other');
-        msgEl.style.borderLeft = isMine ? '' : '2px solid rgba(239,68,68,0.4)';
 
         msgEl.innerHTML =
             '<div class="chat-msg-meta">' +
-                '<span class="chat-msg-author" style="color:#f87171;">🔴 ' + esc(data.username) + '</span>' +
+                '<span class="chat-msg-author">🔴 ' + esc(data.username) + '</span>' +
             '</div>' +
-            '<div class="chat-msg-bubble" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);">' +
-                esc(data.text) +
-            '</div>';
+            '<div class="chat-msg-bubble">' + esc(data.text) + '</div>';
 
         box.appendChild(msgEl);
         box.scrollTop = box.scrollHeight;

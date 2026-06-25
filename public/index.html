@@ -669,21 +669,21 @@
             </div>
         </div>
 
-        <!-- 2b. MAFIA CHAT TAB (faqat mafia va don uchun, tunda) -->
+        <!-- 2b. MAFIA CHAT TAB (faqat mafia va don uchun) -->
         <div id="tab-content-mafia-chat" class="tab-content" style="display:none;">
             <div id="mafia-chat-panel" style="display:flex; flex-direction:column; margin-top:12px;">
-                <div id="chat-panel-header" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);">
+                <div id="chat-panel-header">
                     <span class="chat-header-icon">🔴</span>
-                    <span class="chat-header-title" style="color:#f87171;">Mafia Chat</span>
-                    <span class="chat-header-badge" style="background:rgba(239,68,68,0.2);color:#f87171;">🔒 Maxfiy</span>
+                    <span class="chat-header-title">Mafia Chat</span>
+                    <span class="chat-header-badge" id="mafia-chat-phase-badge">🔒 Maxfiy</span>
                 </div>
-                <div style="padding:8px 12px;font-size:11px;color:rgba(239,68,68,0.7);text-align:center;border-bottom:1px solid rgba(239,68,68,0.15);">
+                <div style="padding:6px 12px;font-size:11px;color:rgba(248,113,113,0.7);text-align:center;">
                     🔒 Bu chat faqat sizga va mafia a'zolariga ko'rinadi
                 </div>
-                <div id="mafia-chat-messages" style="flex:1;overflow-y:auto;padding:10px;min-height:260px;max-height:320px;"></div>
-                <div id="chat-input-row" style="border-top:1px solid rgba(239,68,68,0.2);">
+                <div id="mafia-chat-messages"></div>
+                <div id="chat-input-row">
                     <input type="text" id="mafia-chat-input" placeholder="Mafia xabari..." maxlength="200" autocomplete="off" inputmode="text" enterkeyhint="send" />
-                    <button id="mafia-chat-send-btn" title="Yuborish" style="background:rgba(239,68,68,0.25);">
+                    <button id="mafia-chat-send-btn" title="Yuborish">
                         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
                 </div>

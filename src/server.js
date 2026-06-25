@@ -240,7 +240,7 @@ export { bot };
 io.on('connection', (socket) => {
     console.log(`Ulandi: ${socket.id}`);
 
-    socket.on('join-lobby-room', ({ lobbyCode, username }) => {
+    socket.on('join-lobby-room', async ({ lobbyCode, username }) => {
         if (!lobbyCode || !username) return;
         if (typeof lobbyCode !== 'string' || typeof username !== 'string') return;
         if (lobbyCode.length > 10 || username.length > 50) return;
@@ -248,6 +248,21 @@ io.on('connection', (socket) => {
         socket.lobbyCode = lobbyCode;
         socket.username  = username;
         console.log(`${username} → xona: ${lobbyCode}`);
+
+        // Agar bu o'yinchi mafia bo'lsa — avtomatik mafia xonasiga ham qo'sh
+        try {
+            const playerQ = await pool.query(
+                'SELECT role FROM players WHERE lobby_code=$1 AND username=$2',
+                [lobbyCode, username]
+            );
+            if (playerQ.rowCount > 0) {
+                const role = playerQ.rows[0].role || '';
+                if (role.toLowerCase().includes('mafia')) {
+                    socket.join(`mafia:${lobbyCode}`);
+                    console.log(`[mafia-room] ${username} (${role}) avtomatik qo'shildi`);
+                }
+            }
+        } catch (_) {}
     });
 
     // ── CHAT ────────────────────────────────────────────────────
@@ -308,9 +323,12 @@ io.on('connection', (socket) => {
             if (!role.toLowerCase().includes('mafia')) return; // Mafia va Don yoza oladi
             if (!is_alive) return;         // O'lik mafia yoza olmaydi
 
+            // Xonaga qo'shilganligini kafolatla (reconnect holatida)
+            const mafiaRoomKey = `mafia:${lobbyCode}`;
+            socket.join(mafiaRoomKey);
+
             // 3. Faqat mafia xona'siga yuborish
             const msgData = { username, text: clean, ts: Date.now() };
-            const mafiaRoomKey = `mafia:${lobbyCode}`;
             io.to(mafiaRoomKey).emit('mafia-chat-message', msgData);
 
             console.log(`[mafia-chat] ${username} → ${lobbyCode}: ${clean}`);
