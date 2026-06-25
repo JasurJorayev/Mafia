@@ -1309,9 +1309,9 @@ function showGameScreen() {
 }
 
 window.switchGameTab = function(tabName) {
-    var tabs    = ['players', 'chat', 'info'];
-    var btnIds  = { players: 'tab-btn-players', chat: 'tab-btn-chat', info: 'tab-btn-info' };
-    var contIds = { players: 'tab-content-players', chat: 'tab-content-chat', info: 'tab-content-info' };
+    var tabs    = ['players', 'chat', 'mafia-chat', 'info'];
+    var btnIds  = { players: 'tab-btn-players', chat: 'tab-btn-chat', 'mafia-chat': 'tab-btn-mafia-chat', info: 'tab-btn-info' };
+    var contIds = { players: 'tab-content-players', chat: 'tab-content-chat', 'mafia-chat': 'tab-content-mafia-chat', info: 'tab-content-info' };
     tabs.forEach(function(t) {
         var btn  = document.getElementById(btnIds[t]);
         var cont = document.getElementById(contIds[t]);
@@ -1323,6 +1323,14 @@ window.switchGameTab = function(tabName) {
         if (badge) { badge.style.display = 'none'; badge.textContent = '0'; }
         setTimeout(function() {
             var box = document.getElementById('chat-messages');
+            if (box) box.scrollTop = box.scrollHeight;
+        }, 50);
+    }
+    if (tabName === 'mafia-chat') {
+        var mBadge = document.getElementById('mafia-chat-unread-badge');
+        if (mBadge) { mBadge.style.display = 'none'; mBadge.textContent = '0'; }
+        setTimeout(function() {
+            var box = document.getElementById('mafia-chat-messages');
             if (box) box.scrollTop = box.scrollHeight;
         }, 50);
     }
@@ -1480,6 +1488,7 @@ function updateWaitingUI(players) {
 // O'YIN UI
 // ===============================================================
 function updateGameUI(me, players) {
+    window._lastPlayers = players || []; // Mafia chat uchun global saqlash
     const phaseDiv = document.getElementById('phase-display');
     const timerDiv = document.getElementById('timer');
 
@@ -2203,6 +2212,139 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (btn)   btn.disabled = !isDiscussion;
         if (badge) badge.textContent = isDiscussion ? '☀️ Kun' : '🌙 Tun';
+
+        // Mafia chat tabini ko'rsatish/yashirish
+        window.updateMafiaChatTab();
     };
+
+    // Mafia chat tabini o'yinchining roliga va fazaga qarab ko'rsatish
+    window.updateMafiaChatTab = function() {
+        var mafiaTab = document.getElementById('tab-btn-mafia-chat');
+        if (!mafiaTab) return;
+
+        // players ro'yxatidan o'z rolimni topish
+        var players = window._lastPlayers || [];
+        var me = players.find(function(p) { return p.username === myUsername; });
+        var myRole = me ? me.role : '';
+
+        var isMafia = myRole && (myRole.includes('Mafia') || myRole.includes('mafia'));
+        var nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
+        var isNight = nightPhases.includes(gamePhase);
+
+        // Mafia tab faqat mafia o'yinchilariga va faqat tunda ko'rinadi
+        if (isMafia && isNight && me && me.is_alive) {
+            mafiaTab.style.display = 'flex';
+            // Mafia xonasiga qo'shilish
+            if (myLobbyCode && myUsername) {
+                socket.emit('join-mafia-room', { lobbyCode: myLobbyCode, username: myUsername });
+            }
+        } else {
+            mafiaTab.style.display = 'none';
+            // Agar mafia-chat tabida bo'lsa, chat tabiga o'tish
+            var mafiaContent = document.getElementById('tab-content-mafia-chat');
+            if (mafiaContent && mafiaContent.style.display === 'block') {
+                switchGameTab('chat');
+            }
+        }
+    };
+
+})();
+
+// ════════════════════════════════════════════════════════════════
+// MAFIA CHAT — Faqat mafia rollari uchun, tun fazasida
+// ════════════════════════════════════════════════════════════════
+
+(function initMafiaChat() {
+
+    // ─── Xabarni render qilish ───────────────────────────────────
+    function renderMafiaMsg(data) {
+        var box = document.getElementById('mafia-chat-messages');
+        if (!box) return;
+
+        var isMine = (data.username === myUsername);
+        var msgEl  = document.createElement('div');
+        msgEl.className = 'chat-msg ' + (isMine ? 'chat-mine' : 'chat-other');
+        msgEl.style.borderLeft = isMine ? '' : '2px solid rgba(239,68,68,0.4)';
+
+        msgEl.innerHTML =
+            '<div class="chat-msg-meta">' +
+                '<span class="chat-msg-author" style="color:#f87171;">🔴 ' + esc(data.username) + '</span>' +
+            '</div>' +
+            '<div class="chat-msg-bubble" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.2);">' +
+                esc(data.text) +
+            '</div>';
+
+        box.appendChild(msgEl);
+        box.scrollTop = box.scrollHeight;
+
+        // Max 80 xabar
+        var msgs = box.querySelectorAll('.chat-msg');
+        if (msgs.length > 80) msgs[0].remove();
+    }
+
+    // ─── Xabar yuborish ─────────────────────────────────────────
+    function sendMafiaChatMsg() {
+        var input = document.getElementById('mafia-chat-input');
+        if (!input) return;
+        var text = input.value.trim();
+        if (!text || !myLobbyCode || !myUsername) return;
+
+        var nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
+        if (!nightPhases.includes(gamePhase)) return;
+
+        socket.emit('mafia-chat-message', {
+            lobbyCode : myLobbyCode,
+            username  : myUsername,
+            text      : text
+        });
+        input.value = '';
+        input.blur();
+    }
+
+    // ─── Yuborish tugmasi ────────────────────────────────────────
+    var sendBtn = document.getElementById('mafia-chat-send-btn');
+    if (sendBtn) {
+        sendBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sendMafiaChatMsg();
+        });
+        sendBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            sendMafiaChatMsg();
+        });
+    }
+
+    // ─── Enter tugmasi ───────────────────────────────────────────
+    var mafiaInput = document.getElementById('mafia-chat-input');
+    if (mafiaInput) {
+        mafiaInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMafiaChatMsg();
+            }
+        });
+        mafiaInput.addEventListener('focus', function() {
+            setTimeout(function() {
+                var box = document.getElementById('mafia-chat-messages');
+                if (box) box.scrollTop = box.scrollHeight;
+            }, 350);
+        });
+    }
+
+    // ─── Socket: mafia chat xabari keldi ─────────────────────────
+    socket.on('mafia-chat-message', function(data) {
+        renderMafiaMsg(data);
+
+        // Mafia chat tab ochiq emas bo'lsa — unread badge
+        var mafiaTab = document.getElementById('tab-content-mafia-chat');
+        if (!mafiaTab || mafiaTab.style.display === 'none') {
+            var badge = document.getElementById('mafia-chat-unread-badge');
+            if (badge) {
+                var count = parseInt(badge.textContent) || 0;
+                badge.textContent = count + 1;
+                badge.style.display = 'flex';
+            }
+        }
+    });
 
 })();

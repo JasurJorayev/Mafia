@@ -278,6 +278,70 @@ io.on('connection', (socket) => {
         }
     });
 
+    // ── MAFIA CHAT (faqat tunda, faqat mafia rollari) ──────────
+    socket.on('mafia-chat-message', async ({ lobbyCode, username, text }) => {
+        if (!lobbyCode || !username || !text) return;
+        if (typeof text !== 'string') return;
+        const clean = text.trim().slice(0, 200);
+        if (!clean) return;
+
+        try {
+            // 1. Lobbining joriy fazasini tekshir
+            const lobbyQ = await pool.query(
+                'SELECT current_phase FROM lobbies WHERE lobby_code=$1',
+                [lobbyCode]
+            );
+            if (!lobbyQ.rowCount) return;
+            const { current_phase } = lobbyQ.rows[0];
+
+            // Faqat tun fazalarida ishlaydi
+            const nightPhases = ['night_preparing', 'night_mafia', 'night_doctor'];
+            if (!nightPhases.includes(current_phase)) return;
+
+            // 2. O'yinchining rolini tekshir — faqat mafia
+            const playerQ = await pool.query(
+                'SELECT role, is_alive FROM players WHERE lobby_code=$1 AND username=$2',
+                [lobbyCode, username]
+            );
+            if (!playerQ.rowCount) return;
+
+            const { role, is_alive } = playerQ.rows[0];
+            if (role !== 'mafia') return; // Faqat mafialar yoza oladi
+            if (!is_alive) return;         // O'lik mafia yoza olmaydi
+
+            // 3. Faqat mafia xona'siga yuborish
+            const msgData = { username, text: clean, ts: Date.now() };
+            const mafiaRoomKey = `mafia:${lobbyCode}`;
+            io.to(mafiaRoomKey).emit('mafia-chat-message', msgData);
+
+            console.log(`[mafia-chat] ${username} → ${lobbyCode}: ${clean}`);
+        } catch (e) {
+            console.error('[mafia-chat] Xato:', e.message);
+        }
+    });
+
+    // Mafia xonasiga qo'shilish (faqat mafia roli bo'lganda)
+    socket.on('join-mafia-room', async ({ lobbyCode, username }) => {
+        if (!lobbyCode || !username) return;
+        if (typeof lobbyCode !== 'string' || typeof username !== 'string') return;
+        if (lobbyCode.length > 10 || username.length > 50) return;
+
+        try {
+            const playerQ = await pool.query(
+                'SELECT role FROM players WHERE lobby_code=$1 AND username=$2',
+                [lobbyCode, username]
+            );
+            if (!playerQ.rowCount) return;
+            if (playerQ.rows[0].role !== 'mafia') return; // Faqat mafia
+
+            const mafiaRoomKey = `mafia:${lobbyCode}`;
+            socket.join(mafiaRoomKey);
+            console.log(`[mafia-room] ${username} mafia xonasiga qo'shildi: ${lobbyCode}`);
+        } catch (e) {
+            console.error('[mafia-room] Xato:', e.message);
+        }
+    });
+
     socket.on('disconnect', async () => {
         const { lobbyCode, username } = socket;
         if (!lobbyCode || !username) return;
