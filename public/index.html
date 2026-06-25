@@ -672,16 +672,16 @@
         <!-- 2b. MAFIA CHAT TAB (faqat mafia va don uchun) -->
         <div id="tab-content-mafia-chat" class="tab-content" style="display:none;">
             <div id="mafia-chat-panel" style="display:flex; flex-direction:column; margin-top:12px;">
-                <div id="chat-panel-header">
+                <div id="mafia-chat-panel-header">
                     <span class="chat-header-icon">🔴</span>
                     <span class="chat-header-title">Mafia Chat</span>
                     <span class="chat-header-badge" id="mafia-chat-phase-badge">🔒 Maxfiy</span>
                 </div>
-                <div style="padding:6px 12px;font-size:11px;color:rgba(248,113,113,0.7);text-align:center;">
+                <div class="mafia-chat-notice">
                     🔒 Bu chat faqat sizga va mafia a'zolariga ko'rinadi
                 </div>
                 <div id="mafia-chat-messages"></div>
-                <div id="chat-input-row">
+                <div id="mafia-chat-input-row">
                     <input type="text" id="mafia-chat-input" placeholder="Mafia xabari..." maxlength="200" autocomplete="off" inputmode="text" enterkeyhint="send" />
                     <button id="mafia-chat-send-btn" title="Yuborish">
                         <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>

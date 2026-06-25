@@ -1119,7 +1119,14 @@ setInterval(() => {
 // ===============================================================
 // O'YIN TUGADI EKRANI
 // ===============================================================
-function showGameOver(winner, message) {
+function roleDisplayInfo(role) {
+    if (role === 'Mafia (DON)') return { name: 'Mafia (Don)', icon: '👑', color: '#fca5a5' };
+    if (role === 'Mafia')       return { name: 'Mafia',        icon: '🔫', color: '#f87171' };
+    if (role === 'Doctor')      return { name: 'Shifokor',     icon: '💉', color: '#38bdf8' };
+    return { name: 'Tinch aholi', icon: '👤', color: '#4ade80' };
+}
+
+function showGameOver(winner, message, players) {
     clearInterval(gameLoopInterval);
     stopMusic();
 
@@ -1132,6 +1139,44 @@ function showGameOver(winner, message) {
     const borderColor= winner === 'MAFIA' ? '#e94560' : '#27ae60';
     const titleColor = winner === 'MAFIA' ? '#e94560' : '#27ae60';
 
+    // G'olib bo'lgan jamoa a'zolarini ajratib olamiz
+    let winnersListHtml = '';
+    if (Array.isArray(players) && players.length) {
+        const isWinnerRole = (role) => winner === 'MAFIA' ? role.includes('Mafia') : !role.includes('Mafia');
+        const winners = players.filter(p => isWinnerRole(p.role));
+
+        if (winners.length) {
+            const rowsHtml = winners.map(p => {
+                const info = roleDisplayInfo(p.role);
+                const aliveTag = p.is_alive
+                    ? ''
+                    : '<span style="font-size:0.68rem;color:#64748b;margin-left:6px;">(o\'lik)</span>';
+                return `
+                    <div style="
+                        display:flex; align-items:center; gap:8px;
+                        padding:7px 10px;
+                        background:rgba(255,255,255,0.04);
+                        border:1px solid ${info.color}33;
+                        border-radius:10px;
+                    ">
+                        <span style="font-size:1rem;">${info.icon}</span>
+                        <span style="flex:1;text-align:left;color:#e2e8f0;font-size:0.85rem;font-weight:600;">${esc(p.username)}${aliveTag}</span>
+                        <span style="font-size:0.68rem;font-weight:800;color:${info.color};text-transform:uppercase;letter-spacing:0.3px;">${info.name}</span>
+                    </div>`;
+            }).join('');
+
+            winnersListHtml = `
+                <div style="text-align:left;margin-bottom:16px;">
+                    <div style="font-size:0.72rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;">
+                        🏆 G'olib jamoa a'zolari
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;">
+                        ${rowsHtml}
+                    </div>
+                </div>`;
+        }
+    }
+
     const panel = document.createElement('div');
     panel.id = 'game-over-panel';
     panel.style.cssText = `
@@ -1143,6 +1188,7 @@ function showGameOver(winner, message) {
         justify-content: center;
         z-index: 99999;
         padding: 20px;
+        overflow-y: auto;
     `;
     panel.innerHTML = `
         <div style="
@@ -1173,6 +1219,7 @@ function showGameOver(winner, message) {
             ">
                 🏆 G'olib: ${golibJamoa}
             </div>
+            ${winnersListHtml}
             <div style="
                 color: #ccc;
                 font-size: 0.9rem;
@@ -1727,7 +1774,7 @@ socket.on('admin-changed', (data) => {
 
 socket.on('night-summary-report', (data) => {
     if (data.winner) {
-        showGameOver(data.winner, data.message);
+        showGameOver(data.winner, data.message, data.players);
         return;
     }
 
@@ -1752,7 +1799,7 @@ socket.on('game-over', (data) => {
     clearInterval(gameLoopInterval);
     stopMusic();
     // Kichik kechikish — night-summary modal ko'rinib ulgurisin
-    setTimeout(() => showGameOver(data.winner, data.message), 800);
+    setTimeout(() => showGameOver(data.winner, data.message, data.players), 800);
 });
 
 // action-done — backend o'zi 5 soniyada o'tkazadi, frontend faqat UI yangilaydi

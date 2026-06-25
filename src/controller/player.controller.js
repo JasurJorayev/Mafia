@@ -842,7 +842,7 @@ export async function advancePhaseLogic(code, phase, username, io) {
     // G'olib tekshirish
     const winnerData = await checkWinnerInternal(code);
     if (winnerData.winner) {
-        io.to(code).emit('game-over', { winner: winnerData.winner, message: winnerData.message });
+        io.to(code).emit('game-over', { winner: winnerData.winner, message: winnerData.message, players: winnerData.players });
         // G'oliblarga tanga berish
         rewardWinners(code, winnerData.winner).catch(() => {});
         setTimeout(() => cleanupLobby(code), 3000);
@@ -1040,9 +1040,20 @@ async function checkWinnerInternal(code) {
     );
     const mafias   = alive.rows.filter(p => p.role.includes('Mafia')).length;
     const citizens = alive.rows.length - mafias;
-    if (mafias === 0)       return { winner: 'CITIZEN', message: "Tinch aholi g'alaba qozondi! 🎉" };
-    if (mafias >= citizens) return { winner: 'MAFIA',   message: "Mafiya g'alaba qozondi! 🎭" };
-    return { winner: null, message: '' };
+
+    let winner = null, message = '';
+    if (mafias === 0)       { winner = 'CITIZEN'; message = "Tinch aholi g'alaba qozondi! 🎉"; }
+    else if (mafias >= citizens) { winner = 'MAFIA'; message = "Mafiya g'alaba qozondi! 🎭"; }
+    else return { winner: null, message: '' };
+
+    // O'yin tugagach, sir saqlashning hojati yo'q —
+    // barcha o'yinchilarning haqiqiy rollarini (tirik/o'lik) qaytaramiz,
+    // shunda frontend g'olib bo'lgan jamoa a'zolarini ko'rsata oladi.
+    const all = await pool.query(
+        'SELECT username, role, is_alive FROM players WHERE lobby_code=$1 ORDER BY id ASC', [code]
+    );
+
+    return { winner, message, players: all.rows };
 }
 
 // ---------------------------------------------------------------
