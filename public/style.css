@@ -6,50 +6,15 @@
     --text-gold: #f1c40f;
 }
 
-/* ===== AYLANMA CHIROQ EFFEKTI (glow-btn) ===== */
-@property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-}
-
+/* ===== TUGMALAR — STATIK GLOW (aylanma olib tashlandi) ===== */
 .glow-btn {
     position: relative;
     z-index: 0;
-    overflow: visible;
+    box-shadow: 0 0 10px var(--glow-color, rgba(255,255,255,0.3));
+    transition: box-shadow 0.2s ease;
 }
-
-.glow-btn::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 14px;
-    padding: 3px;
-    background: conic-gradient(from var(--angle, 0deg), transparent 60%, var(--glow-color, #ffffff) 80%, transparent 100%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: glow-spin 2s linear infinite;
-    pointer-events: none;
-    z-index: -1;
-}
-
-@keyframes glow-spin {
-    to { --angle: 360deg; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .glow-btn::before { animation: none; }
-}
-
-/* @property/conic-gradient animatsiyasini qo'llab-quvvatlamaydigan eski brauzerlar uchun:
-   statik (aylanmaydigan) porlash chizig'i ko'rinadi */
-@supports not (background: conic-gradient(from 0deg, red, blue)) {
-    .glow-btn::before {
-        background: var(--glow-color, #ffffff);
-        opacity: 0.5;
-        animation: none;
-    }
+.glow-btn:hover {
+    box-shadow: 0 0 20px var(--glow-color, rgba(255,255,255,0.5));
 }
 
 * {
@@ -1399,416 +1364,420 @@ input.code-input[type="password"] {
 
 
 
-/* ===== LIGHTNING STORM SKIN ANIMATSIYALARI ===== */
 
-/* Chaqmoq nomi: ranglar yonib o'chib turadi */
-@keyframes lightning-text-pulse {
-    0%   { text-shadow: 0 0 6px #00d2ff, 0 0 14px #00d2ff, 0 0 28px #0066ff; opacity: 1; }
-    40%  { text-shadow: 0 0 2px #00d2ff, 0 0 6px  #0066ff, 0 0 10px #0066ff; opacity: 0.75; }
-    50%  { text-shadow: 0 0 18px #ffffff, 0 0 32px #00d2ff, 0 0 50px #0066ff; opacity: 1; }
-    60%  { text-shadow: 0 0 2px #00d2ff, 0 0 6px  #0066ff, 0 0 10px #0066ff; opacity: 0.75; }
-    100% { text-shadow: 0 0 6px #00d2ff, 0 0 14px #00d2ff, 0 0 28px #0066ff; opacity: 1; }
-}
+/* ================================================================
+   SKIN ANIMATSIYALARI — har biri o'ziga xos efekt
+   ================================================================ */
 
-/* Icon atrofida aylanib turadigan chaqmoq halqasi */
-@keyframes lightning-ring-spin {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+/* ---------------------------------------------------------------
+   ⚡ LIGHTNING STORM — chaqmoq chaqishi (keskin ZAP flash)
+   --------------------------------------------------------------- */
 
-/* Icon o'zi miltillab turadi */
-@keyframes lightning-icon-flicker {
-    0%, 100% { opacity: 1;    filter: drop-shadow(0 0 6px #00d2ff) drop-shadow(0 0 12px #0066ff); }
-    20%       { opacity: 0.85; filter: drop-shadow(0 0 2px #00d2ff); }
-    21%       { opacity: 1;    filter: drop-shadow(0 0 14px #fff)    drop-shadow(0 0 24px #00d2ff); }
-    45%       { opacity: 0.9;  filter: drop-shadow(0 0 4px #00d2ff); }
-    46%       { opacity: 1;    filter: drop-shadow(0 0 12px #fff)    drop-shadow(0 0 20px #0066ff); }
+/* Matn: keskin chaqmoq chaqishi — tez-tez ko'k-oq flash */
+@keyframes zap-text {
+    0%,100% { -webkit-text-fill-color: #60a5fa; text-shadow: 0 0 6px #00d2ff, 0 0 12px #0066ff; }
+    3%       { -webkit-text-fill-color: #ffffff; text-shadow: 0 0 30px #fff, 0 0 60px #00d2ff, 0 0 90px #0066ff; filter: brightness(3); }
+    6%       { -webkit-text-fill-color: #93c5fd; text-shadow: 0 0 8px #00d2ff; filter: brightness(1); }
+    30%      { -webkit-text-fill-color: #60a5fa; text-shadow: 0 0 4px #0066ff; }
+    33%      { -webkit-text-fill-color: #fff;    text-shadow: 0 0 25px #fff, 0 0 50px #00d2ff; filter: brightness(2.5); }
+    36%      { -webkit-text-fill-color: #93c5fd; text-shadow: 0 0 6px #00d2ff; filter: brightness(1); }
 }
 
-/* Isim atrofidagi aylanuvchi zarrachalar */
-@keyframes lightning-orbit {
-    0%   { transform: rotate(0deg)   translateX(18px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
-}
-@keyframes lightning-orbit2 {
-    0%   { transform: rotate(120deg) translateX(18px) rotate(-120deg); }
-    100% { transform: rotate(480deg) translateX(18px) rotate(-480deg); }
-}
-@keyframes lightning-orbit3 {
-    0%   { transform: rotate(240deg) translateX(18px) rotate(-240deg); }
-    100% { transform: rotate(600deg) translateX(18px) rotate(-600deg); }
+/* Icon: ZAP titroq */
+@keyframes zap-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #00d2ff); transform: scale(1) skewX(0deg); }
+    3%       { filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px #00d2ff); transform: scale(1.15) skewX(-8deg); }
+    5%       { filter: drop-shadow(0 0 8px #0066ff); transform: scale(0.95) skewX(4deg); }
+    7%       { filter: drop-shadow(0 0 5px #00d2ff); transform: scale(1) skewX(0deg); }
 }
 
-/* Zarrachalar miltillab turadi */
-@keyframes lightning-spark-blink {
-    0%, 100% { opacity: 1;   transform: scale(1); }
-    50%       { opacity: 0.3; transform: scale(0.6); }
+/* Fon: chaqmoq chizig'i (pseudo) */
+@keyframes zap-bolt-h {
+    0%,100% { opacity: 0; transform: scaleX(0) translateY(-50%); }
+    3%       { opacity: 1; transform: scaleX(1)   translateY(-50%); }
+    8%       { opacity: 0; transform: scaleX(0.2) translateY(-50%); }
+    33%      { opacity: 0; }
+    36%      { opacity: 0.8; transform: scaleX(0.7) translateY(-50%); }
+    40%      { opacity: 0; }
 }
 
-/* Wrapper uchun class */
 .lightning-name-wrap {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     position: relative;
 }
-
-/* Zarrachalar konteyneri — icon ustida mutlaq joylashadi */
-.lightning-orbits {
+/* Chaqmoq chizig'i effekti */
+.lightning-name-wrap::after {
+    content: '';
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 26px;
-    height: 26px;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #00d2ff 30%, #fff 50%, #00d2ff 70%, transparent);
+    transform-origin: left center;
     pointer-events: none;
-    z-index: 2;
+    animation: zap-bolt-h 2.5s ease-in-out infinite;
+    z-index: 3;
 }
-
-.lightning-spark {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #00d2ff;
-    box-shadow: 0 0 6px #00d2ff, 0 0 12px #0066ff;
-    left: calc(50% - 2.5px);
-    top: calc(50% - 2.5px);
-    transform-origin: 50% 50%;
-}
-.lightning-spark:nth-child(2) { background: #ffffff; box-shadow: 0 0 6px #fff, 0 0 10px #00d2ff; }
-.lightning-spark:nth-child(3) { background: #93c5fd; box-shadow: 0 0 6px #93c5fd, 0 0 10px #0066ff; }
-
-/* Icon container */
-.lightning-icon-container {
-    position: relative;
-    width: 26px;
-    height: 26px;
-    flex-shrink: 0;
-}
-
-/* Aylanib turadigan ring (orqa) */
-.lightning-ring {
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    border-top-color: #00d2ff;
-    border-right-color: #0066ff;
-    animation: lightning-ring-spin 1.4s linear infinite;
-    pointer-events: none;
-}
-.lightning-ring.ring2 {
-    inset: -7px;
-    border-color: transparent;
-    border-bottom-color: #60a5fa;
-    border-left-color: #00d2ff;
-    animation-duration: 2.2s;
-    animation-direction: reverse;
-    opacity: 0.6;
-}
-
-/* Icon o'zi */
-.lightning-icon-inner {
-    width: 26px;
-    height: 26px;
+.lightning-icon-box {
+    width: 26px; height: 26px;
     background: linear-gradient(135deg, #0f172a, #1d4ed8);
     border-radius: 7px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center;
     font-size: 0.9rem;
-    box-shadow: 0 0 8px rgba(0,210,255,0.6), 0 0 16px rgba(0,102,255,0.4);
-    animation: lightning-icon-flicker 2.5s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0,210,255,0.5);
+    animation: zap-icon 2.5s ease-in-out infinite;
 }
-
-/* Matn */
 .lightning-text {
-    background: linear-gradient(90deg, #00d2ff, #60a5fa, #0066ff, #00d2ff);
-    background-size: 200% auto;
+    background: linear-gradient(90deg, #00d2ff, #60a5fa, #0066ff);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 800;
-    animation: lightning-text-pulse 2.5s ease-in-out infinite;
+    animation: zap-text 2.5s ease-in-out infinite;
 }
 
+/* ---------------------------------------------------------------
+   🔥 FIRE BOSS — olov yonishi (tepaga ko'tariluvchi alanga)
+   --------------------------------------------------------------- */
 
-/* ===================================================
-   SKIN ANIMATSIYALARI — har bir skin uchun alohida
-   =================================================== */
-
-/* ---- FIRE BOSS 🔥 — olov yonib-o'chadi ---- */
-@keyframes fire-text-pulse {
-    0%,100% { text-shadow: 0 0 8px #f97316, 0 0 20px #ef4444, 0 0 40px #dc2626; filter: brightness(1); }
-    30%      { text-shadow: 0 0 2px #f97316, 0 0 6px  #ef4444; filter: brightness(0.8); }
-    50%      { text-shadow: 0 0 16px #fbbf24, 0 0 32px #f97316, 0 0 60px #ef4444; filter: brightness(1.3); }
-    70%      { text-shadow: 0 0 4px #f97316, 0 0 10px #ef4444; filter: brightness(0.85); }
+@keyframes fire-text {
+    0%    { text-shadow: 0 2px 4px #dc2626, 0 0 8px #f97316;  -webkit-text-fill-color: #fbbf24; }
+    25%   { text-shadow: 0 4px 12px #ef4444, 0 0 20px #f97316, 0 -2px 8px #fbbf24; -webkit-text-fill-color: #fff; filter: brightness(1.3); }
+    50%   { text-shadow: 0 1px 4px #dc2626, 0 0 6px #ef4444;  -webkit-text-fill-color: #fb923c; filter: brightness(0.9); }
+    75%   { text-shadow: 0 3px 10px #f97316, 0 0 18px #fbbf24; -webkit-text-fill-color: #fde68a; filter: brightness(1.2); }
+    100%  { text-shadow: 0 2px 4px #dc2626, 0 0 8px #f97316;  -webkit-text-fill-color: #fbbf24; }
 }
-@keyframes fire-icon-flicker {
-    0%,100% { filter: drop-shadow(0 0 6px #f97316) drop-shadow(0 0 14px #ef4444); transform: scale(1) rotate(0deg); }
-    25%      { filter: drop-shadow(0 0 10px #fbbf24) drop-shadow(0 0 20px #f97316); transform: scale(1.08) rotate(-3deg); }
-    50%      { filter: drop-shadow(0 0 4px #ef4444); transform: scale(0.95) rotate(2deg); }
-    75%      { filter: drop-shadow(0 0 12px #fbbf24) drop-shadow(0 0 24px #f97316); transform: scale(1.05) rotate(-1deg); }
+@keyframes fire-icon {
+    0%,100% { transform: scale(1) translateY(0); filter: drop-shadow(0 2px 6px #f97316) drop-shadow(0 0 12px #ef4444); }
+    20%      { transform: scale(1.05) translateY(-3px); filter: drop-shadow(0 4px 14px #fbbf24) drop-shadow(0 0 22px #f97316); }
+    40%      { transform: scale(0.97) translateY(1px); filter: drop-shadow(0 1px 5px #dc2626); }
+    60%      { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 5px 16px #fbbf24) drop-shadow(0 0 28px #f97316); }
+    80%      { transform: scale(0.99) translateY(0); filter: drop-shadow(0 2px 8px #ef4444); }
 }
-@keyframes fire-ring-spin {
-    0%   { transform: rotate(0deg); border-top-color: #f97316; border-right-color: #ef4444; }
-    50%  { border-top-color: #fbbf24; border-right-color: #f97316; }
-    100% { transform: rotate(360deg); }
+/* Olov zarrachalar — tepaga suzadi */
+@keyframes fire-particle-up {
+    0%   { transform: translateY(0)  translateX(0)  scale(1);   opacity: 0.9; }
+    50%  { transform: translateY(-12px) translateX(2px)  scale(0.7); opacity: 0.6; }
+    100% { transform: translateY(-22px) translateX(-1px) scale(0.2); opacity: 0; }
 }
-@keyframes fire-orbit {
-    0%   { transform: rotate(0deg)   translateX(18px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
+@keyframes fire-particle-up2 {
+    0%   { transform: translateY(0)  translateX(0)  scale(0.8); opacity: 0.7; }
+    50%  { transform: translateY(-10px) translateX(-3px) scale(0.5); opacity: 0.4; }
+    100% { transform: translateY(-18px) translateX(2px) scale(0.1); opacity: 0; }
 }
-@keyframes fire-orbit2 {
-    0%   { transform: rotate(120deg) translateX(18px) rotate(-120deg); }
-    100% { transform: rotate(480deg) translateX(18px) rotate(-480deg); }
-}
-@keyframes fire-orbit3 {
-    0%   { transform: rotate(240deg) translateX(18px) rotate(-240deg); }
-    100% { transform: rotate(600deg) translateX(18px) rotate(-600deg); }
+@keyframes fire-particle-up3 {
+    0%   { transform: translateY(0)  scale(1.1); opacity: 1; }
+    100% { transform: translateY(-16px) translateX(1px) scale(0); opacity: 0; }
 }
 
-/* ---- NINJA 🥷 — neon binafsha blink ---- */
-@keyframes ninja-text-pulse {
-    0%,100% { text-shadow: 0 0 6px #6366f1, 0 0 16px #8b5cf6; opacity: 1; }
-    45%      { text-shadow: 0 0 1px #6366f1; opacity: 0.6; }
-    47%      { text-shadow: 0 0 20px #a78bfa, 0 0 40px #6366f1; opacity: 1; }
-    90%      { text-shadow: 0 0 3px #8b5cf6; opacity: 0.7; }
-    92%      { text-shadow: 0 0 18px #a78bfa, 0 0 36px #8b5cf6; opacity: 1; }
-}
-@keyframes ninja-icon-pulse {
-    0%,100% { filter: drop-shadow(0 0 5px #6366f1) drop-shadow(0 0 12px #8b5cf6); transform: scale(1); }
-    50%      { filter: drop-shadow(0 0 10px #a78bfa) drop-shadow(0 0 22px #6366f1); transform: scale(1.1); }
-}
-@keyframes ninja-ring-spin {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); }
-}
-@keyframes ninja-orbit {
-    0%   { transform: rotate(0deg)   translateX(18px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
-}
-@keyframes ninja-orbit2 {
-    0%   { transform: rotate(180deg) translateX(18px) rotate(-180deg); }
-    100% { transform: rotate(540deg) translateX(18px) rotate(-540deg); }
-}
-
-/* ---- GHOST 👻 — suzib turuvchi, titroq efekt ---- */
-@keyframes ghost-text-float {
-    0%,100% { transform: translateY(0px);   text-shadow: 0 0 8px #a855f7,  0 0 20px #ec4899; opacity: 1; }
-    25%      { transform: translateY(-2px);  text-shadow: 0 0 12px #c084fc, 0 0 28px #a855f7; opacity: 0.9; }
-    75%      { transform: translateY(2px);   text-shadow: 0 0 6px #ec4899,  0 0 16px #a855f7; opacity: 0.85; }
-}
-@keyframes ghost-icon-float {
-    0%,100% { transform: translateY(0px) scale(1);   filter: drop-shadow(0 0 6px #a855f7) drop-shadow(0 0 14px #ec4899); }
-    50%      { transform: translateY(-4px) scale(1.06); filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 24px #a855f7); }
-}
-@keyframes ghost-ring-float {
-    0%,100% { transform: rotate(0deg)   translateY(0px); }
-    50%      { transform: rotate(180deg) translateY(-3px); }
-}
-@keyframes ghost-orbit {
-    0%   { transform: rotate(0deg)   translateX(20px) rotate(0deg); opacity: 0.8; }
-    50%  { opacity: 0.3; }
-    100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); opacity: 0.8; }
-}
-@keyframes ghost-orbit2 {
-    0%   { transform: rotate(180deg) translateX(20px) rotate(-180deg); opacity: 0.5; }
-    50%  { opacity: 1; }
-    100% { transform: rotate(540deg) translateX(20px) rotate(-540deg); opacity: 0.5; }
-}
-
-/* ---- KING 👑 — oltin zarrachalar yog'iladi ---- */
-@keyframes king-text-shine {
-    0%   { background-position: 0% 50%; text-shadow: 0 0 6px rgba(245,158,11,0.5); }
-    50%  { background-position: 100% 50%; text-shadow: 0 0 16px rgba(251,191,36,0.9), 0 0 32px rgba(245,158,11,0.6); }
-    100% { background-position: 0% 50%; text-shadow: 0 0 6px rgba(245,158,11,0.5); }
-}
-@keyframes king-icon-crown {
-    0%,100% { filter: drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 14px #b45309); transform: scale(1) rotate(0deg); }
-    33%      { filter: drop-shadow(0 0 12px #fbbf24) drop-shadow(0 0 28px #f59e0b); transform: scale(1.08) rotate(-4deg); }
-    66%      { filter: drop-shadow(0 0 10px #fcd34d) drop-shadow(0 0 20px #f59e0b); transform: scale(1.05) rotate(3deg); }
-}
-@keyframes king-ring-spin {
-    0%   { transform: rotate(0deg); opacity: 1; }
-    50%  { opacity: 0.6; }
-    100% { transform: rotate(360deg); opacity: 1; }
-}
-@keyframes king-orbit {
-    0%   { transform: rotate(0deg)   translateX(20px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
-}
-@keyframes king-orbit2 {
-    0%   { transform: rotate(90deg) translateX(20px) rotate(-90deg); }
-    100% { transform: rotate(450deg) translateX(20px) rotate(-450deg); }
-}
-@keyframes king-orbit3 {
-    0%   { transform: rotate(180deg) translateX(20px) rotate(-180deg); }
-    100% { transform: rotate(540deg) translateX(20px) rotate(-540deg); }
-}
-@keyframes king-orbit4 {
-    0%   { transform: rotate(270deg) translateX(20px) rotate(-270deg); }
-    100% { transform: rotate(630deg) translateX(20px) rotate(-630deg); }
-}
-
-/* ---- COSMIC NEBULA 🌌 — yulduzlar aylanib miltillab ---- */
-@keyframes cosmic-text-pulse {
-    0%,100% { background-position: 0%   50%; text-shadow: 0 0 8px #d946ef,  0 0 20px #8b5cf6; }
-    50%      { background-position: 100% 50%; text-shadow: 0 0 16px #e879f9, 0 0 36px #a855f7; }
-}
-@keyframes cosmic-icon-rotate {
-    0%   { filter: drop-shadow(0 0 6px #d946ef)  drop-shadow(0 0 14px #8b5cf6); transform: rotate(0deg) scale(1); }
-    50%  { filter: drop-shadow(0 0 14px #e879f9) drop-shadow(0 0 28px #d946ef); transform: rotate(180deg) scale(1.1); }
-    100% { filter: drop-shadow(0 0 6px #d946ef)  drop-shadow(0 0 14px #8b5cf6); transform: rotate(360deg) scale(1); }
-}
-@keyframes cosmic-ring-spin {
-    0%   { transform: rotate(0deg); border-top-color: #d946ef; border-right-color: #8b5cf6; }
-    100% { transform: rotate(360deg); }
-}
-@keyframes cosmic-orbit {
-    0%   { transform: rotate(0deg)   translateX(22px) rotate(0deg);    opacity: 1; }
-    50%  { opacity: 0.3; }
-    100% { transform: rotate(360deg) translateX(22px) rotate(-360deg); opacity: 1; }
-}
-@keyframes cosmic-orbit2 {
-    0%   { transform: rotate(72deg)  translateX(22px) rotate(-72deg);  opacity: 0.5; }
-    50%  { opacity: 1; }
-    100% { transform: rotate(432deg) translateX(22px) rotate(-432deg); opacity: 0.5; }
-}
-@keyframes cosmic-orbit3 {
-    0%   { transform: rotate(144deg) translateX(22px) rotate(-144deg); }
-    100% { transform: rotate(504deg) translateX(22px) rotate(-504deg); }
-}
-@keyframes cosmic-orbit4 {
-    0%   { transform: rotate(216deg) translateX(22px) rotate(-216deg); opacity: 0.7; }
-    50%  { opacity: 0.2; }
-    100% { transform: rotate(576deg) translateX(22px) rotate(-576deg); opacity: 0.7; }
-}
-@keyframes cosmic-orbit5 {
-    0%   { transform: rotate(288deg) translateX(22px) rotate(-288deg); }
-    100% { transform: rotate(648deg) translateX(22px) rotate(-648deg); }
-}
-
-/* ---- DRAGON 🐉 — zumrad yashil nafas ---- */
-@keyframes dragon-text-breathe {
-    0%,100% { text-shadow: 0 0 6px #22d3ee,  0 0 16px #10b981; filter: hue-rotate(0deg)   brightness(1); }
-    33%      { text-shadow: 0 0 12px #34d399, 0 0 28px #22d3ee; filter: hue-rotate(20deg)  brightness(1.2); }
-    66%      { text-shadow: 0 0 20px #6ee7b7, 0 0 40px #10b981; filter: hue-rotate(-10deg) brightness(1.1); }
-}
-@keyframes dragon-icon-roar {
-    0%,100% { filter: drop-shadow(0 0 5px #22d3ee) drop-shadow(0 0 12px #10b981); transform: scale(1); }
-    20%      { filter: drop-shadow(0 0 14px #6ee7b7) drop-shadow(0 0 28px #22d3ee); transform: scale(1.12) rotate(-5deg); }
-    40%      { transform: scale(0.95) rotate(3deg); }
-    60%      { filter: drop-shadow(0 0 10px #34d399) drop-shadow(0 0 22px #10b981); transform: scale(1.07) rotate(-2deg); }
-    80%      { transform: scale(1) rotate(0deg); }
-}
-@keyframes dragon-ring-breathe {
-    0%,100% { transform: rotate(0deg)   scale(1);    border-top-color: #22d3ee; border-right-color: #10b981; }
-    50%      { transform: rotate(180deg) scale(1.15); border-top-color: #6ee7b7; border-right-color: #22d3ee; }
-}
-@keyframes dragon-orbit {
-    0%   { transform: rotate(0deg)   translateX(20px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
-}
-@keyframes dragon-orbit2 {
-    0%   { transform: rotate(120deg) translateX(20px) rotate(-120deg); }
-    100% { transform: rotate(480deg) translateX(20px) rotate(-480deg); }
-}
-@keyframes dragon-orbit3 {
-    0%   { transform: rotate(240deg) translateX(20px) rotate(-240deg); }
-    100% { transform: rotate(600deg) translateX(20px) rotate(-600deg); }
-}
-
-/* ---- ROSE GARDEN 🌹 — qizil gul petallari ---- */
-@keyframes rose-text-pulse {
-    0%,100% { text-shadow: 0 0 8px #f43f5e, 0 0 20px #e11d48, 0 0 36px #be123c; filter: brightness(1); }
-    30%      { text-shadow: 0 0 3px #f43f5e, 0 0 8px #e11d48; filter: brightness(0.85); }
-    50%      { text-shadow: 0 0 14px #fb7185, 0 0 30px #f43f5e, 0 0 52px #e11d48; filter: brightness(1.2); }
-    70%      { text-shadow: 0 0 5px #f43f5e, 0 0 12px #e11d48; filter: brightness(0.9); }
-}
-@keyframes rose-icon-bloom {
-    0%,100% { filter: drop-shadow(0 0 6px #f43f5e) drop-shadow(0 0 14px #e11d48); transform: scale(1) rotate(0deg); }
-    25%      { filter: drop-shadow(0 0 12px #fb7185) drop-shadow(0 0 24px #f43f5e); transform: scale(1.1) rotate(5deg); }
-    50%      { filter: drop-shadow(0 0 4px #e11d48); transform: scale(0.94) rotate(-3deg); }
-    75%      { filter: drop-shadow(0 0 10px #fb7185) drop-shadow(0 0 20px #f43f5e); transform: scale(1.06) rotate(2deg); }
-}
-@keyframes rose-ring-spin {
-    0%   { transform: rotate(0deg);   border-top-color: #f43f5e; border-right-color: #e11d48; }
-    50%  { border-top-color: #fb7185; border-right-color: #f43f5e; }
-    100% { transform: rotate(360deg); }
-}
-@keyframes rose-orbit {
-    0%   { transform: rotate(0deg)   translateX(19px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(19px) rotate(-360deg); }
-}
-@keyframes rose-orbit2 {
-    0%   { transform: rotate(120deg) translateX(19px) rotate(-120deg); }
-    100% { transform: rotate(480deg) translateX(19px) rotate(-480deg); }
-}
-@keyframes rose-orbit3 {
-    0%   { transform: rotate(240deg) translateX(19px) rotate(-240deg); }
-    100% { transform: rotate(600deg) translateX(19px) rotate(-600deg); }
-}
-
-/* ---- Umumiy skin name wrapper ---- */
-.skin-name-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+.fire-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px;
     position: relative;
 }
-.skin-icon-container {
-    position: relative;
-    width: 26px;
-    height: 26px;
-    flex-shrink: 0;
+.fire-icon-box {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: linear-gradient(135deg, #7f1d1d, #dc2626);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0; position: relative;
+    box-shadow: 0 0 10px rgba(239,68,68,0.6), 0 2px 8px rgba(249,115,22,0.5);
+    animation: fire-icon 1.6s ease-in-out infinite;
 }
-.skin-ring {
+/* Olov zarrachalari icon tepasida */
+.fire-p { position: absolute; width: 4px; height: 4px; border-radius: 50%; bottom: 2px; }
+.fire-p1 { left: 5px;  background: #fbbf24; box-shadow: 0 0 4px #f97316; animation: fire-particle-up  1.2s ease-out infinite; }
+.fire-p2 { left: 11px; background: #f97316; box-shadow: 0 0 4px #ef4444; animation: fire-particle-up2 1.4s ease-out infinite 0.3s; }
+.fire-p3 { left: 17px; background: #ef4444; box-shadow: 0 0 4px #dc2626; animation: fire-particle-up3 1.0s ease-out infinite 0.6s; }
+
+.fire-text {
+    font-weight: 800;
+    background: linear-gradient(180deg, #fde68a 0%, #f97316 50%, #dc2626 100%);
+    -webkit-background-clip: text; background-clip: text;
+    animation: fire-text 1.6s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   🌌 COSMIC NEBULA — yulduzlar miltillaydi, paydo bo'lib yo'qoladi
+   --------------------------------------------------------------- */
+
+@keyframes star-blink-1 { 0%,100%{opacity:0.1;transform:scale(0.5)}  50%{opacity:1;transform:scale(1.3)} }
+@keyframes star-blink-2 { 0%,100%{opacity:0.8;transform:scale(1)}    40%{opacity:0;transform:scale(0.3)} }
+@keyframes star-blink-3 { 0%,100%{opacity:0;transform:scale(0.2)}    60%{opacity:0.9;transform:scale(1.1)} }
+@keyframes star-blink-4 { 0%,100%{opacity:0.5;transform:scale(0.8)}  25%{opacity:0;} 75%{opacity:1;transform:scale(1.2)} }
+@keyframes star-blink-5 { 0%{opacity:1;transform:scale(1)} 33%{opacity:0.1;transform:scale(0.4)} 66%{opacity:0.7;transform:scale(0.9)} 100%{opacity:1;} }
+@keyframes star-blink-6 { 0%,100%{opacity:0.3;transform:scale(0.6)}  45%{opacity:1;transform:scale(1.4)} }
+
+@keyframes cosmic-text {
+    0%,100% { background-position: 0%   50%; filter: brightness(1); }
+    50%      { background-position: 100% 50%; filter: brightness(1.3); }
+}
+@keyframes cosmic-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #d946ef) drop-shadow(0 0 10px #8b5cf6); }
+    50%      { filter: drop-shadow(0 0 12px #e879f9) drop-shadow(0 0 22px #d946ef) drop-shadow(0 0 36px #8b5cf6); }
+}
+
+.cosmic-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.cosmic-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #1e1b4b, #7c3aed);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative; overflow: visible;
+    box-shadow: 0 0 10px rgba(217,70,239,0.5), 0 0 20px rgba(139,92,246,0.3);
+    animation: cosmic-icon 2s ease-in-out infinite;
+}
+/* Yulduzlar — absolute, icon atrofida tarqaladi */
+.star-dot {
     position: absolute;
     border-radius: 50%;
-    border: 1.5px solid transparent;
     pointer-events: none;
 }
-.skin-icon-inner {
-    width: 26px;
-    height: 26px;
-    border-radius: 7px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.sd1 { width:3px;height:3px; background:#f0abfc; top:-5px;  left:2px;  animation: star-blink-1 1.8s infinite; }
+.sd2 { width:2px;height:2px; background:#e879f9; top:-3px;  right:-2px; animation: star-blink-2 2.2s infinite 0.4s; }
+.sd3 { width:3px;height:3px; background:#a78bfa; bottom:-5px; left:8px; animation: star-blink-3 1.5s infinite 0.8s; }
+.sd4 { width:2px;height:2px; background:#c084fc; bottom:-4px; right:0px; animation: star-blink-4 2.0s infinite 0.2s; }
+.sd5 { width:3px;height:3px; background:#f0abfc; top:5px; left:-6px;   animation: star-blink-5 1.7s infinite 1.0s; }
+.sd6 { width:2px;height:2px; background:#e879f9; top:5px; right:-5px;  animation: star-blink-6 2.3s infinite 0.6s; }
+
+.cosmic-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #d946ef, #8b5cf6, #e879f9, #c084fc, #d946ef);
+    background-size: 250% auto;
+    -webkit-background-clip: text; background-clip: text;
+    animation: cosmic-text 3s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   👑 KING — oltin nur sochiladi (shimmer + oltin zarrachalar yog'iladi)
+   --------------------------------------------------------------- */
+
+@keyframes king-shimmer {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200%  0; }
+}
+@keyframes king-icon {
+    0%,100% { filter: drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 12px #b45309); transform: translateY(0); }
+    50%      { filter: drop-shadow(0 0 16px #fde68a) drop-shadow(0 0 28px #f59e0b); transform: translateY(-2px); }
+}
+/* Oltin zarrachalar yuqoridan yog'iladi */
+@keyframes gold-rain { 0%{transform:translateY(-8px) scale(1);opacity:1} 100%{transform:translateY(10px) scale(0.3);opacity:0} }
+@keyframes gold-rain2{ 0%{transform:translateY(-6px) scale(0.8);opacity:0.8} 100%{transform:translateY(12px) scale(0.2);opacity:0} }
+
+.king-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.king-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #78350f, #d97706);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative;
+    box-shadow: 0 0 10px rgba(245,158,11,0.6), 0 0 20px rgba(180,83,9,0.4);
+    animation: king-icon 2s ease-in-out infinite;
+}
+.gold-p { position: absolute; border-radius: 50%; width: 3px; height: 3px; }
+.gp1 { left: 3px;  top: 0; background: #fde68a; box-shadow: 0 0 4px #f59e0b; animation: gold-rain  1.4s ease-in infinite; }
+.gp2 { left: 11px; top:-2px; background: #fbbf24; box-shadow: 0 0 4px #f59e0b; animation: gold-rain2 1.6s ease-in infinite 0.4s; }
+.gp3 { left: 19px; top: 0; background: #fde68a; box-shadow: 0 0 4px #fbbf24; animation: gold-rain  1.8s ease-in infinite 0.8s; }
+.gp4 { left: 7px;  top:-1px; background: #fcd34d; box-shadow: 0 0 3px #f59e0b; animation: gold-rain2 1.3s ease-in infinite 1.1s; }
+
+.king-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #b45309, #fde68a 30%, #fffbeb 50%, #fde68a 70%, #b45309);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    animation: king-shimmer 2s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   🥷 NINJA — ko'rinib-ko'rinmay (disappear + shadow blink)
+   --------------------------------------------------------------- */
+
+@keyframes ninja-vanish {
+    0%,100% { opacity: 1;   filter: blur(0)    drop-shadow(0 0 6px #6366f1); transform: scale(1); }
+    20%      { opacity: 0.1; filter: blur(2px)  drop-shadow(0 0 0 transparent); transform: scale(0.9) skewX(10deg); }
+    22%      { opacity: 0.8; filter: blur(0)    drop-shadow(0 0 14px #a78bfa); transform: scale(1.05); }
+    24%      { opacity: 0.05;filter: blur(3px); transform: scale(0.85) skewX(-8deg); }
+    26%      { opacity: 1;   filter: blur(0)    drop-shadow(0 0 8px #8b5cf6);  transform: scale(1); }
+    70%      { opacity: 1;   filter: drop-shadow(0 0 4px #6366f1); }
+    72%      { opacity: 0.15;filter: blur(1px); transform: scale(0.92); }
+    74%      { opacity: 1;   filter: drop-shadow(0 0 10px #a78bfa); transform: scale(1); }
+}
+@keyframes ninja-text {
+    0%,100% { opacity: 1; letter-spacing: normal; -webkit-text-fill-color: #8b5cf6; }
+    20%      { opacity: 0; letter-spacing: 4px;   -webkit-text-fill-color: transparent; }
+    25%      { opacity: 1; letter-spacing: normal; -webkit-text-fill-color: #a78bfa; }
+    70%      { opacity: 1; }
+    72%      { opacity: 0.2; letter-spacing: 2px; }
+    74%      { opacity: 1; }
+}
+
+.ninja-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.ninja-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+    display: inline-flex; align-items: center; justify-content: center;
     font-size: 0.9rem;
-    position: relative;
-    z-index: 1;
+    box-shadow: 0 0 8px rgba(99,102,241,0.5);
+    animation: ninja-vanish 3s ease-in-out infinite;
 }
-.skin-orbits {
-    position: absolute;
-    left: 0; top: 0;
-    width: 26px; height: 26px;
-    pointer-events: none;
-    z-index: 2;
-}
-.skin-spark {
-    position: absolute;
-    border-radius: 50%;
-    left: calc(50% - 2.5px);
-    top: calc(50% - 2.5px);
-    transform-origin: 50% 50%;
+.ninja-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #6366f1, #a78bfa, #8b5cf6);
+    -webkit-background-clip: text; background-clip: text;
+    animation: ninja-text 3s ease-in-out infinite;
 }
 
-/* fire_boss sparks */
-.fire-spark { width:5px; height:5px; background:#f97316; box-shadow:0 0 6px #f97316, 0 0 12px #ef4444; }
-/* ninja sparks */
-.ninja-spark { width:4px; height:4px; background:#8b5cf6; box-shadow:0 0 6px #8b5cf6, 0 0 12px #6366f1; }
-/* ghost sparks */
-.ghost-spark { width:6px; height:6px; background:rgba(168,85,247,0.7); box-shadow:0 0 8px #a855f7, 0 0 16px #ec4899; border-radius:50%; }
-/* king sparks — oltin yulduzlar */
-.king-spark { width:4px; height:4px; background:#fbbf24; box-shadow:0 0 6px #fbbf24, 0 0 12px #f59e0b; }
-/* cosmic sparks — yulduzlar */
-.cosmic-spark { width:3px; height:3px; background:#e879f9; box-shadow:0 0 5px #e879f9, 0 0 10px #8b5cf6; border-radius:50%; }
-/* dragon sparks */
-.dragon-spark { width:5px; height:5px; background:#22d3ee; box-shadow:0 0 6px #22d3ee, 0 0 12px #10b981; }
-/* rose sparks */
-.rose-spark { width:5px; height:5px; background:#f43f5e; box-shadow:0 0 6px #f43f5e, 0 0 12px #e11d48; }
+/* ---------------------------------------------------------------
+   👻 GHOST — suzib eriydi (float + fade dissolve)
+   --------------------------------------------------------------- */
+
+@keyframes ghost-float {
+    0%,100% { transform: translateY(0)   scale(1);    filter: drop-shadow(0 0 6px #a855f7) drop-shadow(0 0 14px #ec4899); opacity: 1; }
+    33%      { transform: translateY(-5px) scale(1.04); filter: drop-shadow(0 0 12px #c084fc) drop-shadow(0 0 24px #a855f7); opacity: 0.85; }
+    66%      { transform: translateY(3px)  scale(0.96); filter: drop-shadow(0 0 4px #ec4899)  drop-shadow(0 0 8px #a855f7);  opacity: 0.9; }
+}
+@keyframes ghost-text-dissolve {
+    0%,100% { opacity: 1;   filter: blur(0)   ; -webkit-text-fill-color: #c084fc; text-shadow: 0 0 8px #a855f7; }
+    40%      { opacity: 0.6; filter: blur(0.5px); -webkit-text-fill-color: #f0abfc; text-shadow: 0 0 16px #ec4899; }
+    50%      { opacity: 0.3; filter: blur(1.5px); -webkit-text-fill-color: #fdf4ff; }
+    60%      { opacity: 0.7; filter: blur(0.5px); }
+}
+/* Arvoh iz — xira soya */
+@keyframes ghost-shadow-drift {
+    0%,100% { opacity: 0.18; transform: translateY(3px) scale(0.95) scaleY(0.4); }
+    50%      { opacity: 0.05; transform: translateY(6px) scale(0.88) scaleY(0.25); }
+}
+
+.ghost-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.ghost-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #3b0764, #9333ea);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative;
+    box-shadow: 0 0 10px rgba(168,85,247,0.5), 0 0 20px rgba(236,72,153,0.3);
+    animation: ghost-float 2.8s ease-in-out infinite;
+}
+/* Soya pastda */
+.ghost-shadow {
+    position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 4px; border-radius: 50%;
+    background: rgba(168,85,247,0.5);
+    animation: ghost-shadow-drift 2.8s ease-in-out infinite;
+}
+.ghost-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #a855f7, #ec4899, #c084fc);
+    -webkit-background-clip: text; background-clip: text;
+    animation: ghost-text-dissolve 2.8s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   🐉 DRAGON — yashil nafas (scales + breath wave)
+   --------------------------------------------------------------- */
+
+@keyframes dragon-breath {
+    0%,100% {
+        filter: drop-shadow(0 0 4px #22d3ee) drop-shadow(0 0 8px #10b981);
+        transform: scale(1);
+    }
+    15% {
+        filter: drop-shadow(0 0 16px #6ee7b7) drop-shadow(0 0 30px #22d3ee) brightness(1.3);
+        transform: scale(1.1) rotate(-4deg);
+    }
+    30% { transform: scale(0.95) rotate(2deg); filter: drop-shadow(0 0 4px #10b981); }
+    45% {
+        filter: drop-shadow(0 0 12px #34d399) drop-shadow(0 0 22px #22d3ee);
+        transform: scale(1.06) rotate(-2deg);
+    }
+    60%  { transform: scale(1); }
+}
+@keyframes dragon-text {
+    0%,100% { -webkit-text-fill-color: #34d399; text-shadow: 0 0 6px #22d3ee, 0 0 14px #10b981; }
+    15%      { -webkit-text-fill-color: #d1fae5; text-shadow: 0 0 20px #6ee7b7, 0 0 40px #22d3ee; filter: brightness(1.4); }
+    30%      { -webkit-text-fill-color: #10b981; text-shadow: 0 0 4px #059669; filter: brightness(0.9); }
+}
+/* Nafas zarrachalari — o'ngga tarqaladi */
+@keyframes breath-particle {
+    0%   { transform: translate(0, 0)   scale(1);   opacity: 0.9; }
+    100% { transform: translate(18px, -4px) scale(0); opacity: 0; }
+}
+@keyframes breath-particle2 {
+    0%   { transform: translate(0, 0)  scale(0.8); opacity: 0.7; }
+    100% { transform: translate(14px, 3px) scale(0); opacity: 0; }
+}
+
+.dragon-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.dragon-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #022c22, #059669);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative;
+    box-shadow: 0 0 10px rgba(34,211,238,0.5), 0 0 18px rgba(16,185,129,0.4);
+    animation: dragon-breath 2.4s ease-in-out infinite;
+}
+.breath-p { position: absolute; right: -2px; top: 50%; width: 4px; height: 4px; border-radius: 50%; margin-top: -2px; }
+.bp1 { background: #6ee7b7; box-shadow: 0 0 5px #22d3ee; animation: breath-particle  1.2s ease-out infinite; }
+.bp2 { background: #22d3ee; box-shadow: 0 0 5px #10b981; animation: breath-particle2 1.4s ease-out infinite 0.4s; width:3px;height:3px;margin-top:-1.5px; }
+.bp3 { background: #34d399; box-shadow: 0 0 4px #22d3ee; animation: breath-particle  1.6s ease-out infinite 0.8s; width:3px;height:3px;margin-top:-1.5px; }
+
+.dragon-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #22d3ee, #10b981, #6ee7b7, #22d3ee);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    animation: dragon-text 2.4s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   🌹 ROSE GARDEN — gul ochilishi (bloom pulse + petal scatter)
+   --------------------------------------------------------------- */
+
+@keyframes rose-bloom-icon {
+    0%,100% { transform: scale(1) rotate(0deg);   filter: drop-shadow(0 0 5px #f43f5e) drop-shadow(0 0 12px #e11d48); }
+    25%      { transform: scale(1.12) rotate(8deg);  filter: drop-shadow(0 0 14px #fb7185) drop-shadow(0 0 26px #f43f5e); }
+    50%      { transform: scale(0.93) rotate(-4deg); filter: drop-shadow(0 0 3px #be123c); }
+    75%      { transform: scale(1.08) rotate(5deg);  filter: drop-shadow(0 0 10px #fb7185) drop-shadow(0 0 20px #f43f5e); }
+}
+@keyframes rose-text {
+    0%,100% { text-shadow: 0 0 6px #f43f5e, 0 0 14px #e11d48; -webkit-text-fill-color: #fb7185; }
+    30%      { text-shadow: 0 0 14px #fb7185, 0 0 28px #f43f5e; -webkit-text-fill-color: #fecdd3; filter: brightness(1.2); }
+    60%      { text-shadow: 0 0 3px #e11d48; -webkit-text-fill-color: #f43f5e; filter: brightness(0.9); }
+}
+/* Gul petallari tarqaladi */
+@keyframes petal-1 { 0%{transform:translate(0,0) rotate(0) scale(1);opacity:1} 100%{transform:translate(-10px,-12px) rotate(-45deg) scale(0);opacity:0} }
+@keyframes petal-2 { 0%{transform:translate(0,0) rotate(0) scale(1);opacity:1} 100%{transform:translate(10px,-10px) rotate(30deg) scale(0);opacity:0} }
+@keyframes petal-3 { 0%{transform:translate(0,0) rotate(0) scale(0.8);opacity:0.8} 100%{transform:translate(0,-14px) rotate(-20deg) scale(0);opacity:0} }
+
+.rose-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.rose-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #4c0519, #e11d48);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative;
+    box-shadow: 0 0 10px rgba(244,63,94,0.6), 0 0 18px rgba(225,29,72,0.4);
+    animation: rose-bloom-icon 2s ease-in-out infinite;
+}
+/* Petal nuqtalar */
+.rose-petal { position: absolute; width: 5px; height: 3px; border-radius: 50% 50% 50% 0; top: 4px; left: 8px; }
+.rp1 { background: #fda4af; box-shadow: 0 0 4px #f43f5e; animation: petal-1 1.8s ease-out infinite; }
+.rp2 { background: #fb7185; box-shadow: 0 0 4px #e11d48; animation: petal-2 2.0s ease-out infinite 0.5s; }
+.rp3 { background: #fecdd3; box-shadow: 0 0 3px #f43f5e; animation: petal-3 1.6s ease-out infinite 1.0s; }
+
+.rose-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #f43f5e, #fb7185, #fda4af, #f43f5e);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    animation: rose-text 2s ease-in-out infinite;
+}
 
