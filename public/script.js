@@ -238,14 +238,6 @@ var SKIN_DATA = {
         rarity:   'Rare',
         glow:     'rgba(56,189,248,0.45)',
     },
-    poison: {
-        icon:     '☠️',
-        gradient: 'linear-gradient(90deg,#4ade80,#16a34a,#86efac)',
-        iconBg:   'linear-gradient(135deg,#14532d,#15803d)',
-        border:   '#4ade80',
-        rarity:   'Epic',
-        glow:     'rgba(74,222,128,0.45)',
-    },
     black_hole: {
         icon:     '🕳️',
         gradient: 'linear-gradient(90deg,#a855f7,#6b21a8,#c084fc)',
@@ -406,19 +398,6 @@ function renderPlayerName(username, activeSkinId) {
                 <span class="ice-crystal-p icp4"></span>
             </span>
             <span class="ice-text">${u}</span>
-        </span>`;
-    }
-
-    // ---- ☠️ POISON — zahar tomchilar oqadi ----
-    if (skinId === 'poison') {
-        return `<span class="poison-name-wrap">
-            <span class="poison-icon-box">
-                ☠️
-                <span class="drip drip1"></span>
-                <span class="drip drip2"></span>
-                <span class="drip drip3"></span>
-            </span>
-            <span class="poison-text">${u}</span>
         </span>`;
     }
 

@@ -128,17 +128,6 @@ const SHOP_NAMES = [
         desc:     'Rare isim • Muz kristall effekti',
     },
     {
-        id:       'poison',
-        label:    'Zahar',
-        price:    180,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#4ade80,#16a34a,#86efac)',
-        icon:     '☠️',
-        iconBg:   'linear-gradient(135deg,#14532d,#15803d)',
-        border:   '#4ade80',
-        desc:     'Epic isim • Zahar tomchi effekti',
-    },
-    {
         id:       'black_hole',
         label:    'Qora Tuynuk',
         price:    300,
