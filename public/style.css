@@ -1781,3 +1781,313 @@ input.code-input[type="password"] {
     animation: rose-text 2s ease-in-out infinite;
 }
 
+
+/* ================================================================
+   YANGI SKINLAR ANIMATSIYALARI
+   ================================================================ */
+
+/* ---------------------------------------------------------------
+   ❄️ ICE CRYSTAL — muzlab qotib qoladi (freeze + kristall)
+   --------------------------------------------------------------- */
+@keyframes ice-freeze-text {
+    0%,100% { -webkit-text-fill-color: #7dd3fc; text-shadow: 0 0 6px #38bdf8, 0 0 14px #0284c7; letter-spacing: normal; }
+    40%      { -webkit-text-fill-color: #e0f2fe; text-shadow: 0 0 18px #bae6fd, 0 0 36px #38bdf8; filter: brightness(1.4); letter-spacing: 1px; }
+    42%      { -webkit-text-fill-color: #f0f9ff; filter: brightness(2); }
+    44%      { -webkit-text-fill-color: #7dd3fc; filter: brightness(1); }
+}
+@keyframes ice-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #38bdf8) drop-shadow(0 0 10px #0284c7); transform: scale(1) rotate(0deg); }
+    30%      { filter: drop-shadow(0 0 14px #bae6fd) drop-shadow(0 0 28px #38bdf8); transform: scale(1.08) rotate(15deg); }
+    60%      { filter: drop-shadow(0 0 8px #7dd3fc) drop-shadow(0 0 18px #0ea5e9); transform: scale(1.04) rotate(-10deg); }
+}
+/* Muz kristallari tarqaladi */
+@keyframes crystal-scatter-1 { 0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1} 100%{transform:translate(-10px,-12px) scale(0) rotate(-60deg);opacity:0} }
+@keyframes crystal-scatter-2 { 0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1} 100%{transform:translate(10px,-10px) scale(0) rotate(45deg);opacity:0} }
+@keyframes crystal-scatter-3 { 0%{transform:translate(0,0) scale(0.8);opacity:0.8} 100%{transform:translate(0,-14px) scale(0) rotate(30deg);opacity:0} }
+@keyframes crystal-scatter-4 { 0%{transform:translate(0,0) scale(1);opacity:0.9} 100%{transform:translate(12px,-8px) scale(0) rotate(-30deg);opacity:0} }
+
+.ice-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.ice-icon-box {
+    width:26px; height:26px; border-radius:7px; flex-shrink:0;
+    background: linear-gradient(135deg,#0c4a6e,#0284c7);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative;
+    box-shadow: 0 0 10px rgba(56,189,248,0.5), 0 0 18px rgba(2,132,199,0.3);
+    animation: ice-icon 2.5s ease-in-out infinite;
+}
+.ice-crystal-p { position:absolute; width:4px; height:4px; background:#bae6fd; box-shadow:0 0 4px #38bdf8; clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); }
+.icp1 { top:2px; left:3px;  animation: crystal-scatter-1 2.0s ease-out infinite; }
+.icp2 { top:2px; right:3px; animation: crystal-scatter-2 2.2s ease-out infinite 0.5s; }
+.icp3 { top:8px; left:10px; animation: crystal-scatter-3 1.8s ease-out infinite 1.0s; }
+.icp4 { top:4px; right:8px; animation: crystal-scatter-4 2.4s ease-out infinite 0.8s; }
+.ice-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#e0f2fe,#38bdf8,#bae6fd,#38bdf8);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: ice-freeze-text 2.5s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   ☠️ POISON — zahar tomchilar pastga oqadi
+   --------------------------------------------------------------- */
+@keyframes poison-text {
+    0%,100% { -webkit-text-fill-color: #4ade80; text-shadow: 0 0 6px #16a34a, 0 0 14px #15803d; }
+    25%      { -webkit-text-fill-color: #86efac; text-shadow: 0 0 16px #4ade80, 0 0 30px #16a34a; filter: brightness(1.3); }
+    50%      { -webkit-text-fill-color: #166534; text-shadow: 0 0 3px #15803d; filter: brightness(0.7); }
+    75%      { -webkit-text-fill-color: #4ade80; text-shadow: 0 0 10px #16a34a; }
+}
+@keyframes poison-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #4ade80) drop-shadow(0 0 12px #16a34a); transform: scale(1); }
+    50%      { filter: drop-shadow(0 0 14px #86efac) drop-shadow(0 0 26px #4ade80); transform: scale(1.06); }
+}
+/* Zahar tomchi pastga tushadi */
+@keyframes drip-down-1 { 0%{transform:translateY(0) scale(1);opacity:1} 70%{opacity:0.8} 100%{transform:translateY(16px) scale(0.3);opacity:0} }
+@keyframes drip-down-2 { 0%{transform:translateY(0) scale(0.8);opacity:0.8} 100%{transform:translateY(14px) scale(0.2);opacity:0} }
+@keyframes drip-down-3 { 0%{transform:translateY(0) scale(1.1);opacity:0.9} 100%{transform:translateY(18px) scale(0.1);opacity:0} }
+
+.poison-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.poison-icon-box {
+    width:26px; height:26px; border-radius:7px; flex-shrink:0;
+    background: linear-gradient(135deg,#14532d,#15803d);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:visible;
+    box-shadow: 0 0 10px rgba(74,222,128,0.5), 0 0 18px rgba(22,163,74,0.3);
+    animation: poison-icon 2s ease-in-out infinite;
+}
+.drip { position:absolute; border-radius:50% 50% 60% 60%; width:5px; height:6px; bottom:0px; }
+.drip1 { left:4px;  background:#4ade80; box-shadow:0 0 5px #16a34a; animation:drip-down-1 1.4s ease-in infinite; }
+.drip2 { left:11px; background:#86efac; box-shadow:0 0 4px #4ade80; animation:drip-down-2 1.6s ease-in infinite 0.5s; }
+.drip3 { left:18px; background:#4ade80; box-shadow:0 0 5px #16a34a; animation:drip-down-3 1.8s ease-in infinite 1.0s; }
+.poison-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#4ade80,#86efac,#16a34a,#4ade80);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: poison-text 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   🕳️ BLACK HOLE — tortish kuchi, atrofdagi narsalar so'riladi
+   --------------------------------------------------------------- */
+@keyframes bh-suck-text {
+    0%,100% { letter-spacing: normal; -webkit-text-fill-color: #c084fc; text-shadow: 0 0 8px #a855f7, 0 0 18px #6b21a8; }
+    40%      { letter-spacing: -1px;   -webkit-text-fill-color: #e9d5ff; filter: brightness(0.7); }
+    50%      { letter-spacing: -2px;   -webkit-text-fill-color: #7e22ce; filter: brightness(0.4); }
+    60%      { letter-spacing: normal; -webkit-text-fill-color: #c084fc; filter: brightness(1); }
+}
+@keyframes bh-icon-pulse {
+    0%,100% { filter: drop-shadow(0 0 6px #a855f7) drop-shadow(0 0 14px #6b21a8); transform: scale(1); }
+    50%      { filter: drop-shadow(0 0 0 transparent); transform: scale(0.88); }
+    52%      { filter: drop-shadow(0 0 20px #c084fc) drop-shadow(0 0 40px #a855f7); transform: scale(1.1); }
+}
+/* Tortiluvchi zarrachalar — tashqaridan ichkariga */
+@keyframes suck-in-1 { 0%{transform:translate(-14px,-10px) scale(1);opacity:0.9} 100%{transform:translate(0,0) scale(0);opacity:0} }
+@keyframes suck-in-2 { 0%{transform:translate(14px,-8px) scale(1);opacity:0.8} 100%{transform:translate(0,0) scale(0);opacity:0} }
+@keyframes suck-in-3 { 0%{transform:translate(-10px,12px) scale(0.8);opacity:0.7} 100%{transform:translate(0,0) scale(0);opacity:0} }
+@keyframes suck-in-4 { 0%{transform:translate(12px,10px) scale(0.9);opacity:0.8} 100%{transform:translate(0,0) scale(0);opacity:0} }
+
+.bh-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.bh-icon-box {
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    background: radial-gradient(circle, #0a0a0a 40%, #3b0764 80%, #6b21a8 100%);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:visible;
+    box-shadow: 0 0 14px rgba(168,85,247,0.7), 0 0 28px rgba(107,33,168,0.5), inset 0 0 10px rgba(0,0,0,0.8);
+    animation: bh-icon-pulse 2s ease-in-out infinite;
+}
+.suck-p { position:absolute; width:4px; height:4px; border-radius:50%; }
+.sp1 { background:#c084fc; box-shadow:0 0 5px #a855f7; animation:suck-in-1 1.6s ease-in infinite; }
+.sp2 { background:#e9d5ff; box-shadow:0 0 4px #c084fc; animation:suck-in-2 1.8s ease-in infinite 0.4s; }
+.sp3 { background:#a855f7; box-shadow:0 0 5px #7e22ce; animation:suck-in-3 1.5s ease-in infinite 0.8s; }
+.sp4 { background:#c084fc; box-shadow:0 0 4px #a855f7; animation:suck-in-4 2.0s ease-in infinite 1.2s; }
+.bh-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#a855f7,#6b21a8,#c084fc,#a855f7);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: bh-suck-text 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   💻 HACKER — matrix glitch, harflar o'zgarib qayta yoziladi
+   --------------------------------------------------------------- */
+@keyframes glitch-text {
+    0%,100% { -webkit-text-fill-color: #4ade80; text-shadow: 0 0 6px #22c55e; transform: skewX(0deg); }
+    10%      { -webkit-text-fill-color: #4ade80; transform: skewX(-4deg) translateX(-2px); text-shadow: 2px 0 #f43f5e, -2px 0 #38bdf8; }
+    11%      { transform: skewX(3deg) translateX(1px); }
+    12%      { transform: skewX(0deg); text-shadow: 0 0 6px #22c55e; }
+    50%      { -webkit-text-fill-color: #86efac; text-shadow: 0 0 14px #4ade80; }
+    70%      { transform: skewX(2deg); text-shadow: -2px 0 #f43f5e, 2px 0 #38bdf8, 0 0 10px #22c55e; }
+    71%      { transform: skewX(-1deg) translateX(2px); }
+    72%      { transform: skewX(0); text-shadow: 0 0 6px #22c55e; }
+}
+@keyframes glitch-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #22c55e); transform: translate(0,0); }
+    10%      { filter: drop-shadow(2px 0 #f43f5e) drop-shadow(-2px 0 #38bdf8) drop-shadow(0 0 10px #22c55e); transform: translate(-2px,0); }
+    11%      { transform: translate(2px,0); }
+    12%      { transform: translate(0,0); filter: drop-shadow(0 0 8px #4ade80); }
+    70%      { filter: drop-shadow(-2px 0 #f43f5e) drop-shadow(2px 0 #38bdf8); transform: translate(1px,-1px); }
+    71%      { transform: translate(-1px,1px); }
+    72%      { transform: translate(0,0); }
+}
+/* Scan line — pastga tushib turadi */
+@keyframes scan-line {
+    0%   { top:-2px; opacity:0.8; }
+    100% { top:28px; opacity:0; }
+}
+
+.hacker-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.hacker-icon-box {
+    width:26px; height:26px; border-radius:5px; flex-shrink:0;
+    background: linear-gradient(135deg,#0a0a0a,#14532d);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:hidden;
+    box-shadow: 0 0 10px rgba(34,197,94,0.5), 0 0 2px #22c55e;
+    animation: glitch-icon 2.5s steps(1) infinite;
+    border: 1px solid #22c55e;
+}
+.scan-line {
+    position:absolute; left:0; right:0; height:1px;
+    background: rgba(74,222,128,0.6);
+    animation: scan-line 1.2s linear infinite;
+    pointer-events:none;
+}
+.hacker-text {
+    font-weight:800; font-family: monospace;
+    background: linear-gradient(90deg,#22c55e,#4ade80,#86efac,#22c55e);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: glitch-text 2.5s steps(1) infinite;
+}
+
+/* ---------------------------------------------------------------
+   🧟 ZOMBIE — parchalanish, matn "chiriydi"
+   --------------------------------------------------------------- */
+@keyframes zombie-text {
+    0%,100% { -webkit-text-fill-color: #84cc16; text-shadow: 0 0 6px #65a30d, 0 0 14px #3f6212; filter: blur(0); }
+    20%      { -webkit-text-fill-color: #a3e635; text-shadow: 0 0 12px #84cc16; filter: blur(0); }
+    35%      { -webkit-text-fill-color: #365314; text-shadow: 0 0 2px #1a2e05; filter: blur(0.5px); transform: skewX(1deg); }
+    36%      { filter: blur(1px); transform: skewX(-2deg); }
+    37%      { filter: blur(0); transform: skewX(0); }
+    80%      { -webkit-text-fill-color: #84cc16; }
+}
+@keyframes zombie-icon {
+    0%,100% { filter: drop-shadow(0 0 4px #84cc16) drop-shadow(0 0 10px #3f6212); transform: rotate(0deg) translateY(0); }
+    25%      { transform: rotate(-3deg) translateY(1px); filter: drop-shadow(0 0 8px #a3e635); }
+    50%      { transform: rotate(2deg) translateY(-1px); }
+    75%      { transform: rotate(-1deg) translateY(2px); filter: drop-shadow(0 0 12px #84cc16); }
+}
+/* Parchalanish zarrachalari — har tomonga */
+@keyframes decay-1 { 0%{transform:translate(0,0);opacity:0.9} 100%{transform:translate(-8px,10px) rotate(45deg);opacity:0} }
+@keyframes decay-2 { 0%{transform:translate(0,0);opacity:0.8} 100%{transform:translate(10px,8px) rotate(-30deg);opacity:0} }
+@keyframes decay-3 { 0%{transform:translate(0,0);opacity:0.7} 100%{transform:translate(-4px,-8px) rotate(60deg);opacity:0} }
+
+.zombie-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.zombie-icon-box {
+    width:26px; height:26px; border-radius:7px; flex-shrink:0;
+    background: linear-gradient(135deg,#1a2e05,#3f6212);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:visible;
+    box-shadow: 0 0 8px rgba(132,204,22,0.4), 0 0 16px rgba(63,98,18,0.3);
+    animation: zombie-icon 2s ease-in-out infinite;
+}
+.decay-p { position:absolute; width:4px; height:3px; border-radius:2px; background:#84cc16; box-shadow:0 0 4px #65a30d; }
+.dp1 { top:6px; left:4px;  animation: decay-1 2.0s ease-out infinite; }
+.dp2 { top:10px; right:3px; animation: decay-2 2.2s ease-out infinite 0.7s; }
+.dp3 { top:4px; left:12px; animation: decay-3 1.8s ease-out infinite 1.3s; }
+.zombie-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#84cc16,#a3e635,#65a30d,#84cc16);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: zombie-text 2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   🌪️ TORNADO — aylanib titraydi (spin + shake)
+   --------------------------------------------------------------- */
+@keyframes tornado-icon-spin {
+    0%   { transform: rotate(0deg)   scale(1);    filter: drop-shadow(0 0 4px #94a3b8); }
+    25%  { transform: rotate(90deg)  scale(1.08); filter: drop-shadow(0 0 10px #cbd5e1); }
+    50%  { transform: rotate(180deg) scale(0.92); filter: drop-shadow(0 0 6px #64748b); }
+    75%  { transform: rotate(270deg) scale(1.05); filter: drop-shadow(0 0 12px #e2e8f0); }
+    100% { transform: rotate(360deg) scale(1);    filter: drop-shadow(0 0 4px #94a3b8); }
+}
+@keyframes tornado-text {
+    0%,100% { -webkit-text-fill-color: #94a3b8; text-shadow: 0 0 6px #64748b; transform: translateX(0); }
+    10%      { transform: translateX(-2px); }
+    20%      { transform: translateX(2px); -webkit-text-fill-color: #e2e8f0; }
+    30%      { transform: translateX(-1px); }
+    40%      { transform: translateX(0); }
+    70%      { transform: translateX(1px); -webkit-text-fill-color: #cbd5e1; text-shadow: 0 0 12px #94a3b8; }
+    80%      { transform: translateX(-2px); }
+    90%      { transform: translateX(0); }
+}
+/* Shamol zarrachalari — aylana chizib uchadi */
+@keyframes wind-1 { 0%{transform:translate(-12px,2px) scale(1);opacity:0.8} 100%{transform:translate(14px,-2px) scale(0.2);opacity:0} }
+@keyframes wind-2 { 0%{transform:translate(10px,4px) scale(0.8);opacity:0.6} 100%{transform:translate(-12px,0px) scale(0.1);opacity:0} }
+
+.tornado-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.tornado-icon-box {
+    width:26px; height:26px; border-radius:7px; flex-shrink:0;
+    background: linear-gradient(135deg,#1e293b,#475569);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:visible;
+    box-shadow: 0 0 8px rgba(148,163,184,0.4), 0 0 16px rgba(71,85,105,0.3);
+    animation: tornado-icon-spin 0.8s linear infinite;
+}
+.wind-p { position:absolute; width:4px; height:2px; border-radius:2px; background:#cbd5e1; box-shadow:0 0 4px #94a3b8; top:50%; margin-top:-1px; }
+.wp1 { animation: wind-1 1.2s ease-out infinite; }
+.wp2 { animation: wind-2 1.4s ease-out infinite 0.5s; }
+.tornado-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#64748b,#cbd5e1,#94a3b8,#cbd5e1);
+    background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: tornado-text 0.8s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   💎 DIAMOND — kamalak shimmer, prizma effekti
+   --------------------------------------------------------------- */
+@keyframes diamond-shimmer {
+    0%   { background-position: 0%   50%; filter: brightness(1); }
+    25%  { filter: brightness(1.4); }
+    50%  { background-position: 100% 50%; filter: brightness(1.2); }
+    75%  { filter: brightness(1.6); }
+    100% { background-position: 0%   50%; filter: brightness(1); }
+}
+@keyframes diamond-icon {
+    0%,100% { filter: drop-shadow(0 0 6px #67e8f9) drop-shadow(0 0 12px #a78bfa); transform: rotate(0deg) scale(1); }
+    25%      { filter: drop-shadow(0 0 10px #f9a8d4) drop-shadow(0 0 20px #67e8f9); transform: rotate(5deg) scale(1.08); }
+    50%      { filter: drop-shadow(0 0 14px #a78bfa) drop-shadow(0 0 28px #f9a8d4); transform: rotate(-3deg) scale(1.12); }
+    75%      { filter: drop-shadow(0 0 8px #67e8f9) drop-shadow(0 0 16px #a78bfa); transform: rotate(2deg) scale(1.05); }
+}
+/* Kamalak nurlar tarqaladi */
+@keyframes prism-ray-1 { 0%,100%{transform:translate(0,0) scaleX(0);opacity:0} 40%{transform:translate(-12px,-8px) scaleX(1);opacity:0.7} 60%{opacity:0} }
+@keyframes prism-ray-2 { 0%,100%{transform:translate(0,0) scaleX(0);opacity:0} 50%{transform:translate(12px,-6px) scaleX(1);opacity:0.6} 70%{opacity:0} }
+@keyframes prism-ray-3 { 0%,100%{transform:translate(0,0) scaleX(0);opacity:0} 60%{transform:translate(0,-14px) scaleX(1);opacity:0.5} 80%{opacity:0} }
+
+.diamond-name-wrap { display:inline-flex; align-items:center; gap:6px; position:relative; }
+.diamond-icon-box {
+    width:26px; height:26px; border-radius:4px; flex-shrink:0;
+    background: linear-gradient(135deg,#0f172a,#1e3a5f);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:0.9rem; position:relative; overflow:visible;
+    box-shadow: 0 0 12px rgba(103,232,249,0.5), 0 0 22px rgba(167,139,250,0.4);
+    animation: diamond-icon 2s ease-in-out infinite;
+    transform-origin: center;
+}
+.prism-ray { position:absolute; height:2px; width:10px; border-radius:2px; transform-origin:left center; top:50%; margin-top:-1px; left:50%; }
+.pr1 { background:linear-gradient(90deg,transparent,#f9a8d4); animation:prism-ray-1 2s ease-out infinite; }
+.pr2 { background:linear-gradient(90deg,transparent,#67e8f9); animation:prism-ray-2 2s ease-out infinite 0.6s; }
+.pr3 { background:linear-gradient(90deg,transparent,#a78bfa); animation:prism-ray-3 2s ease-out infinite 1.2s; }
+.diamond-text {
+    font-weight:800;
+    background: linear-gradient(90deg,#67e8f9,#a78bfa,#f9a8d4,#86efac,#fde68a,#67e8f9);
+    background-size:300% auto;
+    -webkit-background-clip:text; background-clip:text;
+    animation: diamond-shimmer 2s linear infinite;
+}
+

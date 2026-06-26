@@ -229,6 +229,63 @@ var SKIN_DATA = {
         rarity:   'Rare',
         glow:     'rgba(244,63,94,0.45)',
     },
+    // ── Yangi skinlar ──────────────────────────────────────────
+    ice_crystal: {
+        icon:     '❄️',
+        gradient: 'linear-gradient(90deg,#bae6fd,#38bdf8,#7dd3fc)',
+        iconBg:   'linear-gradient(135deg,#0c4a6e,#0284c7)',
+        border:   '#38bdf8',
+        rarity:   'Rare',
+        glow:     'rgba(56,189,248,0.45)',
+    },
+    poison: {
+        icon:     '☠️',
+        gradient: 'linear-gradient(90deg,#4ade80,#16a34a,#86efac)',
+        iconBg:   'linear-gradient(135deg,#14532d,#15803d)',
+        border:   '#4ade80',
+        rarity:   'Epic',
+        glow:     'rgba(74,222,128,0.45)',
+    },
+    black_hole: {
+        icon:     '🕳️',
+        gradient: 'linear-gradient(90deg,#a855f7,#6b21a8,#c084fc)',
+        iconBg:   'linear-gradient(135deg,#0a0a0a,#3b0764)',
+        border:   '#a855f7',
+        rarity:   'Mythic',
+        glow:     'rgba(168,85,247,0.55)',
+    },
+    hacker: {
+        icon:     '💻',
+        gradient: 'linear-gradient(90deg,#4ade80,#22c55e,#86efac)',
+        iconBg:   'linear-gradient(135deg,#0a0a0a,#14532d)',
+        border:   '#22c55e',
+        rarity:   'Epic',
+        glow:     'rgba(34,197,94,0.45)',
+    },
+    zombie: {
+        icon:     '🧟',
+        gradient: 'linear-gradient(90deg,#84cc16,#65a30d,#a3e635)',
+        iconBg:   'linear-gradient(135deg,#1a2e05,#3f6212)',
+        border:   '#84cc16',
+        rarity:   'Rare',
+        glow:     'rgba(132,204,22,0.45)',
+    },
+    tornado: {
+        icon:     '🌪️',
+        gradient: 'linear-gradient(90deg,#94a3b8,#cbd5e1,#64748b)',
+        iconBg:   'linear-gradient(135deg,#1e293b,#475569)',
+        border:   '#94a3b8',
+        rarity:   'Epic',
+        glow:     'rgba(148,163,184,0.45)',
+    },
+    diamond: {
+        icon:     '💎',
+        gradient: 'linear-gradient(90deg,#67e8f9,#a78bfa,#f9a8d4,#67e8f9)',
+        iconBg:   'linear-gradient(135deg,#0f172a,#1e3a5f)',
+        border:   '#67e8f9',
+        rarity:   'Legendary',
+        glow:     'rgba(103,232,249,0.55)',
+    },
 };
 // username → skin_id cache (o'yin davomida)
 const playerSkinCache = {};
@@ -338,6 +395,97 @@ function renderPlayerName(username, activeSkinId) {
         </span>`;
     }
 
+    // ---- ❄️ ICE CRYSTAL — muzlab qotib qoladi ----
+    if (skinId === 'ice_crystal') {
+        return `<span class="ice-name-wrap">
+            <span class="ice-icon-box">
+                ❄️
+                <span class="ice-crystal-p icp1"></span>
+                <span class="ice-crystal-p icp2"></span>
+                <span class="ice-crystal-p icp3"></span>
+                <span class="ice-crystal-p icp4"></span>
+            </span>
+            <span class="ice-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- ☠️ POISON — zahar tomchilar oqadi ----
+    if (skinId === 'poison') {
+        return `<span class="poison-name-wrap">
+            <span class="poison-icon-box">
+                ☠️
+                <span class="drip drip1"></span>
+                <span class="drip drip2"></span>
+                <span class="drip drip3"></span>
+            </span>
+            <span class="poison-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- 🕳️ BLACK HOLE — tortish kuchi ----
+    if (skinId === 'black_hole') {
+        return `<span class="bh-name-wrap">
+            <span class="bh-icon-box">
+                🕳️
+                <span class="suck-p sp1"></span>
+                <span class="suck-p sp2"></span>
+                <span class="suck-p sp3"></span>
+                <span class="suck-p sp4"></span>
+            </span>
+            <span class="bh-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- 💻 HACKER — matrix glitch ----
+    if (skinId === 'hacker') {
+        return `<span class="hacker-name-wrap">
+            <span class="hacker-icon-box">
+                💻
+                <span class="scan-line"></span>
+            </span>
+            <span class="hacker-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- 🧟 ZOMBIE — parchalanish ----
+    if (skinId === 'zombie') {
+        return `<span class="zombie-name-wrap">
+            <span class="zombie-icon-box">
+                🧟
+                <span class="decay-p dp1"></span>
+                <span class="decay-p dp2"></span>
+                <span class="decay-p dp3"></span>
+            </span>
+            <span class="zombie-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- 🌪️ TORNADO — aylanib titraydi ----
+    if (skinId === 'tornado') {
+        return `<span class="tornado-name-wrap">
+            <span class="tornado-icon-box">
+                🌪️
+                <span class="wind-p wp1"></span>
+                <span class="wind-p wp2"></span>
+            </span>
+            <span class="tornado-text">${u}</span>
+        </span>`;
+    }
+
+    // ---- 💎 DIAMOND — kamalak shimmer ----
+    if (skinId === 'diamond') {
+        return `<span class="diamond-name-wrap">
+            <span class="diamond-icon-box">
+                💎
+                <span class="prism-ray pr1"></span>
+                <span class="prism-ray pr2"></span>
+                <span class="prism-ray pr3"></span>
+            </span>
+            <span class="diamond-text">${u}</span>
+        </span>`;
+    }
+
+    
     // ---- Fallback ----
     const s = SKIN_DATA[skinId];
     return `<span style="display:inline-flex;align-items:center;gap:6px;">
