@@ -2054,6 +2054,7 @@ input.code-input[type="password"] {
     background: linear-gradient(90deg,#67e8f9,#a78bfa,#f9a8d4,#86efac,#fde68a,#fb7185,#67e8f9);
     background-size:400% auto;
     -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
     animation: diamond-shimmer 4s linear infinite;
 }
 
