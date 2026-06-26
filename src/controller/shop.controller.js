@@ -174,7 +174,7 @@ const SHOP_NAMES = [
     {
         id:       'diamond',
         label:    'Olmos',
-        price:    200,
+        price:    500,
         rarity:   'Legendary',
         gradient: 'linear-gradient(90deg,#67e8f9,#a78bfa,#f9a8d4,#67e8f9)',
         icon:     '💎',
