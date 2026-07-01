@@ -361,8 +361,11 @@ function renderPlayerName(username, activeSkinId) {
         </span>`;
     }
 
-    // ---- 🐉 DRAGON — yashil nafas ----
+    // ---- 🐉 DRAGON — harflar to'lqin kabi sakraydi ----
     if (skinId === 'dragon') {
+        const letters = [...u].map((ch, i) =>
+            `<span class="dragon-letter" style="animation-delay:${(i * 0.1).toFixed(2)}s">${ch === ' ' ? '&nbsp;' : ch}</span>`
+        ).join('');
         return `<span class="dragon-name-wrap">
             <span class="dragon-icon-box">
                 🐉
@@ -370,7 +373,7 @@ function renderPlayerName(username, activeSkinId) {
                 <span class="breath-p bp2"></span>
                 <span class="breath-p bp3"></span>
             </span>
-            <span class="dragon-text">${u}</span>
+            <span class="dragon-wave-text">${letters}</span>
         </span>`;
     }
 
