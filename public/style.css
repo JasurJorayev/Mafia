@@ -1450,6 +1450,59 @@ input.code-input[type="password"] {
 }
 
 /* ---------------------------------------------------------------
+   💧 WATER — suv oqimi, tomchilar pastga tushadi
+   --------------------------------------------------------------- */
+
+@keyframes water-flow {
+    0%,100% { background-position: 0%   50%; -webkit-text-fill-color: #38bdf8; text-shadow: 0 0 8px #0ea5e9, 0 0 18px #38bdf888; }
+    33%      { background-position: 60%  50%; -webkit-text-fill-color: #7dd3fc; text-shadow: 0 0 16px #38bdf8, 0 0 32px #0ea5e9aa; filter: brightness(1.25); }
+    66%      { background-position: 100% 50%; -webkit-text-fill-color: #0ea5e9; text-shadow: 0 0 6px #0284c7; filter: brightness(0.92); }
+}
+@keyframes water-icon {
+    0%,100% { filter: drop-shadow(0 0 5px #38bdf8) drop-shadow(0 0 10px #0ea5e9); transform: translateY(0) scale(1); }
+    30%      { filter: drop-shadow(0 0 12px #7dd3fc) drop-shadow(0 0 24px #38bdf8); transform: translateY(-2px) scale(1.06); }
+    60%      { filter: drop-shadow(0 0 4px #0284c7); transform: translateY(1px) scale(0.97); }
+}
+/* Suv tomchilari pastga tushadi */
+@keyframes water-drop-fall {
+    0%   { transform: translateY(-4px) scale(1);   opacity: 0.9; }
+    60%  { transform: translateY(10px) scale(0.6); opacity: 0.5; }
+    100% { transform: translateY(18px) scale(0.1); opacity: 0; }
+}
+@keyframes water-drop-fall2 {
+    0%   { transform: translateY(-2px) scale(0.8); opacity: 0.7; }
+    100% { transform: translateY(14px) scale(0);   opacity: 0; }
+}
+
+.water-name-wrap {
+    display: inline-flex; align-items: center; gap: 6px; position: relative;
+}
+.water-icon-box {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    background: linear-gradient(135deg, #0c4a6e, #0ea5e9);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; position: relative; overflow: visible;
+    box-shadow: 0 0 10px rgba(14,165,233,0.6), 0 0 20px rgba(56,189,248,0.3);
+    animation: water-icon 2s ease-in-out infinite;
+}
+.water-drop {
+    position: absolute; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: #7dd3fc; box-shadow: 0 0 4px #38bdf8;
+    width: 4px; height: 5px; bottom: 0px;
+}
+.wd1 { left:  4px; animation: water-drop-fall  1.3s ease-in infinite 0s; }
+.wd2 { left: 11px; animation: water-drop-fall2 1.5s ease-in infinite 0.4s; width:3px;height:4px; }
+.wd3 { left: 17px; animation: water-drop-fall  1.1s ease-in infinite 0.8s; }
+
+.water-text {
+    font-weight: 800;
+    background: linear-gradient(90deg, #38bdf8, #7dd3fc, #0ea5e9, #38bdf8);
+    background-size: 250% auto;
+    -webkit-background-clip: text; background-clip: text;
+    animation: water-flow 2.2s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
    🔥 FIRE BOSS — olov yonishi (tepaga ko'tariluvchi alanga)
    --------------------------------------------------------------- */
 

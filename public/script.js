@@ -165,14 +165,14 @@ var SKIN_DATA = {
         rarity:   'Rare',
         glow:     'rgba(249,115,22,0.35)',
     },
-    //     water: {
-    //     icon:     '💧',
-    //     gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#0284c7)',
-    //     iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
-    //     border:   '#0ea5e9',
-    //     rarity:   'Epic',
-    //     glow:     'rgba(14,165,233,0.35)',
-    // },
+    water: {
+        icon:     '💧',
+        gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#7dd3fc,#38bdf8)',
+        iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
+        border:   '#0ea5e9',
+        rarity:   'Epic',
+        glow:     'rgba(14,165,233,0.5)',
+    },
      ninja: {
         icon:     '🥷',
         gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
@@ -299,7 +299,18 @@ function renderPlayerName(username, activeSkinId) {
         </span>`;
     }
 
-    // ---- 🔥 FIRE BOSS — olov yonishi ----
+    // ---- 💧 WATER — suv oqimi, tomchilar ----
+    if (skinId === 'water') {
+        return `<span class="water-name-wrap">
+            <span class="water-icon-box">
+                💧
+                <span class="water-drop wd1"></span>
+                <span class="water-drop wd2"></span>
+                <span class="water-drop wd3"></span>
+            </span>
+            <span class="water-text">${u}</span>
+        </span>`;
+    }
     if (skinId === 'fire_boss') {
         return `<span class="fire-name-wrap">
             <span class="fire-icon-box">

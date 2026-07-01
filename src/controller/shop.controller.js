@@ -9,21 +9,18 @@ import pool from '../config/db.js';
 // Do'kondagi ismlar ro'yxati (keyinroq DB ga ko'chirish mumkin)
 // ---------------------------------------------------------------
 const SHOP_NAMES = [
-    //---------------------------Epic-----------------------------------
-
-    // {
-    //     id:       'water',
-    //     label:    'Suv Tomchi',
-    //     price:    100,
-    //     rarity:   'Epic',
-    //     gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#0284c7)',
-    //     icon:     '💧',
-    //     iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
-    //     border:   '#0ea5e9',
-    //     desc:     'Epic isim • Moviy gradient',
-    // },
     {
-        
+        id:       'water',
+        label:    'Suv Tomchi',
+        price:    100,
+        rarity:   'Epic',
+        gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#0284c7)',
+        icon:     '💧',
+        iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
+        border:   '#0ea5e9',
+        desc:     'Epic isim • Moviy oqim animatsiyasi',
+    },
+    {
         id:       'fire_boss',
         label:    ' Olov',
         price:    120,
@@ -57,6 +54,50 @@ const SHOP_NAMES = [
         desc:     'Epic isim • Binafsha gradient',
     },
     {
+        id:       'ice_crystal',
+        label:    'Muz',
+        price:    150,
+        rarity:   'Rare',
+        gradient: 'linear-gradient(90deg,#bae6fd,#38bdf8,#7dd3fc)',
+        icon:     '❄️',
+        iconBg:   'linear-gradient(135deg,#0c4a6e,#0284c7)',
+        border:   '#38bdf8',
+        desc:     'Rare isim • Muz kristall effekti',
+    },
+    {
+        id:       'zombie',
+        label:    'Zombi',
+        price:    150,
+        rarity:   'Rare',
+        gradient: 'linear-gradient(90deg,#84cc16,#65a30d,#a3e635)',
+        icon:     '🧟',
+        iconBg:   'linear-gradient(135deg,#1a2e05,#3f6212)',
+        border:   '#84cc16',
+        desc:     'Rare isim • Parchalanish effekti',
+    },
+    {
+        id:       'hacker',
+        label:    'Hacker',
+        price:    180,
+        rarity:   'Epic',
+        gradient: 'linear-gradient(90deg,#4ade80,#22c55e,#86efac)',
+        icon:     '💻',
+        iconBg:   'linear-gradient(135deg,#0a0a0a,#14532d)',
+        border:   '#22c55e',
+        desc:     'Epic isim • Matrix glitch effekti',
+    },
+    {
+        id:       'tornado',
+        label:    'Tornado',
+        price:    180,
+        rarity:   'Epic',
+        gradient: 'linear-gradient(90deg,#94a3b8,#cbd5e1,#64748b)',
+        icon:     '🌪️',
+        iconBg:   'linear-gradient(135deg,#1e293b,#475569)',
+        border:   '#94a3b8',
+        desc:     'Epic isim • Aylanib titraydi',
+    },
+    {
         id:       'ghost',
         label:    'Arvoh',
         price:    200,
@@ -67,9 +108,6 @@ const SHOP_NAMES = [
         border:   '#a855f7',
         desc:     'Epic isim • Binafsha gradient',
     },
-    
-    
-    //----------------------------Legendary-------------------------------------
     {
         id:       'king',
         label:    'Qirol',
@@ -92,8 +130,6 @@ const SHOP_NAMES = [
         border:   '#d946ef',
         desc:     'Legendary ism • Kosmik binafsha',
     },
-    
-    //-----------------------------Mythic-----------------------------------------
     {
         id:       'dragon',
         label:    'Ajdaho',
@@ -104,28 +140,6 @@ const SHOP_NAMES = [
         iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
         border:   '#10b981',
         desc:     'Mythic isim • Zangori-yashil gradient',
-    },
-    {
-        id:       'lightning_storm',
-        label:    'Chaqmoq',
-        price:    450,
-        rarity:   'Mythic',
-        gradient: 'linear-gradient(90deg, #00d2ff, #0066ff)',
-        icon:     '⚡',
-        iconBg:   'linear-gradient(135deg, #0f172a, #1d4ed8)',
-        border:   '#00d2ff',
-        desc:     'Mythic ism • Toʻq koʻk gradient va yorqin moviy chiroq',
-    },
-    {
-        id:       'ice_crystal',
-        label:    'Muz',
-        price:    150,
-        rarity:   'Rare',
-        gradient: 'linear-gradient(90deg,#bae6fd,#38bdf8,#7dd3fc)',
-        icon:     '❄️',
-        iconBg:   'linear-gradient(135deg,#0c4a6e,#0284c7)',
-        border:   '#38bdf8',
-        desc:     'Rare isim • Muz kristall effekti',
     },
     {
         id:       'black_hole',
@@ -139,37 +153,15 @@ const SHOP_NAMES = [
         desc:     'Mythic isim • Tortish kuchi effekti',
     },
     {
-        id:       'hacker',
-        label:    'Hacker',
-        price:    180,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#4ade80,#22c55e,#86efac)',
-        icon:     '💻',
-        iconBg:   'linear-gradient(135deg,#0a0a0a,#14532d)',
-        border:   '#22c55e',
-        desc:     'Epic isim • Matrix glitch effekti',
-    },
-    {
-        id:       'zombie',
-        label:    'Zombi',
-        price:    150,
-        rarity:   'Rare',
-        gradient: 'linear-gradient(90deg,#84cc16,#65a30d,#a3e635)',
-        icon:     '🧟',
-        iconBg:   'linear-gradient(135deg,#1a2e05,#3f6212)',
-        border:   '#84cc16',
-        desc:     'Rare isim • Parchalanish effekti',
-    },
-    {
-        id:       'tornado',
-        label:    'Tornado',
-        price:    180,
-        rarity:   'Epic',
-        gradient: 'linear-gradient(90deg,#94a3b8,#cbd5e1,#64748b)',
-        icon:     '🌪️',
-        iconBg:   'linear-gradient(135deg,#1e293b,#475569)',
-        border:   '#94a3b8',
-        desc:     'Epic isim • Aylanib titraydi',
+        id:       'lightning_storm',
+        label:    'Chaqmoq',
+        price:    450,
+        rarity:   'Mythic',
+        gradient: 'linear-gradient(90deg, #00d2ff, #0066ff)',
+        icon:     '⚡',
+        iconBg:   'linear-gradient(135deg, #0f172a, #1d4ed8)',
+        border:   '#00d2ff',
+        desc:     'Mythic ism • Chaqmoq animatsiyasi',
     },
     {
         id:       'diamond',
@@ -182,8 +174,7 @@ const SHOP_NAMES = [
         border:   '#67e8f9',
         desc:     'Legendary isim • Kamalak shimmer effekti',
     },
-];
-
+]
 // Tanga paketlari
 const COIN_PACKAGES = [
     { id: 'pack_150', price_uzs: 12999, coins: 150 },
