@@ -1228,12 +1228,13 @@ function renderShopSkinsInPage(items, coins) {
             font-size:1rem;">${item.label}</span>`;
 
         return `
-        <div style="background:#0d1f3c; border:2px solid ${item.border};
+        <div onclick="openSkinPreview('${item.id}')"
+            style="background:#0d1f3c; border:2px solid ${item.border};
             border-radius:16px; padding:14px 12px;
             display:flex; align-items:center; gap:13px;
-            position:relative;">
+            position:relative; cursor:pointer; transition:opacity .1s; active:opacity:.8">
 
-            <!-- Icon (statik) -->
+            <!-- Icon -->
             <div style="background:${item.iconBg}; border-radius:13px;
                 width:52px; height:52px; flex-shrink:0;
                 display:flex; align-items:center; justify-content:center;
@@ -1246,34 +1247,14 @@ function renderShopSkinsInPage(items, coins) {
                 <div style="line-height:1.3;">${staticPreview}</div>
                 <div style="font-size:0.68rem; color:${rc}; font-weight:700; margin-top:3px;">
                     ${item.rarity}
+                    <span style="color:#475569;font-weight:500;"> · ismingizda ko'rish uchun bosing</span>
                 </div>
             </div>
 
-            <!-- Narx + tugmalar -->
-            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
+            <!-- Narx + o'q -->
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;">
                 <div style="font-size:0.9rem; font-weight:800; color:#f1c40f;">${item.price} 💰</div>
-                <div style="display:flex; gap:6px;">
-                    <!-- Ko'rish tugmasi -->
-                    <button onclick="openSkinPreview('${item.id}')"
-                        title="Ismingizda qanday ko'rinishini ko'ring"
-                        style="padding:7px 10px; border:1px solid ${item.border}66;
-                        border-radius:10px; background:transparent;
-                        color:${item.border}; font-size:0.85rem; cursor:pointer;
-                        transition:background .15s;"
-                        onmouseover="this.style.background='${item.border}22'"
-                        onmouseout="this.style.background='transparent'">
-                        👁
-                    </button>
-                    <!-- Sotib ol -->
-                    <button onclick="buyNameFromSkinsPage('${item.id}','${safeLabel}',${item.price})"
-                        style="padding:7px 12px; border:none; border-radius:10px;
-                        font-size:0.78rem; font-weight:700; cursor:pointer; white-space:nowrap;
-                        ${canAfford
-                            ? 'background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;'
-                            : 'background:#1e293b;color:#f59e0b;border:1px solid #92400e;'}">
-                        ${canAfford ? '💜 Ol' : '💰'}
-                    </button>
-                </div>
+                <div style="font-size:0.75rem; color:${item.border}; font-weight:700;">👁 Ko'rish →</div>
             </div>
         </div>`;
     }).join('');
@@ -1297,49 +1278,67 @@ function openSkinPreview(skinId) {
     const buyBtn  = document.getElementById('spm-buy-btn');
     if (!modal) return;
 
-    const s        = _skinsData?.find(i => i.id === skinId);
-    const username = _authUser?.username || 'SizningIsmingiz';
-    const coins    = parseInt(document.getElementById('skins-page-coins')?.textContent) || 0;
-    const canAfford = s && coins >= s.price;
+    // _skinsData (server dan) yoki lokal SKIN_DATA dan olishga harakat qilamiz
+    const sServer  = _skinsData?.find(i => i.id === skinId);
+    const sLocal   = typeof SKIN_DATA !== 'undefined' ? SKIN_DATA[skinId] : null;
+    const shopItem = typeof SHOP_NAMES !== 'undefined'
+        ? SHOP_NAMES?.find?.(i => i.id === skinId)
+        : null;
+
+    const label    = sServer?.label  || shopItem?.label  || skinId;
+    const icon     = sServer?.icon   || shopItem?.icon   || sLocal?.icon   || '✨';
+    const iconBg   = sServer?.iconBg || shopItem?.iconBg || sLocal?.iconBg || '#1e3a5f';
+    const border   = sServer?.border || shopItem?.border || sLocal?.border || '#6366f1';
+    const rarity   = sServer?.rarity || shopItem?.rarity || 'Epic';
+    const price    = sServer?.price  || shopItem?.price  || 0;
+    const desc     = sServer?.desc   || shopItem?.desc   || '';
+    const gradient = sServer?.gradient || shopItem?.gradient || sLocal?.gradient || '';
+
+    const username  = _authUser?.username || 'SizningIsmingiz';
+    const coinsEl   = document.getElementById('skins-page-coins') || document.getElementById('shop-coins');
+    const coins     = parseInt(coinsEl?.textContent) || 0;
+    const canAfford = coins >= price;
 
     // Jonli animatsiya — faqat bitta
-    nameEl.innerHTML = (s && typeof renderPlayerName === 'function')
-        ? renderPlayerName(username, skinId)
-        : `<span style="color:#e2e8f0;font-weight:800;">${username}</span>`;
+    if (typeof renderPlayerName === 'function') {
+        nameEl.innerHTML = renderPlayerName(username, skinId);
+    } else {
+        nameEl.innerHTML = `<span style="font-weight:800;font-size:1.4rem;
+            background:${gradient};-webkit-background-clip:text;
+            background-clip:text;-webkit-text-fill-color:transparent;">
+            ${icon} ${username}</span>`;
+    }
 
     // Rarity badge
-    const rc = rarityColor(s?.rarity || 'Epic');
-    badge.innerHTML = s ? `<span style="display:inline-block;background:${s.iconBg};
+    badge.innerHTML = `<span style="display:inline-block;background:${iconBg};
         padding:4px 16px;border-radius:20px;font-size:0.72rem;font-weight:800;
-        color:#fff;letter-spacing:.04em;">${s.rarity}</span>` : '';
+        color:#fff;letter-spacing:.04em;">${rarity}</span>`;
 
     // Info panel
-    if (s) {
-        iconEl.style.background = s.iconBg;
-        iconEl.style.boxShadow  = `0 0 16px ${s.border}55`;
-        iconEl.textContent = s.icon;
-        labelEl.textContent = s.label;
-        descEl.textContent  = s.desc || '';
-        priceEl.textContent = `${s.price} 💰`;
+    iconEl.style.background = iconBg;
+    iconEl.style.boxShadow  = `0 0 16px ${border}55`;
+    iconEl.textContent = icon;
+    labelEl.textContent = label;
+    descEl.textContent  = desc;
+    priceEl.textContent = `${price} 💰`;
 
-        buyBtn.style.background = canAfford
-            ? 'linear-gradient(135deg,#7c3aed,#6d28d9)'
-            : '#1e293b';
-        buyBtn.style.color  = canAfford ? '#fff' : '#f59e0b';
-        buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
-        buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
-        buyBtn.onclick = canAfford
-            ? () => { closeSkinPreview(); buyNameFromSkinsPage(skinId, s.label, s.price); }
-            : () => { closeSkinPreview(); closeSkinsPage(); openShopModal('coins'); };
-    }
+    buyBtn.style.background = canAfford
+        ? 'linear-gradient(135deg,#7c3aed,#6d28d9)'
+        : '#1e293b';
+    buyBtn.style.color  = canAfford ? '#fff' : '#f59e0b';
+    buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
+    buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
+    buyBtn.onclick = canAfford
+        ? () => { closeSkinPreview(); buyNameFromSkinsPage(skinId, label, price); }
+        : () => { closeSkinPreview(); closeSkinsPage?.(); openShopModal?.('coins'); };
 
     // Sheet pastdan tepaga chiqib keladi
     modal.style.display = 'flex';
     requestAnimationFrame(() => {
-        sheet.style.transform = 'translateY(0)';
+        requestAnimationFrame(() => { sheet.style.transform = 'translateY(0)'; });
     });
 
-    // Tashqi tomonga bossalar yopiladi
+    // Tashqariga bossalar yopiladi
     modal.onclick = e => { if (e.target === modal) closeSkinPreview(); };
 }
 
