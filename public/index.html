@@ -281,7 +281,7 @@
             <div style="text-align:center; margin-bottom:8px;">
                 <div style="font-size:0.7rem;color:#64748b;font-weight:600;
                     text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">
-                    Ismingiz shunday ko'rinadi 👇
+                    👤 Ismingiz o'yinda shunday ko'rinadi
                 </div>
                 <!-- Katta animatsiya container -->
                 <div id="spm-live-name" style="
@@ -1329,15 +1329,7 @@ function openSkinPreview(skinId) {
     buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
     buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
     buyBtn.onclick = canAfford
-        ? () => {
-            closeSkinPreview();
-            // Do'kon modalidan ochilgan bo'lsa buyName, skins sahifasidan bo'lsa buyNameFromSkinsPage
-            if (document.getElementById('shop-modal-overlay')?.style.display !== 'none') {
-                buyName(skinId, label);
-            } else {
-                buyNameFromSkinsPage(skinId, label, price);
-            }
-          }
+        ? () => { _doBuyName(skinId); }
         : () => {
             closeSkinPreview();
             if (document.getElementById('shop-modal-overlay')?.style.display !== 'none') {
@@ -1372,44 +1364,14 @@ function closeSkinPreview() {
 
 async function buyNameFromSkinsPage(itemId, itemLabel, price) {
     if (!_authUser) return;
-    const coins = parseInt(document.getElementById('skins-page-coins').textContent) || 0;
-
+    const coins = parseInt(document.getElementById('skins-page-coins')?.textContent) || 0;
     if (coins < price) {
-        // Tanga yetarli emas — Stars sahifasiga yo'naltiramiz
         closeSkinsPage();
         openShopModal('coins');
         return;
     }
-
-    const confirmed = await showConfirmDialog(
-        `<strong>${itemLabel}</strong> stilni ${price} 💰 tangaga olmoqchimisiz?`
-    );
-    if (!confirmed) return;
-
-    try {
-        const res  = await fetch('/api/shop/buy', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
-            body: JSON.stringify({ item_id: itemId }),
-        });
-        const data = await res.json();
-        if (!res.ok) { showToast('❌ ' + data.message, 3500); return; }
-
-        _authUser.active_skin = itemId;
-        document.getElementById('skins-page-coins').textContent = data.coins;
-
-        // Skin avtomatik aktiv bo'ladi
-        await fetch('/api/shop/set-skin', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
-            body: JSON.stringify({ skin_id: itemId }),
-        });
-
-        showToast(`${data.item?.icon || '✨'} "${itemLabel}" stili olindi!`, 3500);
-        await loadSkinsPage(); // Sahifani yangilaymiz
-    } catch {
-        showToast('❌ Server bilan bog\'lanib bo\'lmadi!', 3000);
-    }
+    // Confirm o'rniga preview modal
+    openSkinPreview(itemId);
 }
 
 // Skinni aktiv qilish (Stillar sahifasidan)
@@ -1635,66 +1597,62 @@ function renderShopNames(items, coins) {
 
 // Ism sotib olish
 async function buyName(itemId, itemLabel) {
-    // Login bo'lmagan bo'lsa — login ga yo'naltiramiz
     if (!_authUser) { closeShopModal(); openAuthModal(); return; }
+    // Confirm o'rniga preview modal ochiladi
+    openSkinPreview(itemId);
+}
 
-    // Tasdiqlash oynasini ko'rsatamiz
-    const confirmed = await showConfirmDialog(
-        `Siz <strong>${itemLabel}</strong> stilni olmoqchimisiz.`
-    );
-    if (!confirmed) return;
+// Preview modalidagi "Sotib olish" ni bosganda haqiqiy xarid
+async function _doBuyName(itemId) {
+    const shopItem = typeof SHOP_NAMES !== 'undefined'
+        ? SHOP_NAMES?.find?.(i => i.id === itemId) : null;
+    const itemLabel = shopItem?.label || itemId;
 
-    const btn = document.getElementById('shop-btn-' + itemId);
-    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+    const btn = document.getElementById('spm-buy-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Xarid...'; }
 
     try {
         const res  = await fetch('/api/shop/buy', {
             method:  'POST',
-            headers: {
-                'Content-Type':  'application/json',
-                'Authorization': 'Bearer ' + _authToken,
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
             body: JSON.stringify({ item_id: itemId }),
         });
         const data = await res.json();
 
         if (!res.ok) {
+            if (btn) { btn.disabled = false; btn.textContent = '💜 Sotib olish'; }
+            closeSkinPreview();
             showToast('❌ ' + (data.message || 'Xato!'), 3500);
-            if (btn) { btn.disabled = false; btn.textContent = 'Sotib ol'; }
             return;
         }
 
+        closeSkinPreview();
+
         // Balansni yangilaymiz
-        document.getElementById('shop-coins').textContent = data.coins + ' tanga 💰';
+        const shopCoinsEl = document.getElementById('shop-coins');
+        if (shopCoinsEl) shopCoinsEl.textContent = data.coins + ' tanga 💰';
 
-        // Tugmani yangilaymiz
-        if (btn) {
-            btn.textContent = '✓ Olindi';
-            btn.style.background = '#166534';
-            btn.style.color = '#4ade80';
-            btn.disabled = true;
-            btn.style.cursor = 'default';
-        }
-
-        // active_skin ni yangilaymiz
         _authUser.active_skin = itemId;
 
         // Skin avtomatik aktiv bo'ladi
         await fetch('/api/shop/set-skin', {
             method:  'POST',
-            headers: {
-                'Content-Type':  'application/json',
-                'Authorization': 'Bearer ' + _authToken,
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _authToken },
             body: JSON.stringify({ skin_id: itemId }),
         });
 
         const icon = data.item?.icon || '✨';
-        showToast(`${icon} Ko'rinish olindi! Profildan istalgan vaqt o'zgartirish mumkin.`, 4000);
+        showToast(`${icon} "${itemLabel}" stili olindi! Profildan istalgan vaqt o'zgartirish mumkin.`, 4000);
+
+        // Do'kon ro'yxatini yangilaymiz
+        if (document.getElementById('shop-modal-overlay')?.style.display !== 'none') {
+            openShopModal('names');
+        }
 
     } catch {
+        if (btn) { btn.disabled = false; btn.textContent = '💜 Sotib olish'; }
+        closeSkinPreview();
         showToast('❌ Server bilan bog\'lanib bo\'lmadi!', 3000);
-        if (btn) { btn.disabled = false; btn.textContent = 'Sotib ol'; }
     }
 }
 

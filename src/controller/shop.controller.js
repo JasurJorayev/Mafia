@@ -438,7 +438,6 @@ export const getUserSkin = async (req, res) => {
         const lobbyCode = req.query.lobby;
 
         if (lobbyCode) {
-            // Lobbydagi o'yinchi ro'yxatdan o'tganmi?
             const playerRes = await pool.query(
                 `SELECT p.user_id, u.active_skin
                  FROM players p
@@ -447,13 +446,26 @@ export const getUserSkin = async (req, res) => {
                  LIMIT 1`,
                 [lobbyCode, username]
             );
-            if (playerRes.rowCount === 0 || !playerRes.rows[0].user_id) {
-                // Mehmon yoki topilmadi — skin yo'q
+            if (playerRes.rowCount === 0) {
                 return res.json({ active_skin: null, skin_data: null });
             }
-            const activeSkin = playerRes.rows[0].active_skin;
-            const skinData   = activeSkin ? SHOP_NAMES.find(s => s.id === activeSkin) : null;
-            return res.json({ active_skin: activeSkin, skin_data: skinData || null });
+            const row = playerRes.rows[0];
+            // user_id orqali topildi — skinini qaytaramiz
+            if (row.user_id && row.active_skin) {
+                const skinData = SHOP_NAMES.find(s => s.id === row.active_skin) || null;
+                return res.json({ active_skin: row.active_skin, skin_data: skinData });
+            }
+            // user_id yo'q lekin username bo'yicha users jadvalidan topishga harakat qilamiz
+            const fallback = await pool.query(
+                'SELECT active_skin FROM users WHERE LOWER(username)=LOWER($1) AND is_active=true LIMIT 1',
+                [username]
+            );
+            if (fallback.rowCount > 0 && fallback.rows[0].active_skin) {
+                const activeSkin = fallback.rows[0].active_skin;
+                const skinData   = SHOP_NAMES.find(s => s.id === activeSkin) || null;
+                return res.json({ active_skin: activeSkin, skin_data: skinData });
+            }
+            return res.json({ active_skin: null, skin_data: null });
         }
 
         // lobby_code berilmagan — oddiy profil so'rovi

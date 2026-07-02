@@ -1074,8 +1074,11 @@ async function doJoinOnlineLobby(code, password) {
 // ===============================================================
 async function createLobbyAction() {
     try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (_authToken) headers['Authorization'] = 'Bearer ' + _authToken;
+
         const res  = await fetch('/api/lobby/create', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers,
             body: JSON.stringify({ username: myUsername })
         });
         const data = await res.json();
@@ -1101,8 +1104,11 @@ window.joinLobbyAction = async function (passwordArg) {
         const body = { username: myUsername, lobbyCode: code };
         if (passwordArg) body.password = passwordArg;
 
+        const headers = { 'Content-Type': 'application/json' };
+        if (_authToken) headers['Authorization'] = 'Bearer ' + _authToken;
+
         const res  = await fetch('/api/lobby/join', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers,
             body: JSON.stringify(body)
         });
         const data = await res.json();
@@ -1187,8 +1193,11 @@ window.rejoinLobbyAction = async function () {
     if (!code || code.length !== 5) { showAlert("5 xonali kodni to'g'ri kiriting!"); return; }
     isProcessing = true;
     try {
+        const rejoinHeaders = { 'Content-Type': 'application/json' };
+        if (_authToken) rejoinHeaders['Authorization'] = 'Bearer ' + _authToken;
+
         const res  = await fetch('/api/lobby/rejoin', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: rejoinHeaders,
             body: JSON.stringify({ username: myUsername, lobbyCode: code })
         });
         const data = await res.json();
