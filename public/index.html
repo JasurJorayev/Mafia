@@ -263,6 +263,69 @@
 
     <!-- ===== KARZINKA / SHOP MODAL ===== -->
     <!-- ===== DO'KON — TO'LIQ EKRAN SAHIFASI ===== -->
+    <!-- ===== SKIN PREVIEW MODAL ===== -->
+    <div id="skin-preview-modal" style="display:none; position:fixed; inset:0; z-index:200000;
+        background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+        align-items:flex-end; justify-content:center;">
+        <div id="skin-preview-sheet" style="
+            background:#0d1430; border-radius:28px 28px 0 0;
+            border-top:2px solid #1e3a5f;
+            padding:28px 22px 36px; width:100%; max-width:480px;
+            transform:translateY(100%); transition:transform 0.32s cubic-bezier(.22,.68,0,1.2);">
+
+            <!-- Drag bar -->
+            <div style="width:42px;height:4px;background:#2d3f5e;border-radius:4px;
+                margin:0 auto 24px;"></div>
+
+            <!-- O'yinchi ismi JONLI animatsiyada — katta -->
+            <div style="text-align:center; margin-bottom:8px;">
+                <div style="font-size:0.7rem;color:#64748b;font-weight:600;
+                    text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">
+                    Ismingiz shunday ko'rinadi 👇
+                </div>
+                <!-- Katta animatsiya container -->
+                <div id="spm-live-name" style="
+                    min-height:64px; display:flex; align-items:center; justify-content:center;
+                    background:rgba(255,255,255,0.03); border-radius:18px;
+                    border:1px solid rgba(255,255,255,0.06);
+                    padding:16px 20px; margin-bottom:14px; font-size:1.6rem;">
+                    <!-- animatsiya bu yerga kiritiladi -->
+                </div>
+                <div id="spm-rarity-badge" style="margin-bottom:6px;"></div>
+            </div>
+
+            <!-- Skin info -->
+            <div id="spm-info" style="display:flex;align-items:center;gap:14px;
+                background:#060d1f;border-radius:16px;padding:14px 16px;margin-bottom:20px;">
+                <div id="spm-icon" style="width:54px;height:54px;border-radius:14px;
+                    display:flex;align-items:center;justify-content:center;font-size:1.9rem;flex-shrink:0;"></div>
+                <div>
+                    <div id="spm-label" style="font-size:1rem;font-weight:800;color:#e2e8f0;"></div>
+                    <div id="spm-desc"  style="font-size:0.72rem;color:#475569;margin-top:3px;"></div>
+                </div>
+                <div style="margin-left:auto;flex-shrink:0;">
+                    <div id="spm-price" style="font-size:1.1rem;font-weight:900;color:#f1c40f;text-align:right;"></div>
+                    <div style="font-size:0.62rem;color:#475569;text-align:right;">tanga</div>
+                </div>
+            </div>
+
+            <!-- Tugmalar -->
+            <div style="display:flex;gap:10px;">
+                <button onclick="closeSkinPreview()"
+                    style="flex:1;padding:14px;background:#1a2540;border:1px solid #2d3f5e;
+                    border-radius:14px;color:#94a3b8;font-size:0.9rem;font-weight:700;cursor:pointer;">
+                    ✕ Yopish
+                </button>
+                <button id="spm-buy-btn"
+                    style="flex:2;padding:14px;border:none;border-radius:14px;
+                    font-size:0.95rem;font-weight:800;cursor:pointer;
+                    background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;">
+                    💜 Sotib olish
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="shop-modal-overlay" style="display:none; position:fixed; inset:0;
          background:#0a0f1e; z-index:100000; flex-direction:column;">
 
@@ -1108,9 +1171,14 @@ function renderOwnedSkins(items, activeSkinId) {
         const isActive  = activeSkinId === item.id;
         const isDefault = item.id === null;
         const rc        = isDefault ? '#64748b' : rarityColor(item.rarity);
-        const animatedLabel = (!isDefault && typeof renderPlayerName === 'function')
-            ? renderPlayerName(item.label, item.id)
-            : `<div style="font-size:0.82rem;font-weight:700;color:#94a3b8;">Standart</div>`;
+        // Faqat AKTIV skin animatsiyali, qolganlar statik gradient
+        const labelHtml = isDefault
+            ? `<div style="font-size:0.82rem;font-weight:700;color:#94a3b8;">Standart</div>`
+            : isActive && typeof renderPlayerName === 'function'
+                ? renderPlayerName(item.label, item.id)
+                : `<span style="font-size:0.82rem;font-weight:800;background:${item.gradient};
+                    -webkit-background-clip:text;background-clip:text;
+                    -webkit-text-fill-color:transparent;">${item.label}</span>`;
         return `
         <div onclick="setActiveSkin(${isDefault ? 'null' : `'${item.id}'`})"
             style="background:${isActive ? '#12103a' : '#0d1f3c'};
@@ -1127,7 +1195,7 @@ function renderOwnedSkins(items, activeSkinId) {
                 justify-content:center;font-size:1.6rem;
                 box-shadow:0 2px 10px ${item.border}44;">${item.icon}</div>
             <div style="text-align:center;font-size:0.82rem;">
-                ${animatedLabel}
+                ${labelHtml}
                 <div style="font-size:0.62rem;color:${rc};margin-top:3px;font-weight:600;">${item.rarity}</div>
             </div>
         </div>`;
@@ -1149,15 +1217,23 @@ function renderShopSkinsInPage(items, coins) {
         const canAfford = coins >= item.price;
         const rc        = rarityColor(item.rarity);
         const safeLabel = item.label.replace(/'/g, "\\'");
-        const animatedPreview = (typeof renderPlayerName === 'function')
-            ? renderPlayerName(item.label, item.id)
-            : `<span style="background:${item.gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;">${item.label}</span>`;
+
+        // Ro'yxatda faqat statik gradient — og'ir animatsiya YO'Q
+        const staticPreview = `<span style="
+            font-weight:800;
+            background:${item.gradient};
+            -webkit-background-clip:text;
+            background-clip:text;
+            -webkit-text-fill-color:transparent;
+            font-size:1rem;">${item.label}</span>`;
+
         return `
         <div style="background:#0d1f3c; border:2px solid ${item.border};
             border-radius:16px; padding:14px 12px;
-            display:flex; align-items:center; gap:13px; position:relative; overflow:hidden;">
+            display:flex; align-items:center; gap:13px;
+            position:relative;">
 
-            <!-- Icon -->
+            <!-- Icon (statik) -->
             <div style="background:${item.iconBg}; border-radius:13px;
                 width:52px; height:52px; flex-shrink:0;
                 display:flex; align-items:center; justify-content:center;
@@ -1165,33 +1241,119 @@ function renderShopSkinsInPage(items, coins) {
                 ${item.icon}
             </div>
 
-            <!-- Nom + rarity + JONLI ANIMATSIYA -->
+            <!-- Nom + rarity -->
             <div style="flex:1; min-width:0;">
-                <div style="font-size:1rem; line-height:1.3;">
-                    ${animatedPreview}
-                </div>
-                <div style="font-size:0.7rem; color:${rc}; font-weight:700; margin-top:2px;">
-                    ${item.rarity} · <span style="color:#64748b;font-weight:600;">✨ jonli animatsiya</span>
+                <div style="line-height:1.3;">${staticPreview}</div>
+                <div style="font-size:0.68rem; color:${rc}; font-weight:700; margin-top:3px;">
+                    ${item.rarity}
                 </div>
             </div>
 
-            <!-- Narx + tugma -->
-            <div style="display:flex; flex-direction:column; align-items:flex-end;
-                gap:6px; flex-shrink:0;">
-                <div style="font-size:0.9rem; font-weight:800; color:#f1c40f;">
-                    ${item.price} 💰
+            <!-- Narx + tugmalar -->
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
+                <div style="font-size:0.9rem; font-weight:800; color:#f1c40f;">${item.price} 💰</div>
+                <div style="display:flex; gap:6px;">
+                    <!-- Ko'rish tugmasi -->
+                    <button onclick="openSkinPreview('${item.id}')"
+                        title="Ismingizda qanday ko'rinishini ko'ring"
+                        style="padding:7px 10px; border:1px solid ${item.border}66;
+                        border-radius:10px; background:transparent;
+                        color:${item.border}; font-size:0.85rem; cursor:pointer;
+                        transition:background .15s;"
+                        onmouseover="this.style.background='${item.border}22'"
+                        onmouseout="this.style.background='transparent'">
+                        👁
+                    </button>
+                    <!-- Sotib ol -->
+                    <button onclick="buyNameFromSkinsPage('${item.id}','${safeLabel}',${item.price})"
+                        style="padding:7px 12px; border:none; border-radius:10px;
+                        font-size:0.78rem; font-weight:700; cursor:pointer; white-space:nowrap;
+                        ${canAfford
+                            ? 'background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;'
+                            : 'background:#1e293b;color:#f59e0b;border:1px solid #92400e;'}">
+                        ${canAfford ? '💜 Ol' : '💰'}
+                    </button>
                 </div>
-                <button onclick="buyNameFromSkinsPage('${item.id}','${safeLabel}',${item.price})"
-                    style="padding:7px 14px; border:none; border-radius:10px;
-                    font-size:0.78rem; font-weight:700; cursor:pointer; white-space:nowrap;
-                    ${canAfford
-                        ? 'background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;'
-                        : 'background:#1e293b;color:#f59e0b;border:1px solid #92400e;'}">
-                    ${canAfford ? '💜 Sotib ol' : '💰 Tanga ol'}
-                </button>
             </div>
         </div>`;
     }).join('');
+}
+
+// Bitta skin bosilganda tepada jonli animatsiya ko'rsatadi
+function previewSkinInShop(skinId) {
+    openSkinPreview(skinId);
+}
+
+// ===== SKIN PREVIEW MODAL =====
+function openSkinPreview(skinId) {
+    const modal   = document.getElementById('skin-preview-modal');
+    const sheet   = document.getElementById('skin-preview-sheet');
+    const nameEl  = document.getElementById('spm-live-name');
+    const badge   = document.getElementById('spm-rarity-badge');
+    const iconEl  = document.getElementById('spm-icon');
+    const labelEl = document.getElementById('spm-label');
+    const descEl  = document.getElementById('spm-desc');
+    const priceEl = document.getElementById('spm-price');
+    const buyBtn  = document.getElementById('spm-buy-btn');
+    if (!modal) return;
+
+    const s        = _skinsData?.find(i => i.id === skinId);
+    const username = _authUser?.username || 'SizningIsmingiz';
+    const coins    = parseInt(document.getElementById('skins-page-coins')?.textContent) || 0;
+    const canAfford = s && coins >= s.price;
+
+    // Jonli animatsiya — faqat bitta
+    nameEl.innerHTML = (s && typeof renderPlayerName === 'function')
+        ? renderPlayerName(username, skinId)
+        : `<span style="color:#e2e8f0;font-weight:800;">${username}</span>`;
+
+    // Rarity badge
+    const rc = rarityColor(s?.rarity || 'Epic');
+    badge.innerHTML = s ? `<span style="display:inline-block;background:${s.iconBg};
+        padding:4px 16px;border-radius:20px;font-size:0.72rem;font-weight:800;
+        color:#fff;letter-spacing:.04em;">${s.rarity}</span>` : '';
+
+    // Info panel
+    if (s) {
+        iconEl.style.background = s.iconBg;
+        iconEl.style.boxShadow  = `0 0 16px ${s.border}55`;
+        iconEl.textContent = s.icon;
+        labelEl.textContent = s.label;
+        descEl.textContent  = s.desc || '';
+        priceEl.textContent = `${s.price} 💰`;
+
+        buyBtn.style.background = canAfford
+            ? 'linear-gradient(135deg,#7c3aed,#6d28d9)'
+            : '#1e293b';
+        buyBtn.style.color  = canAfford ? '#fff' : '#f59e0b';
+        buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
+        buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
+        buyBtn.onclick = canAfford
+            ? () => { closeSkinPreview(); buyNameFromSkinsPage(skinId, s.label, s.price); }
+            : () => { closeSkinPreview(); closeSkinsPage(); openShopModal('coins'); };
+    }
+
+    // Sheet pastdan tepaga chiqib keladi
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => {
+        sheet.style.transform = 'translateY(0)';
+    });
+
+    // Tashqi tomonga bossalar yopiladi
+    modal.onclick = e => { if (e.target === modal) closeSkinPreview(); };
+}
+
+function closeSkinPreview() {
+    const modal = document.getElementById('skin-preview-modal');
+    const sheet = document.getElementById('skin-preview-sheet');
+    if (!modal) return;
+    sheet.style.transform = 'translateY(100%)';
+    setTimeout(() => {
+        modal.style.display = 'none';
+        // Animatsiyani to'xtatamiz (xotira tejash)
+        const nameEl = document.getElementById('spm-live-name');
+        if (nameEl) nameEl.innerHTML = '';
+    }, 320);
 }
 
 async function buyNameFromSkinsPage(itemId, itemLabel, price) {
@@ -1437,10 +1599,12 @@ function renderShopNames(items, coins) {
                 ${item.icon}
             </div>
             <div style="flex:1; min-width:0;">
-                <div style="font-size:1.05rem;">${(typeof renderPlayerName === 'function')
-                    ? renderPlayerName(item.label, item.id)
-                    : `<span style="font-weight:800;background:${item.gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${item.label}</span>`}</div>
-                <div style="font-size:0.7rem; color:${rc}; font-weight:700; margin-top:3px;">${item.rarity} · <span style="color:#64748b;font-weight:600;">✨ jonli animatsiya</span></div>
+                <div style="font-size:1.05rem;">
+                    <span style="font-weight:800;background:${item.gradient};
+                        -webkit-background-clip:text;background-clip:text;
+                        -webkit-text-fill-color:transparent;">${item.label}</span>
+                </div>
+                <div style="font-size:0.7rem; color:${rc}; font-weight:700; margin-top:3px;">${item.rarity}</div>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
                 <div style="font-size:0.95rem; font-weight:800; color:#f1c40f;">${item.price} 💰</div>

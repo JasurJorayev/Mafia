@@ -6,6 +6,23 @@
     --text-gold: #f1c40f;
 }
 
+/* ===== GPU optimizatsiya — skin animatsiyalari ===== */
+.fire-name-wrap, .lightning-name-wrap, .cosmic-name-wrap,
+.king-name-wrap, .ghost-name-wrap, .dragon-name-wrap,
+.rose-name-wrap, .ice-name-wrap, .zombie-name-wrap,
+.hacker-name-wrap, .tornado-name-wrap, .bhole-name-wrap,
+.water-name-wrap, .diamond-name-wrap, .ninja-name-wrap {
+    will-change: transform;
+    contain: layout style;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+.fire-text, .lightning-text, .cosmic-text, .king-text,
+.dragon-wave-text, .water-text, .hacker-text,
+.dragon-letter, .hacker-letter {
+    will-change: transform, opacity, color;
+}
+
 /* ===== TUGMALAR — STATIK GLOW (aylanma olib tashlandi) ===== */
 .glow-btn {
     position: relative;
