@@ -264,7 +264,7 @@
     <!-- ===== KARZINKA / SHOP MODAL ===== -->
     <!-- ===== DO'KON — TO'LIQ EKRAN SAHIFASI ===== -->
     <!-- ===== SKIN PREVIEW MODAL ===== -->
-    <div id="skin-preview-modal" style="display:none; position:fixed; inset:0; z-index:200000;
+    <div id="skin-preview-modal" style="display:none; position:fixed; inset:0; z-index:999999;
         background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
         align-items:flex-end; justify-content:center;">
         <div id="skin-preview-sheet" style="
@@ -1329,8 +1329,23 @@ function openSkinPreview(skinId) {
     buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
     buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
     buyBtn.onclick = canAfford
-        ? () => { closeSkinPreview(); buyNameFromSkinsPage(skinId, label, price); }
-        : () => { closeSkinPreview(); closeSkinsPage?.(); openShopModal?.('coins'); };
+        ? () => {
+            closeSkinPreview();
+            // Do'kon modalidan ochilgan bo'lsa buyName, skins sahifasidan bo'lsa buyNameFromSkinsPage
+            if (document.getElementById('shop-modal-overlay')?.style.display !== 'none') {
+                buyName(skinId, label);
+            } else {
+                buyNameFromSkinsPage(skinId, label, price);
+            }
+          }
+        : () => {
+            closeSkinPreview();
+            if (document.getElementById('shop-modal-overlay')?.style.display !== 'none') {
+                switchShopTab('coins');
+            } else {
+                closeSkinsPage?.(); openShopModal?.('coins');
+            }
+          };
 
     // Sheet pastdan tepaga chiqib keladi
     modal.style.display = 'flex';
@@ -1566,52 +1581,53 @@ function renderShopNames(items, coins) {
         const rc = item.rarity === 'Legendary' ? '#f59e0b'
                  : item.rarity === 'Mythic'    ? '#22d3ee'
                  : '#818cf8';
-        let btnStyle, btnText, btnDisabled, btnClick;
-        if (!isLoggedIn) {
-            btnStyle    = 'background:#1e3a5f;color:#60a5fa;';
-            btnText     = '🔒 Kirish';
-            btnDisabled = '';
-            btnClick    = `buyName('${item.id}','${item.label.replace(/'/g,"\\'")}')`;
-        } else if (owned) {
-            btnStyle    = 'background:#052e16;color:#4ade80;border:1px solid #166534;cursor:default;';
-            btnText     = '✓ Olindi';
-            btnDisabled = 'disabled';
-            btnClick    = '';
-        } else if (canAfford) {
-            btnStyle    = 'background:linear-gradient(135deg,#6d28d9,#7c3aed);color:#fff;';
-            btnText     = '💜 Sotib ol';
-            btnDisabled = '';
-            btnClick    = `buyName('${item.id}','${item.label.replace(/'/g,"\\'")}')`;
-        } else {
-            btnStyle    = 'background:#1e293b;color:#f59e0b;border:1px solid #92400e;';
-            btnText     = '💰 Tanga ol';
-            btnDisabled = '';
-            btnClick    = "switchShopTab('coins')";
+
+        if (owned) {
+            // Sotib olingan — faqat belgi
+            return `
+            <div style="background:#060f20; border:2px solid #166534; border-radius:16px;
+                padding:14px 12px; display:flex; align-items:center; gap:13px; opacity:0.7;">
+                <div style="background:${item.iconBg}; border-radius:14px;
+                    width:52px; height:52px; flex-shrink:0;
+                    display:flex; align-items:center; justify-content:center; font-size:1.7rem;">
+                    ${item.icon}
+                </div>
+                <div style="flex:1; min-width:0;">
+                    <span style="font-weight:800;background:${item.gradient};
+                        -webkit-background-clip:text;background-clip:text;
+                        -webkit-text-fill-color:transparent;font-size:1rem;">${item.label}</span>
+                    <div style="font-size:0.68rem;color:${rc};font-weight:700;margin-top:3px;">${item.rarity}</div>
+                </div>
+                <div style="background:#052e16;color:#4ade80;border:1px solid #166534;
+                    padding:7px 14px;border-radius:10px;font-size:0.78rem;font-weight:700;">
+                    ✓ Olindi
+                </div>
+            </div>`;
         }
+
+        // Sotib olinmagan — butun qatorni bosib preview ochiladi
         return `
-        <div style="background:#0d1f3c; border:2px solid ${item.border}; border-radius:16px;
-            padding:14px 12px; display:flex; align-items:center; gap:13px;">
+        <div onclick="openSkinPreview('${item.id}')"
+            style="background:#0d1f3c; border:2px solid ${item.border}; border-radius:16px;
+            padding:14px 12px; display:flex; align-items:center; gap:13px; cursor:pointer;">
             <div style="background:${item.iconBg}; border-radius:14px;
-                width:56px; height:56px; flex-shrink:0;
-                display:flex; align-items:center; justify-content:center; font-size:1.8rem;
+                width:52px; height:52px; flex-shrink:0;
+                display:flex; align-items:center; justify-content:center; font-size:1.7rem;
                 box-shadow:0 3px 12px ${item.border}44;">
                 ${item.icon}
             </div>
             <div style="flex:1; min-width:0;">
-                <div style="font-size:1.05rem;">
-                    <span style="font-weight:800;background:${item.gradient};
-                        -webkit-background-clip:text;background-clip:text;
-                        -webkit-text-fill-color:transparent;">${item.label}</span>
+                <span style="font-weight:800;background:${item.gradient};
+                    -webkit-background-clip:text;background-clip:text;
+                    -webkit-text-fill-color:transparent;font-size:1rem;">${item.label}</span>
+                <div style="font-size:0.68rem; color:${rc}; font-weight:700; margin-top:3px;">
+                    ${item.rarity}
+                    <span style="color:#475569;font-weight:500;"> · bosing → ismingizda ko'ring</span>
                 </div>
-                <div style="font-size:0.7rem; color:${rc}; font-weight:700; margin-top:3px;">${item.rarity}</div>
             </div>
-            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
-                <div style="font-size:0.95rem; font-weight:800; color:#f1c40f;">${item.price} 💰</div>
-                <button onclick="${btnClick}" id="shop-btn-${item.id}" ${btnDisabled}
-                    style="padding:8px 14px; border:none; border-radius:10px;
-                    font-size:0.78rem; font-weight:700; white-space:nowrap; cursor:pointer; ${btnStyle}">
-                    ${btnText}
-                </button>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+                <div style="font-size:0.95rem;font-weight:800;color:#f1c40f;">${item.price} 💰</div>
+                <div style="font-size:0.72rem;color:${item.border};font-weight:700;">👁 Ko'rish →</div>
             </div>
         </div>`;
     }).join('');
