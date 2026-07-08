@@ -66,8 +66,8 @@ function esc(str) {
             z-index:99999;backdrop-filter:blur(4px);
         }
         .cmodal-box{
-            background:#131c2e;
-            border:1px solid #2d3f5e;
+            background:#1a130f;
+            border:1px solid #3d2a1a;
             border-radius:18px;
             padding:30px 26px 22px;
             max-width:300px;width:88%;
@@ -80,7 +80,7 @@ function esc(str) {
             to{transform:scale(1);opacity:1}
         }
         .cmodal-msg{
-            color:#e2e8f0;font-size:1.02rem;
+            color:#ecdfc4;font-size:1.02rem;
             line-height:1.6;margin-bottom:24px;
             font-weight:500;
         }
@@ -93,9 +93,9 @@ function esc(str) {
             letter-spacing:.3px;
         }
         .cmodal-btn:active{transform:scale(.95);}
-        .cmodal-ok{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.35);}
+        .cmodal-ok{background:linear-gradient(135deg,#2e8b3d,#1f7a4d);color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.35);}
         .cmodal-ok:hover{filter:brightness(1.1);}
-        .cmodal-cancel{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.35);}
+        .cmodal-cancel{background:linear-gradient(135deg,#c0392b,#7a1220);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.35);}
         .cmodal-cancel:hover{filter:brightness(1.1);}
     `;
     document.head.appendChild(style);
@@ -159,122 +159,122 @@ let gameOverShown = false;
 var SKIN_DATA = {
     fire_boss: {
         icon:     '🔥',
-        gradient: 'linear-gradient(90deg,#f97316,#ef4444)',
-        iconBg:   'linear-gradient(135deg,#dc2626,#f97316)',
-        border:   '#f97316',
+        gradient: 'linear-gradient(90deg,#d9691e,#c0392b)',
+        iconBg:   'linear-gradient(135deg,#a4172b,#d9691e)',
+        border:   '#d9691e',
         rarity:   'Rare',
         glow:     'rgba(249,115,22,0.35)',
     },
     water: {
         icon:     '💧',
-        gradient: 'linear-gradient(90deg,#38bdf8,#0ea5e9,#7dd3fc,#38bdf8)',
-        iconBg:   'linear-gradient(135deg,#0c4a6e,#0ea5e9)',
-        border:   '#0ea5e9',
+        gradient: 'linear-gradient(90deg,#d4af5a,#c99a2e,#e0c47a,#d4af5a)',
+        iconBg:   'linear-gradient(135deg,#2a2013,#c99a2e)',
+        border:   '#c99a2e',
         rarity:   'Epic',
         glow:     'rgba(14,165,233,0.5)',
     },
      ninja: {
         icon:     '🥷',
-        gradient: 'linear-gradient(90deg,#6366f1,#8b5cf6)',
-        iconBg:   'linear-gradient(135deg,#1e1b4b,#6366f1)',
-        border:   '#6366f1',
+        gradient: 'linear-gradient(90deg,#a4172b,#d4af5a)',
+        iconBg:   'linear-gradient(135deg,#2a1610,#a4172b)',
+        border:   '#a4172b',
         rarity:   'Epic',
         glow:     'rgba(99,102,241,0.35)',
     },
     king: {
         icon:     '👑',
-        gradient: 'linear-gradient(90deg,#f59e0b,#fbbf24,#f59e0b)',
-        iconBg:   'linear-gradient(135deg,#92400e,#f59e0b)',
-        border:   '#f59e0b',
+        gradient: 'linear-gradient(90deg,#d9a521,#e8b923,#d9a521)',
+        iconBg:   'linear-gradient(135deg,#5a3a10,#d9a521)',
+        border:   '#d9a521',
         rarity:   'Legendary',
         glow:     'rgba(245,158,11,0.35)',
     },
     ghost: {
         icon:     '👻',
-        gradient: 'linear-gradient(90deg,#a855f7,#ec4899)',
-        iconBg:   'linear-gradient(135deg,#4c1d95,#a855f7)',
-        border:   '#a855f7',
+        gradient: 'linear-gradient(90deg,#c99a2e,#b8232f)',
+        iconBg:   'linear-gradient(135deg,#5a3a10,#c99a2e)',
+        border:   '#c99a2e',
         rarity:   'Epic',
         glow:     'rgba(168,85,247,0.35)',
     },
     dragon: {
         icon:     '🐉',
-        gradient: 'linear-gradient(90deg,#22d3ee,#10b981,#22d3ee)',
-        iconBg:   'linear-gradient(135deg,#064e3b,#10b981)',
-        border:   '#10b981',
+        gradient: 'linear-gradient(90deg,#d4af5a,#1f7a4d,#d4af5a)',
+        iconBg:   'linear-gradient(135deg,#16321f,#1f7a4d)',
+        border:   '#1f7a4d',
         rarity:   'Mythic',
         glow:     'rgba(16,185,129,0.35)',
     },
     lightning_storm: {
         icon:     '⚡',
-        gradient: 'linear-gradient(90deg, #00d2ff, #0066ff)',
-        iconBg:   'linear-gradient(135deg, #0f172a, #1d4ed8)',
-        border:   '#00d2ff',
+        gradient: 'linear-gradient(90deg, #d4af5a, #8a1322)',
+        iconBg:   'linear-gradient(135deg, #120d0a, #8a1322)',
+        border:   '#d4af5a',
         rarity:   'Mythic',
         glow:     'rgba(0, 210, 255, 0.6)', // Moviy chiroq kuchliroq yonib turishi uchun 0.6 qildim
 },
     cosmic_nebula: {
         icon:     '🌌',
-        gradient: 'linear-gradient(90deg, #d946ef, #8b5cf6)',
-        iconBg:   'linear-gradient(135deg, #6d28d9, #ec4899)',
-        border:   '#d946ef',
+        gradient: 'linear-gradient(90deg, #c99a2e, #d4af5a)',
+        iconBg:   'linear-gradient(135deg, #8a6a1a, #b8232f)',
+        border:   '#c99a2e',
         rarity:   'Legendary',
         glow:     'rgba(217, 70, 239, 0.4)',
     },
     rose_garden: {
         icon:     '🌹',
-        gradient: 'linear-gradient(90deg,#f43f5e,#fb7185,#e11d48)',
-        iconBg:   'linear-gradient(135deg,#881337,#f43f5e)',
-        border:   '#f43f5e',
+        gradient: 'linear-gradient(90deg,#b8232f,#e0685a,#a4172b)',
+        iconBg:   'linear-gradient(135deg,#5a1018,#b8232f)',
+        border:   '#b8232f',
         rarity:   'Rare',
         glow:     'rgba(244,63,94,0.45)',
     },
     // ── Yangi skinlar ──────────────────────────────────────────
     ice_crystal: {
         icon:     '❄️',
-        gradient: 'linear-gradient(90deg,#bae6fd,#38bdf8,#7dd3fc)',
-        iconBg:   'linear-gradient(135deg,#0c4a6e,#0284c7)',
-        border:   '#38bdf8',
+        gradient: 'linear-gradient(90deg,#f0dca0,#d4af5a,#e0c47a)',
+        iconBg:   'linear-gradient(135deg,#2a2013,#8a6a1a)',
+        border:   '#d4af5a',
         rarity:   'Rare',
         glow:     'rgba(56,189,248,0.45)',
     },
     black_hole: {
         icon:     '🕳️',
-        gradient: 'linear-gradient(90deg,#a855f7,#6b21a8,#c084fc)',
-        iconBg:   'linear-gradient(135deg,#0a0a0a,#3b0764)',
-        border:   '#a855f7',
+        gradient: 'linear-gradient(90deg,#c99a2e,#8a6a1a,#d4af5a)',
+        iconBg:   'linear-gradient(135deg,#0b0806,#3a2408)',
+        border:   '#c99a2e',
         rarity:   'Mythic',
         glow:     'rgba(168,85,247,0.55)',
     },
     hacker: {
         icon:     '💻',
-        gradient: 'linear-gradient(90deg,#4ade80,#22c55e,#86efac)',
-        iconBg:   'linear-gradient(135deg,#0a0a0a,#14532d)',
-        border:   '#22c55e',
+        gradient: 'linear-gradient(90deg,#5cb85c,#2e8b3d,#8fd68f)',
+        iconBg:   'linear-gradient(135deg,#0b0806,#16321f)',
+        border:   '#2e8b3d',
         rarity:   'Epic',
         glow:     'rgba(34,197,94,0.45)',
     },
     zombie: {
         icon:     '🧟',
-        gradient: 'linear-gradient(90deg,#84cc16,#65a30d,#a3e635)',
-        iconBg:   'linear-gradient(135deg,#1a2e05,#3f6212)',
-        border:   '#84cc16',
+        gradient: 'linear-gradient(90deg,#8ab030,#6e8a1a,#9ec93a)',
+        iconBg:   'linear-gradient(135deg,#1a2005,#4a3a0a)',
+        border:   '#8ab030',
         rarity:   'Rare',
         glow:     'rgba(132,204,22,0.45)',
     },
     tornado: {
         icon:     '🌪️',
-        gradient: 'linear-gradient(90deg,#94a3b8,#cbd5e1,#64748b)',
-        iconBg:   'linear-gradient(135deg,#1e293b,#475569)',
-        border:   '#94a3b8',
+        gradient: 'linear-gradient(90deg,#b8a888,#d9c9a8,#9c8a6c)',
+        iconBg:   'linear-gradient(135deg,#1e1712,#6b5a42)',
+        border:   '#b8a888',
         rarity:   'Epic',
         glow:     'rgba(148,163,184,0.45)',
     },
     diamond: {
         icon:     '💎',
-        gradient: 'linear-gradient(90deg,#67e8f9,#a78bfa,#f9a8d4,#67e8f9)',
-        iconBg:   'linear-gradient(135deg,#0f172a,#1e3a5f)',
-        border:   '#67e8f9',
+        gradient: 'linear-gradient(90deg,#e0c47a,#e0c47a,#e0c47a,#e0c47a)',
+        iconBg:   'linear-gradient(135deg,#120d0a,#4a3320)',
+        border:   '#e0c47a',
         rarity:   'Legendary',
         glow:     'rgba(103,232,249,0.55)',
     },
@@ -849,14 +849,14 @@ window.togglePasswordVis = function (inputId, btn) {
 window.loadPublicLobbies = async function () {
     const container = document.getElementById('public-lobbies-list');
     if (!container) return;
-    container.innerHTML = '<p style="color:#666;font-size:0.85rem;text-align:center;">Yuklanmoqda...</p>';
+    container.innerHTML = '<p style="color:#7a6a52;font-size:0.85rem;text-align:center;">Yuklanmoqda...</p>';
     try {
         const res = await fetch('/api/lobbies');
         if (!res.ok) throw new Error();
         const lobbies = await res.json();
 
         if (!lobbies.length) {
-            container.innerHTML = '<p style="color:#555;font-size:0.85rem;text-align:center;">Hech qanday ochiq lobbi yo\'q.</p>';
+            container.innerHTML = '<p style="color:#6b5a42;font-size:0.85rem;text-align:center;">Hech qanday ochiq lobbi yo\'q.</p>';
             return;
         }
         container.innerHTML = '';
@@ -908,21 +908,21 @@ async function quickJoinLobby(lb) {
         overlay.innerHTML = `
             <div class="cmodal-box" style="max-width:320px;width:90%;">
                 <div class="cmodal-msg" style="margin-bottom:6px;">🔒 Yopiq lobbi</div>
-                <div style="color:#64748b;font-size:0.82rem;margin-bottom:14px;">
+                <div style="color:#9c8a6c;font-size:0.82rem;margin-bottom:14px;">
                     Kod: <b style="color:#f1c40f;letter-spacing:2px;">${esc(lb.lobby_code)}</b>
                     &nbsp;·&nbsp; Admin: ${esc(lb.admin_username)}
                 </div>
-                <div style="display:flex;align-items:center;background:#0d1f3c;border:2px solid #1e3a5f;
+                <div style="display:flex;align-items:center;background:#1a130f;border:2px solid #4a3320;
                             border-radius:10px;padding:0 8px 0 10px;margin-bottom:16px;">
                     <span style="font-size:0.95rem;margin-right:8px;opacity:.6;flex-shrink:0;">🔑</span>
                     <input id="quick-pass-input" type="password" placeholder="Parol kiriting..."
                            class="password-input"
                            style="flex:1;min-width:0;background:transparent;border:none;outline:none;
-                                  color:#e2e8f0;font-size:14px;font-weight:400;
+                                  color:#ecdfc4;font-size:14px;font-weight:400;
                                   padding:9px 0;width:auto;text-align:center;"
                            maxlength="30" autocomplete="off">
                     <button id="quick-pass-eye" onclick="_toggleQuickPass()"
-                            style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);border-radius:8px;cursor:pointer;color:#818cf8;display:flex;align-items:center;padding:5px 7px;margin-left:6px;flex-shrink:0;transition:background .18s,color .18s;">
+                            style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);border-radius:8px;cursor:pointer;color:#c99a2e;display:flex;align-items:center;padding:5px 7px;margin-left:6px;flex-shrink:0;transition:background .18s,color .18s;">
                         ${EYE_OPEN}
                     </button>
                 </div>
@@ -938,7 +938,7 @@ async function quickJoinLobby(lb) {
 
         const doJoin = async () => {
             const pass = inp.value.trim();
-            if (!pass) { inp.style.borderColor = '#e94560'; return; }
+            if (!pass) { inp.style.borderColor = '#b8232f'; return; }
             overlay.remove();
             await doJoinOnlineLobby(lb.lobby_code, pass);
         };
@@ -960,7 +960,7 @@ function showPrompt(msg, callback) {
         <div class="cmodal-box">
             <div class="cmodal-msg">${msg}</div>
             <input type="password" id="cprompt-input" placeholder="Parol..."
-                   style="width:100%;padding:10px;border-radius:8px;border:1px solid #2d3f5e;background:#0d1520;color:#e2e8f0;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
+                   style="width:100%;padding:10px;border-radius:8px;border:1px solid #3d2a1a;background:#1a130f;color:#ecdfc4;font-size:1rem;margin-bottom:14px;box-sizing:border-box;">
             <div class="cmodal-btns">
                 <button class="cmodal-btn cmodal-ok" id="cprompt-ok">Kirish</button>
                 <button class="cmodal-btn cmodal-cancel" id="cprompt-cancel">Bekor</button>
@@ -1146,21 +1146,21 @@ function _showJoinPasswordModal(code) {
     overlay.innerHTML = `
         <div class="cmodal-box" style="max-width:320px;width:90%;">
             <div class="cmodal-msg" style="margin-bottom:6px;">🔒 Yopiq lobbi</div>
-            <div style="color:#64748b;font-size:0.82rem;margin-bottom:14px;">
+            <div style="color:#9c8a6c;font-size:0.82rem;margin-bottom:14px;">
                 Kod: <b style="color:#f1c40f;letter-spacing:2px;">${esc(code)}</b>
             </div>
-            <div style="display:flex;align-items:center;background:#0d1f3c;border:2px solid #1e3a5f;
+            <div style="display:flex;align-items:center;background:#1a130f;border:2px solid #4a3320;
                         border-radius:10px;padding:0 12px;margin-bottom:16px;">
                 <span style="font-size:1rem;margin-right:8px;opacity:.7;">🔑</span>
                 <input id="join-pass-input" type="password" placeholder="Parol kiriting..."
                        style="flex:1;background:transparent;border:none;outline:none;
-                              color:#e2e8f0;font-size:15px;padding:12px 0;width:100%;"
+                              color:#ecdfc4;font-size:15px;padding:12px 0;width:100%;"
                        maxlength="30" autocomplete="off">
                 <button onclick="const i=document.getElementById('join-pass-input');
                     const open='<svg width=18 height=18 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><path d=\"M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z\"/><circle cx=12 cy=12 r=3/></svg>';
                     const shut='<svg width=18 height=18 viewBox=\"0 0 24 24\" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><path d=\"M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24\"/><line x1=1 y1=1 x2=23 y2=23/></svg>';
                     if(i.type==='password'){i.type='text';this.innerHTML=shut;}else{i.type='password';this.innerHTML=open;}"
-                    style="background:none;border:none;cursor:pointer;color:#64748b;display:flex;align-items:center;padding:0 0 0 8px;">
+                    style="background:none;border:none;cursor:pointer;color:#9c8a6c;display:flex;align-items:center;padding:0 0 0 8px;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
             </div>
@@ -1174,7 +1174,7 @@ function _showJoinPasswordModal(code) {
     inp.focus();
     const doJoin = async () => {
         const pass = inp.value.trim();
-        if (!pass) { inp.style.borderColor = '#e94560'; return; }
+        if (!pass) { inp.style.borderColor = '#b8232f'; return; }
         overlay.remove();
         await window.joinLobbyAction(pass);
     };
@@ -1227,6 +1227,7 @@ function enterWaitingRoom() {
     document.getElementById('lobby-screen').style.display = 'none';
     document.getElementById('waiting-room').style.display = 'block';
     document.getElementById('display-lobby-code').innerText = myLobbyCode;
+    if (typeof switchWaitingTab === 'function') switchWaitingTab('players');
 
     if (myUsername === adminUsername) {
         document.getElementById('lobby-admin-badge').style.display = 'block';
@@ -1365,10 +1366,10 @@ setInterval(() => {
 // O'YIN TUGADI EKRANI
 // ===============================================================
 function roleDisplayInfo(role) {
-    if (role === 'Mafia (DON)') return { name: 'Mafia (Don)', icon: '👑', color: '#fca5a5' };
-    if (role === 'Mafia')       return { name: 'Mafia',        icon: '🔫', color: '#f87171' };
-    if (role === 'Doctor')      return { name: 'Shifokor',     icon: '💉', color: '#38bdf8' };
-    return { name: 'Tinch aholi', icon: '👤', color: '#4ade80' };
+    if (role === 'Mafia (DON)') return { name: 'Mafia (Don)', icon: '👑', color: '#e0a89c' };
+    if (role === 'Mafia')       return { name: 'Mafia',        icon: '🔫', color: '#e0685a' };
+    if (role === 'Doctor')      return { name: 'Shifokor',     icon: '💉', color: '#d4af5a' };
+    return { name: 'Tinch aholi', icon: '👤', color: '#5cb85c' };
 }
 
 function buildPlayerRowsHtml(list) {
@@ -1376,7 +1377,7 @@ function buildPlayerRowsHtml(list) {
         const info = roleDisplayInfo(p.role);
         const aliveTag = p.is_alive
             ? ''
-            : '<span style="font-size:0.68rem;color:#64748b;margin-left:6px;">(o\'lik)</span>';
+            : '<span style="font-size:0.68rem;color:#9c8a6c;margin-left:6px;">(o\'lik)</span>';
         return `
             <div style="
                 display:flex; align-items:center; gap:8px;
@@ -1386,7 +1387,7 @@ function buildPlayerRowsHtml(list) {
                 border-radius:10px;
             ">
                 <span style="font-size:1rem;">${info.icon}</span>
-                <span style="flex:1;text-align:left;color:#e2e8f0;font-size:0.85rem;font-weight:600;">${esc(p.username)}${aliveTag}</span>
+                <span style="flex:1;text-align:left;color:#ecdfc4;font-size:0.85rem;font-weight:600;">${esc(p.username)}${aliveTag}</span>
                 <span style="font-size:0.68rem;font-weight:800;color:${info.color};text-transform:uppercase;letter-spacing:0.3px;">${info.name}</span>
             </div>`;
     }).join('');
@@ -1401,9 +1402,9 @@ function showGameOver(winner, message, players) {
     if (oldPanel) oldPanel.remove();
 
     const golibJamoa = winner === 'MAFIA' ? 'Mafiya 🥷🏼' : 'Tinch aholi 🎉';
-    const bgColor    = winner === 'MAFIA' ? '#1a0a0a' : '#0a1a0a';
-    const borderColor= winner === 'MAFIA' ? '#e94560' : '#27ae60';
-    const titleColor = winner === 'MAFIA' ? '#e94560' : '#27ae60';
+    const bgColor    = winner === 'MAFIA' ? '#1a0a0a' : '#0e1508';
+    const borderColor= winner === 'MAFIA' ? '#b8232f' : '#2e8b3d';
+    const titleColor = winner === 'MAFIA' ? '#b8232f' : '#2e8b3d';
 
     // G'olib va mag'lub jamoa a'zolarini ajratib olamiz
     let teamsHtml = '';
@@ -1429,7 +1430,7 @@ function showGameOver(winner, message, players) {
         if (losers.length) {
             losersHtml = `
                 <div style="text-align:left;margin-bottom:16px;opacity:0.75;">
-                    <div style="font-size:0.72rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;font-weight:700;">
+                    <div style="font-size:0.72rem;color:#b8a888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;font-weight:700;">
                         💀 Mag'lub jamoa a'zolari
                     </div>
                     <div style="display:flex;flex-direction:column;gap:6px;">
@@ -1489,7 +1490,7 @@ function showGameOver(winner, message, players) {
             </div>
             ${teamsHtml}
             <div style="
-                color: #ccc;
+                color: #cbb99e;
                 font-size: 0.9rem;
                 margin-bottom: 24px;
                 line-height: 1.5;
@@ -1590,8 +1591,8 @@ async function gameLoop() {
                 ds.style.padding    = '30px';
                 ds.innerHTML = [
                     '<div style="font-size:4rem;margin-bottom:16px;">💀</div>',
-                    '<h2 style="font-size:1.8rem;color:#e94560;margin:0 0 14px 0;letter-spacing:1px;">SIZ O\'LDINGIZ</h2>',
-                    '<p style="color:#aaa;font-size:1rem;margin:0;line-height:1.6;">O\'yin tugashini kuting...</p>'
+                    '<h2 style="font-size:1.8rem;color:#b8232f;margin:0 0 14px 0;letter-spacing:1px;">SIZ O\'LDINGIZ</h2>',
+                    '<p style="color:#a4907a;font-size:1rem;margin:0;line-height:1.6;">O\'yin tugashini kuting...</p>'
                 ].join('');
                 document.body.appendChild(ds);
             }
@@ -1622,6 +1623,27 @@ function showGameScreen() {
     switchGameTab('players');
     updateVotingBtn();
 }
+
+// Kutish xonasida O'yinchilar/Chat tab almashtirish
+window.switchWaitingTab = function(tabName) {
+    var tabs    = ['players', 'chat'];
+    var btnIds  = { players: 'wtab-btn-players', chat: 'wtab-btn-chat' };
+    var contIds = { players: 'wtab-content-players', chat: 'wtab-content-chat' };
+    tabs.forEach(function(t) {
+        var btn  = document.getElementById(btnIds[t]);
+        var cont = document.getElementById(contIds[t]);
+        if (btn)  btn.classList.toggle('active', t === tabName);
+        if (cont) cont.style.display = (t === tabName) ? 'block' : 'none';
+    });
+    if (tabName === 'chat') {
+        var badge = document.getElementById('lobby-chat-unread-badge');
+        if (badge) { badge.style.display = 'none'; badge.textContent = '0'; }
+        setTimeout(function() {
+            var box = document.getElementById('lobby-chat-messages');
+            if (box) box.scrollTop = box.scrollHeight;
+        }, 50);
+    }
+};
 
 window.switchGameTab = function(tabName) {
     var tabs    = ['players', 'chat', 'mafia-chat', 'info'];
@@ -1691,7 +1713,7 @@ function updateVoteReadyBtn() {
         // Stil — kichikroq va yorqin
         btn.style.cssText = [
             'display:block;width:100%;padding:10px 16px;',
-            'background:linear-gradient(135deg,#00e676,#00c853);',
+            'background:linear-gradient(135deg,#3fae4a,#2e8b3d);',
             'border:none;border-radius:12px;',
             'color:#000;font-weight:800;font-size:0.9rem;letter-spacing:.3px;',
             'cursor:pointer;transition:all .18s;',
@@ -1718,6 +1740,7 @@ function showWaitingRoom() {
     document.getElementById('waiting-room').style.display = 'block';
     document.getElementById('game-screen').style.display  = 'none';
     document.getElementById('timer').style.display        = 'none';
+    if (typeof switchWaitingTab === 'function') switchWaitingTab('players');
 }
 
 // ===============================================================
@@ -1726,22 +1749,22 @@ function showWaitingRoom() {
 
 // Rang kalit → emoji va hex
 const COLOR_MAP = {
-    red:    { emoji: '🔴', hex: '#ef4444' },
-    orange: { emoji: '🟠', hex: '#f97316' },
-    yellow: { emoji: '🟡', hex: '#eab308' },
-    green:  { emoji: '🟢', hex: '#22c55e' },
-    blue:   { emoji: '🔵', hex: '#3b82f6' },
-    purple: { emoji: '🟣', hex: '#a855f7' },
-    black:  { emoji: '⚫️', hex: '#6b7280' },
-    white:  { emoji: '⚪️', hex: '#e2e8f0' },
-    brown:  { emoji: '🟤', hex: '#a16207' },
+    red:    { emoji: '🔴', hex: '#c0392b' },
+    orange: { emoji: '🟠', hex: '#d9691e' },
+    yellow: { emoji: '🟡', hex: '#d4af37' },
+    green:  { emoji: '🟢', hex: '#2e8b3d' },
+    blue:   { emoji: '🔵', hex: '#c99a2e' },
+    purple: { emoji: '🟣', hex: '#c99a2e' },
+    black:  { emoji: '⚫️', hex: '#8a7a5e' },
+    white:  { emoji: '⚪️', hex: '#ecdfc4' },
+    brown:  { emoji: '🟤', hex: '#6b4a1a' },
 };
 
 function colorEmoji(colorKey) {
     return COLOR_MAP[colorKey] ? COLOR_MAP[colorKey].emoji : '⚪️';
 }
 function colorHex(colorKey) {
-    return COLOR_MAP[colorKey] ? COLOR_MAP[colorKey].hex : '#e2e8f0';
+    return COLOR_MAP[colorKey] ? COLOR_MAP[colorKey].hex : '#ecdfc4';
 }
 
 // Skin bo'lsa — skin ikonkasi, bo'lmasa — rangli doira
@@ -1776,7 +1799,7 @@ function updateWaitingUI(players) {
                 <span>
                     ${prefix}${renderPlayerName(p.username)}${crown} ${meBadge}
                 </span>
-                <span style="color:#aaa;font-size:0.8rem;">Tayyor</span>`;
+                <span style="color:#a4907a;font-size:0.8rem;">Tayyor</span>`;
             list.appendChild(div);
         });
     });
@@ -1794,7 +1817,7 @@ function updateWaitingUI(players) {
             <span>
                 ${prefix}${renderPlayerName(p.username)}${crown} ${meBadge}
             </span>
-            <span style="color:#aaa;font-size:0.8rem;">Tayyor</span>`;
+            <span style="color:#a4907a;font-size:0.8rem;">Tayyor</span>`;
         list.appendChild(div);
     });
 }
@@ -1839,7 +1862,7 @@ function updateGameUI(me, players) {
         if (isMe) div.classList.add('player-row-me');
         const meBadge      = isMe ? '<span class="me-badge">Sen</span>' : '';
         const readyBadge   = (gamePhase === 'discussion' && voteReadyUsers.has(p.username))
-            ? '<span style="color:#22c55e;font-size:0.75rem;font-weight:700;margin-left:6px;">✅ Tayyor</span>'
+            ? '<span style="color:#2e8b3d;font-size:0.75rem;font-weight:700;margin-left:6px;">✅ Tayyor</span>'
             : '';
         const hasSkin = playerSkinCache[p.username] && SKIN_DATA[playerSkinCache[p.username]];
         const prefix  = hasSkin ? '' : `<span style="margin-right:4px;">${colorEmoji(p.player_color)}</span>`;
@@ -1901,14 +1924,14 @@ function updateGameUI(me, players) {
                 .filter(p => p.role && p.role.includes('Mafia') && p.username !== myUsername && p.is_alive)
                 .map(p => p.username);
             if (sheriqs.length > 0) {
-                roleText += `<br><small style="color:#ff4d4d">Sheriklaringiz: ${sheriqs.join(', ')}</small>`;
+                roleText += `<br><small style="color:#c0392b">Sheriklaringiz: ${sheriqs.join(', ')}</small>`;
             }
         }
         if (gamePhase === 'night_mafia' && me.role && me.role.includes('Mafia') && hasKilled) {
-            roleText += `<br><small style="color:#aaa">✅ Nishon belgilandi, kutilmoqda...</small>`;
+            roleText += `<br><small style="color:#a4907a">✅ Nishon belgilandi, kutilmoqda...</small>`;
         }
         if (gamePhase === 'night_doctor' && me.role && me.role.toLowerCase() === 'doctor' && hasHealed) {
-            roleText += `<br><small style="color:#aaa">✅ Bemor tanlandi, kutilmoqda...</small>`;
+            roleText += `<br><small style="color:#a4907a">✅ Bemor tanlandi, kutilmoqda...</small>`;
         }
         roleDiv.innerHTML = roleText;
     } else if (roleDiv) {
@@ -2103,7 +2126,7 @@ socket.on('vote-ready-update', (data) => {
         if (voteReadyUsers.has(username)) {
             const badge = document.createElement('span');
             badge.className = 'vr-badge';
-            badge.style.cssText = 'color:#22c55e;font-size:0.75rem;font-weight:700;margin-left:6px;';
+            badge.style.cssText = 'color:#2e8b3d;font-size:0.75rem;font-weight:700;margin-left:6px;';
             badge.innerText = '✅ Tayyor';
             nameEl.appendChild(badge);
         }
@@ -2136,9 +2159,9 @@ function getRoleTranslate(r) {
 }
 
 function getRoleColor(r) {
-    if (r && r.includes('Mafia')) return '#e94560';
-    if (r === 'Doctor')           return '#00d1ff';
-    return '#f8b400';
+    if (r && r.includes('Mafia')) return '#b8232f';
+    if (r === 'Doctor')           return '#d4af5a';
+    return '#e8ad1f';
 }
 
 function showToast(msg, duration = 3000) {
@@ -2150,16 +2173,16 @@ function showToast(msg, duration = 3000) {
     toast.id = 'toast-msg';
 
     // Tur aniqlash — icon va rang
-    let borderColor = '#6366f1';
+    let borderColor = '#a4172b';
     let iconHtml = '';
     if (msg.startsWith('❌')) {
-        borderColor = '#ef4444';
+        borderColor = '#c0392b';
     } else if (msg.startsWith('✅') || msg.startsWith('🎉') || msg.startsWith('✨')) {
-        borderColor = '#22c55e';
+        borderColor = '#2e8b3d';
     } else if (msg.startsWith('🚀')) {
-        borderColor = '#0ea5e9';
+        borderColor = '#c99a2e';
     } else if (msg.startsWith('⚠️')) {
-        borderColor = '#f59e0b';
+        borderColor = '#d9a521';
     }
 
     toast.style.cssText = `
@@ -2167,8 +2190,8 @@ function showToast(msg, duration = 3000) {
         bottom: 32px;
         left: 50%;
         transform: translateX(-50%) translateY(20px);
-        background: #131c2e;
-        color: #e2e8f0;
+        background: #1a130f;
+        color: #ecdfc4;
         padding: 13px 22px;
         border-radius: 14px;
         border: 1.5px solid ${borderColor};
@@ -2211,7 +2234,7 @@ function showNightSummaryModal(msg) {
 
     const isKilled  = msg.includes('o\'ldirildi');
     const isSaved   = msg.includes('Doktor davoladi');
-    const borderC   = isKilled ? '#e94560' : (isSaved ? '#00d1ff' : '#27ae60');
+    const borderC   = isKilled ? '#b8232f' : (isSaved ? '#d4af5a' : '#2e8b3d');
     const icon      = isKilled ? '💀' : (isSaved ? '🩺' : '✨');
 
     const modal = document.createElement('div');
@@ -2220,7 +2243,7 @@ function showNightSummaryModal(msg) {
         position: fixed;
         top: 50%; left: 50%;
         transform: translate(-50%, -50%);
-        background: #1a2744;
+        background: #241a14;
         border: 2px solid ${borderC};
         border-radius: 18px;
         padding: 28px 24px;
@@ -2234,7 +2257,7 @@ function showNightSummaryModal(msg) {
     modal.innerHTML = `
         <div style="font-size:2.5rem;margin-bottom:10px;">${icon}</div>
         <div style="font-size:1rem;line-height:1.5;color:#fff;margin-bottom:14px;">${esc(msg)}</div>
-        <div id="night-modal-cd" style="color:#64748b;font-size:0.8rem;">6 soniyada yopiladi</div>
+        <div id="night-modal-cd" style="color:#9c8a6c;font-size:0.8rem;">6 soniyada yopiladi</div>
     `;
     document.body.appendChild(modal);
 
@@ -2259,21 +2282,21 @@ function showVoteResults(summary, details) {
     panel.id = 'vote-results-panel';
     panel.style.cssText = `
         position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-        background:#1a2744; color:#fff; padding:22px 26px; border-radius:16px;
-        border:2px solid #e94560; font-size:0.95rem; z-index:9999;
+        background:#241a14; color:#fff; padding:22px 26px; border-radius:16px;
+        border:2px solid #b8232f; font-size:0.95rem; z-index:9999;
         box-shadow:0 8px 30px rgba(0,0,0,0.7); min-width:280px; max-width:90%;
         text-align:center;`;
     document.body.appendChild(panel);
 
     const detailLines = details
-        ? details.split('\n').map(d => `<div style="color:#aaa;font-size:0.82rem;margin:2px 0;">${esc(d)}</div>`).join('')
+        ? details.split('\n').map(d => `<div style="color:#a4907a;font-size:0.82rem;margin:2px 0;">${esc(d)}</div>`).join('')
         : '';
 
     panel.innerHTML = `
         <div style="font-size:1.1rem;font-weight:bold;margin-bottom:10px;color:#f1c40f;">🗳️ Ovoz Natijalari</div>
         <div style="margin-bottom:10px;">${esc(summary)}</div>
-        <div style="border-top:1px solid #334155;padding-top:8px;">${detailLines}</div>
-        <div id="vote-countdown" style="margin-top:10px;color:#64748b;font-size:0.8rem;">10 soniyada yopiladi</div>`;
+        <div style="border-top:1px solid #3a2e22;padding-top:8px;">${detailLines}</div>
+        <div id="vote-countdown" style="margin-top:10px;color:#9c8a6c;font-size:0.8rem;">10 soniyada yopiladi</div>`;
 
     let secs = 10;
     const cd = setInterval(() => {
@@ -2299,16 +2322,16 @@ function showInfoModal() {
         <h3 style="text-align:center;margin-bottom:16px;font-size:1.1rem;">📖 O'yin haqida</h3>
 
         <b>🎮 Lobbi ochish:</b>
-        <p style="color:#94a3b8;margin:4px 0 12px;">Ismingizni kiriting → "Lobbi Ochish" tugmasini bosing. Lobbi kodi avtomatik yaratiladi.</p>
+        <p style="color:#b8a888;margin:4px 0 12px;">Ismingizni kiriting → "Lobbi Ochish" tugmasini bosing. Lobbi kodi avtomatik yaratiladi.</p>
 
         <b>🚪 Lobbiga qo'shilish:</b>
-        <p style="color:#94a3b8;margin:4px 0 12px;">Ismingizni kiriting → "Lobbiga Kirish" → 5 xonali kodni kiriting.</p>
+        <p style="color:#b8a888;margin:4px 0 12px;">Ismingizni kiriting → "Lobbiga Kirish" → 5 xonali kodni kiriting.</p>
 
         <b>🔄 O'yindan chiqqanda:</b>
-        <p style="color:#94a3b8;margin:4px 0 12px;">Ismingiz va lobbi kodini kiriting → "Qayta Kirish" orqali qayta ulanasiz.</p>
+        <p style="color:#b8a888;margin:4px 0 12px;">Ismingiz va lobbi kodini kiriting → "Qayta Kirish" orqali qayta ulanasiz.</p>
 
         <b>🌙 O'yin qoidalari:</b>
-        <p style="color:#94a3b8;margin:4px 0 12px;">O‘yinda kamida 5 ta oyinchi bolishi shart.
+        <p style="color:#b8a888;margin:4px 0 12px;">O‘yinda kamida 5 ta oyinchi bolishi shart.
             </br> 6 ta oyinchi bolsa 1ta Mafia 1ta Doktir.
             </br> 7 tadan 9 tagacham 2ta Mafia 1ta Doktir.
             </br> 10 tadan ko‘p 3ta Mafia 1ta Doktir</p>
@@ -2316,16 +2339,16 @@ function showInfoModal() {
         <hr><br>
 
         <b>👨‍💻 Dasturchi:</b>
-        <p style="color:#94a3b8;margin:4px 0 4px;">Jo‘rayev Jasur</p>
+        <p style="color:#b8a888;margin:4px 0 4px;">Jo‘rayev Jasur</p>
         <br>
        <a href="#" target="_blank" 
-   style="color:#38bdf8;display:flex;align-items:center;gap:8px;margin-bottom:10px;text-decoration:none;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="#38bdf8"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+   style="color:#d4af5a;display:flex;align-items:center;gap:8px;margin-bottom:10px;text-decoration:none;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#d4af5a"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
     Telegram
 </a>
 <a href="#" target="_blank"
-   style="color:#f472b6;display:flex;align-items:center;gap:8px;text-decoration:none;">
-    <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+   style="color:#d4af5a;display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#d9a521"/><stop offset="25%" style="stop-color:#c95e1c"/><stop offset="50%" style="stop-color:#a4172b"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     Instagram
 </a>
 
@@ -2404,50 +2427,69 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'role-hidden';
     }
 
+    // ─── Chat quti(lar)ini olish — kutish xonasi va o'yin ekrani ──
+    function getChatBoxes() {
+        return ['chat-messages', 'lobby-chat-messages']
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+    }
+
     // ─── Xabarni render qilish ───────────────────────────────────
     function renderMsg(data) {
-        const box      = document.getElementById('chat-messages');
-        if (!box) return;
+        const boxes = getChatBoxes();
+        if (!boxes.length) return;
 
-        const isMine   = (data.username === myUsername);
-        const msgEl    = document.createElement('div');
-        msgEl.className = 'chat-msg ' + (isMine ? 'chat-mine' : 'chat-other');
+        const isMine = (data.username === myUsername);
 
-        // Meta: faqat ism ko'rinadi (rol tagi ko'rsatilmaydi)
-        msgEl.innerHTML = `
-            <div class="chat-msg-meta">
-                <span class="chat-msg-author">${esc(data.username)}</span>
-            </div>
-            <div class="chat-msg-bubble">${esc(data.text)}</div>
-        `;
+        // Skin keshda bo'lmasa — keyingi xabar uchun fonda yuklab qo'yamiz
+        if (playerSkinCache[data.username] === undefined && typeof fetchPlayerSkin === 'function') {
+            fetchPlayerSkin(data.username).then(() => {}).catch(() => {});
+        }
+        const hasSkin   = playerSkinCache[data.username] && typeof SKIN_DATA !== 'undefined' && SKIN_DATA[playerSkinCache[data.username]];
+        const authorHtml = (hasSkin && typeof renderPlayerName === 'function')
+            ? renderPlayerName(data.username)
+            : esc(data.username);
 
-        box.appendChild(msgEl);
-        box.scrollTop = box.scrollHeight;
+        boxes.forEach(box => {
+            const msgEl = document.createElement('div');
+            msgEl.className = 'chat-msg ' + (isMine ? 'chat-mine' : 'chat-other');
 
-        // Eski xabarlarni tozalash (max 120 ta)
-        const msgs = box.querySelectorAll('.chat-msg, .chat-system-msg');
-        if (msgs.length > 120) msgs[0].remove();
+            // Meta: stili bo'lsa — ismi skin bilan, aks holda oddiy matn
+            msgEl.innerHTML = `
+                <div class="chat-msg-meta">
+                    <span class="chat-msg-author">${authorHtml}</span>
+                </div>
+                <div class="chat-msg-bubble">${esc(data.text)}</div>
+            `;
+
+            box.appendChild(msgEl);
+            box.scrollTop = box.scrollHeight;
+
+            // Eski xabarlarni tozalash (max 120 ta)
+            const msgs = box.querySelectorAll('.chat-msg, .chat-system-msg');
+            if (msgs.length > 120) msgs[0].remove();
+        });
     }
 
     // ─── System xabarini render qilish ──────────────────────────
     function renderSystem(text) {
-        const box = document.getElementById('chat-messages');
-        if (!box) return;
-        const el = document.createElement('div');
-        el.className = 'chat-system-msg';
-        el.textContent = text;
-        box.appendChild(el);
-        box.scrollTop = box.scrollHeight;
+        getChatBoxes().forEach(box => {
+            const el = document.createElement('div');
+            el.className = 'chat-system-msg';
+            el.textContent = text;
+            box.appendChild(el);
+            box.scrollTop = box.scrollHeight;
+        });
     }
 
     // ─── Xabar yuborish ─────────────────────────────────────────
-    function sendChatMsg() {
-        var input = document.getElementById('chat-input');
+    function sendChatMsg(inputId) {
+        var input = document.getElementById(inputId || 'chat-input');
         if (!input) return;
         var text = input.value.trim();
         if (!text || !myLobbyCode || !myUsername) return;
-        // Faqat tanishuv va muhokama fazalarida
-        var allowedPhases = ['introduction', 'discussion'];
+        // Kutish xonasida, tanishuv va muhokama fazalarida ochiq
+        var allowedPhases = ['waiting', 'introduction', 'discussion'];
         if (!allowedPhases.includes(gamePhase)) return;
         socket.emit('chat-message', {
             lobbyCode : myLobbyCode,
@@ -2458,41 +2500,44 @@ document.addEventListener('DOMContentLoaded', function() {
         input.blur();
     }
 
-    // ─── Yuborish tugmasi ────────────────────────────────────────
-    var sendBtn = document.getElementById('chat-send-btn');
-    if (sendBtn) {
-        sendBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            sendChatMsg();
-        });
-        sendBtn.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            sendChatMsg();
-        });
-    }
-
-    // ─── Enter tugmasi ───────────────────────────────────────────
-    var chatInput = document.getElementById('chat-input');
-    if (chatInput) {
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
+    // ─── Yuborish tugmalari (o'yin ekrani + kutish xonasi) ────────
+    [
+        { btnId: 'chat-send-btn',       inputId: 'chat-input' },
+        { btnId: 'lobby-chat-send-btn', inputId: 'lobby-chat-input' },
+    ].forEach(function (cfg) {
+        var sendBtn = document.getElementById(cfg.btnId);
+        if (sendBtn) {
+            sendBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                sendChatMsg();
-            }
-        });
-        // Klaviatura chiqqanda xabarlarga scroll
-        chatInput.addEventListener('focus', function() {
-            setTimeout(function() {
-                var box = document.getElementById('chat-messages');
-                if (box) box.scrollTop = box.scrollHeight;
-            }, 350);
-        });
-    }
+                sendChatMsg(cfg.inputId);
+            });
+            sendBtn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                sendChatMsg(cfg.inputId);
+            });
+        }
+
+        var inputEl = document.getElementById(cfg.inputId);
+        if (inputEl) {
+            inputEl.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendChatMsg(cfg.inputId);
+                }
+            });
+            inputEl.addEventListener('focus', function() {
+                setTimeout(function() {
+                    var box = document.getElementById(cfg.inputId === 'lobby-chat-input' ? 'lobby-chat-messages' : 'chat-messages');
+                    if (box) box.scrollTop = box.scrollHeight;
+                }, 350);
+            });
+        }
+    });
 
     // ─── Socket: chat xabari keldi ───────────────────────────────
     socket.on('chat-message', function(data) {
         renderMsg(data);
-        // Chat tab ochiq emas bo'lsa — unread badge ko'rsat
+        // O'yin ekranidagi Chat tab ochiq emas bo'lsa — unread badge ko'rsat
         var chatTab = document.getElementById('tab-content-chat');
         if (!chatTab || chatTab.style.display === 'none') {
             var badge = document.getElementById('chat-unread-badge');
@@ -2502,13 +2547,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 badge.style.display = 'flex';
             }
         }
+        // Kutish xonasidagi Chat tab ochiq emas bo'lsa — unread badge ko'rsat
+        var lobbyChatTab = document.getElementById('wtab-content-chat');
+        if (lobbyChatTab && lobbyChatTab.style.display === 'none') {
+            var lbadge = document.getElementById('lobby-chat-unread-badge');
+            if (lbadge) {
+                var lcount = parseInt(lbadge.textContent) || 0;
+                lbadge.textContent = lcount + 1;
+                lbadge.style.display = 'flex';
+            }
+        }
     });
 
     // ─── Socket: chat tarixi (lobbi ochilganda) ───────────────────
     socket.on('chat-history', function(messages) {
-        var box = document.getElementById('chat-messages');
-        if (!box) return;
-        box.innerHTML = '';
+        var boxes = getChatBoxes();
+        if (!boxes.length) return;
+        boxes.forEach(function(box) { box.innerHTML = ''; });
         messages.forEach(function(m) { renderMsg(m); });
     });
 
@@ -2583,9 +2638,17 @@ document.addEventListener('DOMContentLoaded', function() {
         var msgEl  = document.createElement('div');
         msgEl.className = 'chat-msg ' + (isMine ? 'chat-mine' : 'chat-other');
 
+        if (playerSkinCache[data.username] === undefined && typeof fetchPlayerSkin === 'function') {
+            fetchPlayerSkin(data.username).then(function(){}).catch(function(){});
+        }
+        var hasSkin = playerSkinCache[data.username] && typeof SKIN_DATA !== 'undefined' && SKIN_DATA[playerSkinCache[data.username]];
+        var authorHtml = (hasSkin && typeof renderPlayerName === 'function')
+            ? renderPlayerName(data.username)
+            : esc(data.username);
+
         msgEl.innerHTML =
             '<div class="chat-msg-meta">' +
-                '<span class="chat-msg-author">🔴 ' + esc(data.username) + '</span>' +
+                '<span class="chat-msg-author">🔴 ' + authorHtml + '</span>' +
             '</div>' +
             '<div class="chat-msg-bubble">' + esc(data.text) + '</div>';
 

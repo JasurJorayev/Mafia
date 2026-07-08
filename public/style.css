@@ -1,9 +1,28 @@
 :root {
-    --primary: #e94560;
-    --secondary: #533483;
-    --bg-dark: #1a1a2e;
-    --card-bg: #16213e;
+    --primary: #a4172b;
+    --primary-bright: #d4213a;
+    --secondary: #6b1220;
+    --bg-dark: #0b0806;
+    --card-bg: #1c1512;
+    --card-bg-2: #241a12;
+    --border-bronze: #4a3320;
     --text-gold: #f1c40f;
+    --gold: #d4af37;
+    --gold-soft: #d4af5a;
+    --ivory: #ecdfc4;
+    --muted: #9c8a6c;
+    --felt-green: #2e8b3d;
+}
+
+/* ===== O'YIN VAYBI — fon teksturasi: art-deco romb panjara + vinyet ===== */
+html, body {
+    background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(ellipse at 50% -10%, rgba(164,23,43,0.28), transparent 55%),
+        radial-gradient(ellipse at 50% 110%, rgba(212,175,55,0.10), transparent 60%),
+        repeating-linear-gradient(45deg, rgba(212,175,55,0.035) 0px, rgba(212,175,55,0.035) 1px, transparent 1px, transparent 26px),
+        repeating-linear-gradient(-45deg, rgba(212,175,55,0.035) 0px, rgba(212,175,55,0.035) 1px, transparent 1px, transparent 26px);
+    background-attachment: fixed;
 }
 
 /* ===== GPU optimizatsiya — skin animatsiyalari ===== */
@@ -48,8 +67,7 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-dark);
-    color: #ffffff;
+    color: var(--ivory);
     margin: 0;
     display: flex;
     justify-content: center;
@@ -74,22 +92,56 @@ body {
     width: 90%;
     max-width: 420px;
     text-align: center;
+    position: relative;
+}
+
+/* ===== SARLAVHA — art-deco afisha uslubi, prujektor nurlari bilan ===== */
+header {
+    position: relative;
+    padding-top: 6px;
+    margin-bottom: 4px;
+}
+header::before {
+    content: "";
+    position: absolute;
+    top: -14px; left: 50%;
+    width: 260px; height: 90px;
+    transform: translateX(-50%);
+    background: conic-gradient(from 200deg at 50% 0%,
+        transparent 0deg, rgba(212,175,55,0.16) 12deg, transparent 24deg,
+        transparent 156deg, rgba(212,175,55,0.16) 168deg, transparent 180deg);
+    pointer-events: none;
+    z-index: -1;
+    animation: spotlight-sweep 7s ease-in-out infinite;
+}
+@keyframes spotlight-sweep {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) rotate(-4deg); }
+    50%      { opacity: 1;   transform: translateX(-50%) rotate(4deg); }
 }
 
 h1 {
-    font-family: 'Russo One', 'Poppins', sans-serif;
-    font-size: 1.85rem;
+    font-family: 'Bebas Neue', 'Russo One', 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
     margin-bottom: 6px;
-    letter-spacing: 1.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #ffe08a 0%, #f1c40f 35%, #e94560 75%, #b3123e 100%);
+    background: linear-gradient(135deg, #f3d98a 0%, #f1c40f 35%, #d4213a 75%, #7a1220 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 14px rgba(233, 69, 96, 0.45);
+    text-shadow: 0 2px 18px rgba(212,175,55,0.35);
+}
+h1::before, h1::after {
+    content: "♠";
+    -webkit-text-fill-color: var(--gold);
+    font-size: 1rem;
+    opacity: 0.55;
+    margin: 0 10px;
+    transform: translateY(-2px);
 }
 
 .timer-display {
@@ -98,31 +150,47 @@ h1 {
     color: var(--text-gold);
     margin: 10px 0;
     font-family: 'Courier New', monospace;
+    text-shadow: 0 0 14px rgba(241,196,15,0.5);
 }
 
 .card {
-    background: var(--card-bg);
+    background:
+        linear-gradient(180deg, rgba(212,175,55,0.05), transparent 40%),
+        var(--card-bg);
     padding: 22px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 14px;
+    border: 1px solid var(--border-bronze);
+    box-shadow: 0 12px 34px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.03);
     margin-top: 16px;
+    position: relative;
 }
+/* art-deco burchak bezaklari */
+.card::before, .card::after {
+    content: "";
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 2px solid var(--gold);
+    opacity: 0.55;
+    pointer-events: none;
+}
+.card::before { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+.card::after  { bottom: 6px; right: 6px; border-left: none; border-top: none; }
 
 /* ===== INPUT ===== */
 input[type="text"] {
     width: 100%;
     padding: 13px 15px;
-    border-radius: 12px;
-    border: 2px solid #0f3460;
-    background: #0f3460;
-    color: white;
+    border-radius: 8px;
+    border: 2px solid var(--border-bronze);
+    background: var(--card-bg-2);
+    color: var(--ivory);
     font-size: 16px; /* iOS zoom oldini olish uchun min 16px bo'lishi kerak */
     outline: none;
     transition: 0.3s;
     margin-bottom: 14px;
 }
 
-input[type="text"]:focus { border-color: var(--primary); }
+input[type="text"]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
 
 /* Brauzer autofill (ism eslab qolinganda) qutini oqartirib yubormasligi uchun */
 input[type="text"]:-webkit-autofill,
@@ -130,15 +198,15 @@ input[type="text"]:-webkit-autofill:hover,
 input[type="text"]:-webkit-autofill:focus,
 input[type="text"]:-webkit-autofill:active {
     -webkit-text-fill-color: #ffffff !important;
-    -webkit-box-shadow: 0 0 0 1000px #0f3460 inset !important;
-    box-shadow: 0 0 0 1000px #0f3460 inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #241a12 inset !important;
+    box-shadow: 0 0 0 1000px #241a12 inset !important;
     caret-color: #ffffff;
     transition: background-color 5000s ease-in-out 0s;
 }
 
 input[type="text"]:autofill {
     -webkit-text-fill-color: #ffffff !important;
-    box-shadow: 0 0 0 1000px #0f3460 inset !important;
+    box-shadow: 0 0 0 1000px #241a12 inset !important;
     caret-color: #ffffff;
 }
 input.password-input[type="text"],
@@ -173,25 +241,28 @@ input.code-input[type="password"] {
     flex: 1;
     padding: 13px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
     font-size: 0.9rem;
+    font-family: 'Bebas Neue', 'Poppins', sans-serif;
+    letter-spacing: 1px;
     transition: all 0.2s;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -3px 0 rgba(0,0,0,0.25);
 }
 
 .btn-rejoin {
-    background: #1a1a3a;
-    border: 2px solid #7c3aed;
-    color: #a78bfa;
+    background: #1a130f;
+    border: 2px solid #c99a2e;
+    color: #e0c47a;
 }
 .btn-rejoin:hover {
-    background: #2d1b69;
-    border-color: #9f67ff;
+    background: #3a2408;
+    border-color: #c99a2e;
 }
 
 .btn-create  {
-    background: #27ae60;
+    background: #2e8b3d;
     color: white;
     box-shadow: 0 3px 12px rgba(39,174,96,0.35);
 }
@@ -202,24 +273,24 @@ input.code-input[type="password"] {
 }
 
 .btn-join-l  {
-    background: #e74c3c;
+    background: #c0392b;
     color: white;
     box-shadow: 0 3px 12px rgba(231,76,60,0.35);
 }
 .btn-join-l:hover  {
-    background: #ff5a4a;
+    background: #d9483a;
     box-shadow: 0 5px 18px rgba(255,90,74,0.45);
     transform: translateY(-2px);
 }
 
 .btn-online:hover {
-    background: linear-gradient(135deg,#2563eb,#1d4ed8) !important;
+    background: linear-gradient(135deg,#8a1322,#8a1322) !important;
     box-shadow: 0 6px 24px rgba(29,78,216,0.7) !important;
     transform: translateY(-2px);
 }
 
-.btn-back    { background: #2c3e50; color: #aaa; }
-.btn-back:hover { background: #34495e; }
+.btn-back    { background: #241a12; color: #a4907a; }
+.btn-back:hover { background: #3a2e22; }
 
 /* ===== LOBBI KOD DISPLAY ===== */
 .lobby-info-card { text-align: center; }
@@ -243,7 +314,7 @@ input.code-input[type="password"] {
     padding: 6px 16px;
     border-radius: 20px;
     font-size: 0.85rem;
-    color: #c9b7ff;
+    color: #e0c47a;
     margin-top: 8px;
 }
 
@@ -255,20 +326,31 @@ input.code-input[type="password"] {
 .player-row {
     padding: 10px 14px;
     margin: 6px 0;
-    background: #1a2744;
+    background: #241a14;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #2a3a5a;
+    border: 1px solid #4a3320;
     font-size: 0.95rem;
+    gap: 8px;
+}
+
+/* Ism + toj + "SEN" belgisi — hech qachon pastki qatorga tushmaydi.
+   MUHIM: overflow:hidden ISHLATILMAYDI — aks holda skin ikonkasining
+   porlashi (box-shadow) qirrali to'rtburchak bo'lib kesilib qoladi. */
+.player-row > span:first-child {
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
 }
 
 /* ===== ROL KO'RSATISH ===== */
 .role-box {
     margin-top: 14px;
     padding: 14px;
-    background: linear-gradient(135deg, var(--secondary), #0f3460);
+    background: linear-gradient(135deg, var(--secondary), #241a12);
     border-radius: 14px;
     border-left: 5px solid var(--primary);
     display: none;
@@ -310,11 +392,11 @@ input.code-input[type="password"] {
     font-size: 0.88rem;
 }
 
-.btn-start { background: #27ae60; color: white; box-shadow: 0 4px 15px rgba(39,174,96,0.3); }
+.btn-start { background: #2e8b3d; color: white; box-shadow: 0 4px 15px rgba(39,174,96,0.3); }
 .btn-start:hover { background: #2ecc71; transform: scale(1.04); }
 
 .btn-reset { background: #c0392b; color: white; box-shadow: 0 4px 15px rgba(192,57,43,0.3); }
-.btn-reset:hover { background: #e74c3c; transform: scale(1.04); }
+.btn-reset:hover { background: #c0392b; transform: scale(1.04); }
 
 /* ===== ACTION TUGMASI ===== */
 .btn-action {
@@ -328,7 +410,7 @@ input.code-input[type="password"] {
     font-weight: 600;
     transition: background 0.2s;
 }
-.btn-action:hover { background: #ff2e63; }
+.btn-action:hover { background: #b8232f; }
 
 /* ===== O'YIN TUGADI ===== */
 .game-over-wrapper {
@@ -340,7 +422,7 @@ input.code-input[type="password"] {
 }
 
 .game-over-card {
-    background: #1f293d;
+    background: #211913;
     padding: 28px;
     border-radius: 18px;
     border: 2px solid var(--primary);
@@ -353,13 +435,13 @@ input.code-input[type="password"] {
 .game-over-title {
     font-size: 1.8rem;
     font-weight: 800;
-    color: #ef4444;
+    color: #c0392b;
     text-shadow: 0 0 10px rgba(239,68,68,0.5);
     margin: 0 0 10px;
 }
 
 .citizen-victory {
-    color: #10b981 !important;
+    color: #1f7a4d !important;
     text-shadow: 0 0 10px rgba(16,185,129,0.5) !important;
 }
 
@@ -376,7 +458,7 @@ input.code-input[type="password"] {
     border-radius: 10px;
     font-size: 0.92rem;
     line-height: 1.5;
-    color: #cbd5e1;
+    color: #d9c9a8;
     text-align: left;
 }
 
@@ -384,21 +466,21 @@ input.code-input[type="password"] {
     display: inline-block;
     margin-top: 18px;
     padding: 12px 24px;
-    background: #2c3e50;
+    background: #241a12;
     color: white;
-    border: 2px solid #3498db;
+    border: 2px solid #8a6a1a;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
 }
-.btn-menu-back:hover { background: #3498db; transform: scale(1.04); }
+.btn-menu-back:hover { background: #8a6a1a; transform: scale(1.04); }
 
 /* ===== ROL NISHONLAR ===== */
 .role-badge { padding: 2px 7px; border-radius: 5px; font-weight: bold; font-size: 0.82rem; }
-.role-mafia  { background: rgba(239,68,68,0.2); color: #f87171; border: 1px solid rgba(239,68,68,0.4); }
-.role-doctor { background: rgba(0,209,255,0.15); color: #00d1ff; border: 1px solid rgba(0,209,255,0.3); }
-.role-citizen{ background: rgba(16,185,129,0.2); color: #34d399; border: 1px solid rgba(16,185,129,0.4); }
+.role-mafia  { background: rgba(239,68,68,0.2); color: #e0685a; border: 1px solid rgba(239,68,68,0.4); }
+.role-doctor { background: rgba(0,209,255,0.15); color: #d4af5a; border: 1px solid rgba(0,209,255,0.3); }
+.role-citizen{ background: rgba(16,185,129,0.2); color: #4caf50; border: 1px solid rgba(16,185,129,0.4); }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
@@ -411,8 +493,8 @@ input.code-input[type="password"] {
     top: 14px;
     right: 14px;
     background: rgba(22,33,62,0.85);
-    border: 1px solid #334155;
-    color: #94a3b8;
+    border: 1px solid #3a2e22;
+    color: #b8a888;
     font-size: 1.3rem;
     width: 40px;
     height: 40px;
@@ -424,20 +506,20 @@ input.code-input[type="password"] {
     align-items: center;
     justify-content: center;
 }
-.btn-fullscreen:hover { background: #1e3a5f; color: white; }
+.btn-fullscreen:hover { background: #4a3320; color: white; }
 
 /* ===== LOBBYDAN CHIQISH ===== */
 .btn-leave {
     background: transparent;
-    border: 1px solid #334155;
-    color: #64748b;
+    border: 1px solid #3a2e22;
+    color: #9c8a6c;
     padding: 8px 18px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.85rem;
     transition: all 0.2s;
 }
-.btn-leave:hover { border-color: #e94560; color: #e94560; }
+.btn-leave:hover { border-color: #b8232f; color: #b8232f; }
 
 /* ===== MODAL ANIMATSIYA ===== */
 @keyframes fadeInScale {
@@ -450,9 +532,9 @@ input.code-input[type="password"] {
     position: fixed;
     top: 16px;
     left: 16px;
-    background: #1a2235;
-    border: 1px solid #2d3f5e;
-    color: #94a3b8;
+    background: #22190f;
+    border: 1px solid #3d2a1a;
+    color: #b8a888;
     width: 38px;
     height: 38px;
     border-radius: 10px;
@@ -462,33 +544,33 @@ input.code-input[type="password"] {
     transition: .15s;
 }
 .btn-info-open:hover {
-    background: #243050;
-    color: #e2e8f0;
+    background: #2b2013;
+    color: #ecdfc4;
 }
 /* ===== ONLINE LOBBI STILLARI ===== */
 .online-range-btn, .online-type-btn {
     flex: 1;
     padding: 9px 0;
     border-radius: 10px;
-    border: 2px solid #2d3f5e;
-    background: #1a2540;
-    color: #aaa;
+    border: 2px solid #3d2a1a;
+    background: #22190f;
+    color: #a4907a;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all .15s;
     font-weight: 600;
 }
 .online-range-btn.active, .online-type-btn.active {
-    background: linear-gradient(135deg,#6366f1,#0ea5e9);
-    border-color: #6366f1;
+    background: linear-gradient(135deg,#a4172b,#c99a2e);
+    border-color: #a4172b;
     color: #fff;
 }
 .online-range-btn:active, .online-type-btn:active { transform: scale(.96); }
 
 /* Ochiq lobbilar ro'yxati */
 .public-lobby-item {
-    background: #151f35;
-    border: 1px solid #2d3f5e;
+    background: #1a130f;
+    border: 1px solid #3d2a1a;
     border-radius: 12px;
     padding: 11px 14px;
     margin-bottom: 8px;
@@ -499,14 +581,14 @@ input.code-input[type="password"] {
     justify-content: space-between;
     gap: 10px;
 }
-.public-lobby-item:hover { border-color: #6366f1; background: #1a2540; }
-.public-lobby-item.private { border-color: #7c3aed; }
+.public-lobby-item:hover { border-color: #a4172b; background: #22190f; }
+.public-lobby-item.private { border-color: #c99a2e; }
 .public-lobby-left { flex: 1; }
-.public-lobby-code { font-size: 1.1rem; font-weight: 800; color: #e2e8f0; letter-spacing: 2px; }
-.public-lobby-host { font-size: 0.78rem; color: #6b7280; margin-top: 2px; }
+.public-lobby-code { font-size: 1.1rem; font-weight: 800; color: #ecdfc4; letter-spacing: 2px; }
+.public-lobby-host { font-size: 0.78rem; color: #8a7a5e; margin-top: 2px; }
 .public-lobby-right { text-align: right; }
-.public-lobby-count { font-size: 0.9rem; font-weight: 700; color: #22c55e; }
-.public-lobby-max { font-size: 0.75rem; color: #6b7280; }
+.public-lobby-count { font-size: 0.9rem; font-weight: 700; color: #2e8b3d; }
+.public-lobby-max { font-size: 0.75rem; color: #8a7a5e; }
 .public-lobby-badge {
     font-size: 0.7rem;
     padding: 2px 7px;
@@ -514,13 +596,13 @@ input.code-input[type="password"] {
     margin-top: 4px;
     display: inline-block;
 }
-.badge-open { background:#0f3a1e; color:#22c55e; border:1px solid #166534; }
-.badge-private { background:#2d1f5e; color:#a78bfa; border:1px solid #6d28d9; }
+.badge-open { background:#16321f; color:#2e8b3d; border:1px solid #1f7a4d; }
+.badge-private { background:#2d1f5e; color:#e0c47a; border:1px solid #8a6a1a; }
 
 /* ===== ONLINE STEP — STEP LABEL ===== */
 .step-label {
     margin: 0 0 16px 0;
-    color: #94a3b8;
+    color: #b8a888;
     font-size: 0.88rem;
     text-transform: uppercase;
     letter-spacing: 1.2px;
@@ -555,25 +637,25 @@ input.code-input[type="password"] {
 .oab-text  { font-size: 0.85rem; }
 
 .online-action-create {
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-    border-color: #4ade8044;
+    background: linear-gradient(135deg, #1f7a4d, #2e8b3d);
+    border-color: #5cb85c44;
     color: #fff;
     box-shadow: 0 4px 18px rgba(34,197,94,0.35);
 }
 .online-action-create:hover {
-    background: linear-gradient(135deg, #22c55e, #4ade80);
+    background: linear-gradient(135deg, #2e8b3d, #5cb85c);
     box-shadow: 0 6px 22px rgba(34,197,94,0.5);
     transform: translateY(-2px);
 }
 
 .online-action-join {
-    background: linear-gradient(135deg, #dc2626, #ef4444);
-    border-color: #f8717144;
+    background: linear-gradient(135deg, #a4172b, #c0392b);
+    border-color: #e0685a44;
     color: #fff;
     box-shadow: 0 4px 18px rgba(239,68,68,0.35);
 }
 .online-action-join:hover {
-    background: linear-gradient(135deg, #ef4444, #f87171);
+    background: linear-gradient(135deg, #c0392b, #e0685a);
     box-shadow: 0 6px 22px rgba(239,68,68,0.5);
     transform: translateY(-2px);
 }
@@ -581,8 +663,8 @@ input.code-input[type="password"] {
 /* Orqaga — kichik, quyi */
 .btn-back-inline {
     background: transparent;
-    border: 1px solid #2d3f5e;
-    color: #64748b;
+    border: 1px solid #3d2a1a;
+    color: #9c8a6c;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -590,7 +672,7 @@ input.code-input[type="password"] {
     transition: all .15s;
     width: 100%;
 }
-.btn-back-inline:hover { border-color: #4f6380; color: #94a3b8; }
+.btn-back-inline:hover { border-color: #6b5a42; color: #b8a888; }
 
 /* ===== LOBBILAR HEADER ===== */
 .lobbies-header {
@@ -599,26 +681,26 @@ input.code-input[type="password"] {
     align-items: center;
     margin-bottom: 10px;
     padding-bottom: 8px;
-    border-bottom: 1px solid #1e2d45;
+    border-bottom: 1px solid #3d2a1a;
 }
 .lobbies-title {
     font-size: 0.78rem;
-    color: #64748b;
+    color: #9c8a6c;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
 }
 .btn-refresh {
     background: none;
-    border: 1px solid #2d3f5e;
-    color: #6366f1;
+    border: 1px solid #3d2a1a;
+    color: #a4172b;
     font-size: 0.78rem;
     padding: 4px 10px;
     border-radius: 6px;
     cursor: pointer;
     transition: all .15s;
 }
-.btn-refresh:hover { background: #1a2540; }
+.btn-refresh:hover { background: #22190f; }
 
 /* ===== SETTINGS BLOCK (yaratish ekrani) ===== */
 .settings-block {
@@ -626,7 +708,7 @@ input.code-input[type="password"] {
 }
 .settings-label {
     display: block;
-    color: #64748b;
+    color: #9c8a6c;
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -642,8 +724,8 @@ input.code-input[type="password"] {
 .password-field-wrap {
     display: flex;
     align-items: center;
-    background: #0d1f3c;
-    border: 2px solid #1e3a5f;
+    background: #1a130f;
+    border: 2px solid #4a3320;
     border-radius: 12px;
     padding: 0 8px 0 12px;
     transition: border-color .2s, box-shadow .2s;
@@ -653,7 +735,7 @@ input.code-input[type="password"] {
     margin-right: auto;
 }
 .password-field-wrap:focus-within {
-    border-color: #6366f1;
+    border-color: #a4172b;
     box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
 }
 .password-icon {
@@ -668,7 +750,7 @@ input.code-input[type="password"] {
     background: transparent;
     border: none;
     outline: none;
-    color: #e2e8f0;
+    color: #ecdfc4;
     font-size: 14px;
     font-weight: 400;
     padding: 9px 0;
@@ -676,13 +758,13 @@ input.code-input[type="password"] {
     margin-bottom: 0;
     text-align: center;
 }
-.password-input::placeholder { color: #4a5568; text-align: center; }
+.password-input::placeholder { color: #5a4a36; text-align: center; }
 .btn-eye {
     background: rgba(99,102,241,0.08);
     border: 1px solid rgba(99,102,241,0.2);
     border-radius: 8px;
     cursor: pointer;
-    color: #818cf8;
+    color: #c99a2e;
     padding: 5px 7px;
     margin-left: 6px;
     transition: background .18s, color .18s, border-color .18s, transform .12s;
@@ -694,7 +776,7 @@ input.code-input[type="password"] {
 }
 .btn-eye:hover {
     background: rgba(99,102,241,0.22);
-    color: #c7d2fe;
+    color: #e0c47a;
     border-color: rgba(99,102,241,0.5);
     transform: scale(1.08);
 }
@@ -705,8 +787,8 @@ input.code-input[type="password"] {
 .code-field-wrap {
     display: flex;
     align-items: center;
-    background: #0d1f3c;
-    border: 2px solid #1e3a5f;
+    background: #1a130f;
+    border: 2px solid #4a3320;
     border-radius: 12px;
     padding: 0 14px;
     margin-bottom: 14px;
@@ -716,13 +798,13 @@ input.code-input[type="password"] {
     margin-right: auto;
 }
 .code-field-wrap:focus-within {
-    border-color: #e94560;
+    border-color: #b8232f;
     box-shadow: 0 0 0 3px rgba(233,69,96,0.15);
 }
 .code-icon {
     font-size: 1.1rem;
     font-weight: 900;
-    color: #4a5568;
+    color: #5a4a36;
     margin-right: 10px;
     font-family: monospace;
 }
@@ -732,7 +814,7 @@ input.code-input[type="password"] {
     background: transparent;
     border: none;
     outline: none;
-    color: #e2e8f0;
+    color: #ecdfc4;
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: 6px;
@@ -742,7 +824,7 @@ input.code-input[type="password"] {
     font-family: 'Courier New', monospace;
     text-align: center;
 }
-.code-input::placeholder { color: #2d3f5e; font-size: 0.9rem; letter-spacing: 1px; font-weight: 400; font-family: 'Poppins', sans-serif; }
+.code-input::placeholder { color: #3d2a1a; font-size: 0.9rem; letter-spacing: 1px; font-weight: 400; font-family: 'Poppins', sans-serif; }
 
 /* ===== TOGGLE SWITCH (parol kerakmi) ===== */
 .password-toggle-wrap {
@@ -761,24 +843,24 @@ input.code-input[type="password"] {
 .toggle-slider {
     position: absolute;
     inset: 0;
-    background: #1e3a5f;
+    background: #4a3320;
     border-radius: 22px;
     cursor: pointer;
     transition: .2s;
-    border: 1px solid #2d3f5e;
+    border: 1px solid #3d2a1a;
 }
 .toggle-slider:before {
     content: '';
     position: absolute;
     width: 16px; height: 16px;
     left: 2px; top: 2px;
-    background: #64748b;
+    background: #9c8a6c;
     border-radius: 50%;
     transition: .2s;
 }
-.toggle-switch input:checked + .toggle-slider { background: #6366f1; border-color: #6366f1; }
+.toggle-switch input:checked + .toggle-slider { background: #a4172b; border-color: #a4172b; }
 .toggle-switch input:checked + .toggle-slider:before { transform: translateX(18px); background: #fff; }
-.toggle-label { color: #94a3b8; font-size: 0.85rem; }
+.toggle-label { color: #b8a888; font-size: 0.85rem; }
 
 /* ===== YARATISH/KIRISH TUGMALAR QATORI ===== */
 .create-btn-row {
@@ -788,7 +870,7 @@ input.code-input[type="password"] {
 }
 .btn-create-main {
     flex: 2;
-    background: linear-gradient(135deg, #166534, #15803d);
+    background: linear-gradient(135deg, #1f7a4d, #1f7a4d);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -798,10 +880,10 @@ input.code-input[type="password"] {
     cursor: pointer;
     transition: all .18s;
 }
-.btn-create-main:hover { background: linear-gradient(135deg, #15803d, #16a34a); transform: translateY(-1px); }
+.btn-create-main:hover { background: linear-gradient(135deg, #1f7a4d, #1f7a4d); transform: translateY(-1px); }
 .btn-join-main {
     flex: 2;
-    background: linear-gradient(135deg, #9b1c1c, #dc2626);
+    background: linear-gradient(135deg, #7a1220, #a4172b);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -811,18 +893,18 @@ input.code-input[type="password"] {
     cursor: pointer;
     transition: all .18s;
 }
-.btn-join-main:hover { background: linear-gradient(135deg, #dc2626, #ef4444); transform: translateY(-1px); }
+.btn-join-main:hover { background: linear-gradient(135deg, #a4172b, #c0392b); transform: translateY(-1px); }
 
 /* ===== O'Z SATRINI BELGILASH ===== */
 .player-row-me {
-    border-color: #6366f1 !important;
-    background: linear-gradient(90deg, #1a1f45 0%, #1a2744 100%) !important;
-    box-shadow: inset 3px 0 0 #6366f1;
+    border-color: #a4172b !important;
+    background: linear-gradient(90deg, #22190f 0%, #241a14 100%) !important;
+    box-shadow: inset 3px 0 0 #a4172b;
 }
 
 .me-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #6366f1, #818cf8);
+    background: linear-gradient(135deg, #a4172b, #c99a2e);
     color: #fff;
     font-size: 0.65rem;
     font-weight: 800;
@@ -859,7 +941,7 @@ input.code-input[type="password"] {
     background: transparent;
     border: none;
     border-radius: 11px;
-    color: #475569;
+    color: #6b5a42;
     font-size: 0.72rem;
     font-weight: 600;
     cursor: pointer;
@@ -878,13 +960,13 @@ input.code-input[type="password"] {
 
 .game-tab.active {
     background: linear-gradient(135deg, rgba(79,70,229,0.35), rgba(99,102,241,0.2));
-    color: #818cf8;
+    color: #c99a2e;
     border: 1px solid rgba(99,102,241,0.3);
 }
 
 .game-tab:not(.active):hover {
     background: rgba(99,102,241,0.08);
-    color: #64748b;
+    color: #9c8a6c;
 }
 
 .chat-unread-badge {
@@ -893,7 +975,7 @@ input.code-input[type="password"] {
     right: 12px;
     min-width: 16px;
     height: 16px;
-    background: #ef4444;
+    background: #c0392b;
     color: #fff;
     font-size: 0.6rem;
     font-weight: 800;
@@ -902,7 +984,7 @@ input.code-input[type="password"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #0d1220;
+    border: 2px solid #100b08;
     line-height: 1;
 }
 
@@ -924,7 +1006,7 @@ input.code-input[type="password"] {
 #chat-panel {
     border-radius: 18px;
     overflow: hidden;
-    background: linear-gradient(135deg, #0d1220 0%, #111827 100%);
+    background: linear-gradient(135deg, #100b08 0%, #16110d 100%);
     border: 1px solid rgba(99,102,241,0.25);
     box-shadow: 0 4px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(99,102,241,0.1);
     display: flex;
@@ -937,7 +1019,7 @@ input.code-input[type="password"] {
 /* ===== MA'LUMOT TAB ===== */
 .info-tab-card h3 {
     font-size: 0.95rem;
-    color: #818cf8;
+    color: #c99a2e;
     letter-spacing: 0.3px;
 }
 
@@ -976,7 +1058,7 @@ input.code-input[type="password"] {
 
 .info-role-desc {
     font-size: 0.75rem;
-    color: #64748b;
+    color: #9c8a6c;
     line-height: 1.4;
 }
 
@@ -994,7 +1076,7 @@ input.code-input[type="password"] {
     align-items: center;
     gap: 10px;
     font-size: 0.78rem;
-    color: #94a3b8;
+    color: #b8a888;
     padding: 5px 0;
 }
 
@@ -1004,9 +1086,9 @@ input.code-input[type="password"] {
     border-radius: 50%;
     flex-shrink: 0;
 }
-.phase-dot.day   { background: #facc15; box-shadow: 0 0 6px rgba(250,204,21,0.5); }
-.phase-dot.vote  { background: #f97316; box-shadow: 0 0 6px rgba(249,115,22,0.5); }
-.phase-dot.night { background: #818cf8; box-shadow: 0 0 6px rgba(129,140,248,0.5); }
+.phase-dot.day   { background: #f0c419; box-shadow: 0 0 6px rgba(250,204,21,0.5); }
+.phase-dot.vote  { background: #d9691e; box-shadow: 0 0 6px rgba(249,115,22,0.5); }
+.phase-dot.night { background: #c99a2e; box-shadow: 0 0 6px rgba(129,140,248,0.5); }
 
 #chat-panel-header {
     display: flex;
@@ -1026,7 +1108,7 @@ input.code-input[type="password"] {
 #chat-panel-header .chat-header-title {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #818cf8;
+    color: #c99a2e;
     letter-spacing: 0.5px;
     text-transform: uppercase;
     flex: 1;
@@ -1037,7 +1119,7 @@ input.code-input[type="password"] {
     font-weight: 700;
     padding: 2px 9px;
     background: rgba(99,102,241,0.25);
-    color: #818cf8;
+    color: #c99a2e;
     border-radius: 20px;
     border: 1px solid rgba(99,102,241,0.35);
     animation: chat-badge-pulse 2.5s infinite;
@@ -1104,11 +1186,11 @@ input.code-input[type="password"] {
 .chat-msg-author {
     font-size: 0.72rem;
     font-weight: 700;
-    color: #94a3b8;
+    color: #b8a888;
 }
 
 .chat-msg.chat-mine .chat-msg-author {
-    color: #818cf8;
+    color: #c99a2e;
 }
 
 /* Rol tagi — muhokama vaqtida */
@@ -1122,11 +1204,11 @@ input.code-input[type="password"] {
     opacity: 0.92;
 }
 
-.chat-role-tag.role-citizen   { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
-.chat-role-tag.role-doctor    { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
-.chat-role-tag.role-mafia     { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3);  }
-.chat-role-tag.role-don       { background: rgba(239,68,68,0.22);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.45); font-size: 0.6rem; }
-.chat-role-tag.role-hidden    { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.2); }
+.chat-role-tag.role-citizen   { background: rgba(74,222,128,0.15); color: #5cb85c; border: 1px solid rgba(74,222,128,0.3); }
+.chat-role-tag.role-doctor    { background: rgba(56,189,248,0.15); color: #d4af5a; border: 1px solid rgba(56,189,248,0.3); }
+.chat-role-tag.role-mafia     { background: rgba(239,68,68,0.15);  color: #e0685a; border: 1px solid rgba(239,68,68,0.3);  }
+.chat-role-tag.role-don       { background: rgba(239,68,68,0.22);  color: #e0a89c; border: 1px solid rgba(239,68,68,0.45); font-size: 0.6rem; }
+.chat-role-tag.role-hidden    { background: rgba(100,116,139,0.15); color: #9c8a6c; border: 1px solid rgba(100,116,139,0.2); }
 
 /* Bubble */
 .chat-msg-bubble {
@@ -1140,7 +1222,7 @@ input.code-input[type="password"] {
 }
 
 .chat-msg.chat-mine .chat-msg-bubble {
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    background: linear-gradient(135deg, #8a1322, #a4172b);
     color: #fff;
     border-bottom-right-radius: 5px;
     box-shadow: 0 2px 12px rgba(99,102,241,0.35);
@@ -1148,7 +1230,7 @@ input.code-input[type="password"] {
 
 .chat-msg.chat-other .chat-msg-bubble {
     background: rgba(30, 41, 59, 0.95);
-    color: #e2e8f0;
+    color: #ecdfc4;
     border: 1px solid rgba(99,102,241,0.12);
     border-bottom-left-radius: 5px;
 }
@@ -1157,7 +1239,7 @@ input.code-input[type="password"] {
 .chat-system-msg {
     text-align: center;
     font-size: 0.72rem;
-    color: #475569;
+    color: #6b5a42;
     padding: 3px 0;
     font-style: italic;
 }
@@ -1183,7 +1265,7 @@ input.code-input[type="password"] {
     border: 1px solid rgba(99,102,241,0.2);
     border-radius: 24px;
     padding: 9px 16px;
-    color: #e2e8f0;
+    color: #ecdfc4;
     font-size: 0.85rem;
     font-family: inherit;
     outline: none;
@@ -1191,7 +1273,7 @@ input.code-input[type="password"] {
 }
 
 #chat-input::placeholder {
-    color: #475569;
+    color: #6b5a42;
 }
 
 #chat-input:focus {
@@ -1205,7 +1287,7 @@ input.code-input[type="password"] {
     flex-shrink: 0;
     border: none;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    background: linear-gradient(135deg, #8a1322, #a4172b);
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
@@ -1218,7 +1300,7 @@ input.code-input[type="password"] {
 
 #chat-send-btn:hover  { transform: scale(1.08); box-shadow: 0 4px 16px rgba(99,102,241,0.55); }
 #chat-send-btn:active { transform: scale(0.95); }
-#chat-send-btn:disabled { background: #1e293b; box-shadow: none; cursor: not-allowed; opacity: 0.4; }
+#chat-send-btn:disabled { background: #1e1712; box-shadow: none; cursor: not-allowed; opacity: 0.4; }
 
 /* Send icon SVG */
 #chat-send-btn svg {
@@ -1235,7 +1317,7 @@ input.code-input[type="password"] {
 #mafia-chat-panel {
     border-radius: 18px;
     overflow: hidden;
-    background: linear-gradient(135deg, #1a0d0d 0%, #1f1112 100%);
+    background: linear-gradient(135deg, #1a0d0d 0%, #1f1611 100%);
     border: 1px solid rgba(239,68,68,0.28);
     box-shadow: 0 4px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(239,68,68,0.12);
     display: flex;
@@ -1262,7 +1344,7 @@ input.code-input[type="password"] {
 #mafia-chat-panel-header .chat-header-title {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #f87171;
+    color: #e0685a;
     letter-spacing: 0.5px;
     text-transform: uppercase;
     flex: 1;
@@ -1273,7 +1355,7 @@ input.code-input[type="password"] {
     font-weight: 700;
     padding: 2px 9px;
     background: rgba(239,68,68,0.25);
-    color: #f87171;
+    color: #e0685a;
     border-radius: 20px;
     border: 1px solid rgba(239,68,68,0.4);
     animation: chat-badge-pulse 2.5s infinite;
@@ -1306,11 +1388,11 @@ input.code-input[type="password"] {
 #mafia-chat-messages::-webkit-scrollbar-thumb { background: rgba(239,68,68,0.35); border-radius: 4px; }
 
 #mafia-chat-panel .chat-msg.chat-mine .chat-msg-author {
-    color: #f87171;
+    color: #e0685a;
 }
 
 #mafia-chat-panel .chat-msg.chat-mine .chat-msg-bubble {
-    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    background: linear-gradient(135deg, #7a1220, #c0392b);
     color: #fff;
     border-bottom-right-radius: 5px;
     box-shadow: 0 2px 12px rgba(239,68,68,0.35);
@@ -1318,7 +1400,7 @@ input.code-input[type="password"] {
 
 #mafia-chat-panel .chat-msg.chat-other .chat-msg-bubble {
     background: rgba(40, 20, 22, 0.95);
-    color: #f1d8d8;
+    color: #e8d4c0;
     border: 1px solid rgba(239,68,68,0.18);
     border-bottom-left-radius: 5px;
 }
@@ -1343,7 +1425,7 @@ input.code-input[type="password"] {
     border: 1px solid rgba(239,68,68,0.25);
     border-radius: 24px;
     padding: 9px 16px;
-    color: #f1d8d8;
+    color: #e8d4c0;
     font-size: 0.85rem;
     font-family: inherit;
     outline: none;
@@ -1351,7 +1433,7 @@ input.code-input[type="password"] {
 }
 
 #mafia-chat-input::placeholder {
-    color: #8a5b5b;
+    color: #9c8a6c;
 }
 
 #mafia-chat-input:focus {
@@ -1365,7 +1447,7 @@ input.code-input[type="password"] {
     flex-shrink: 0;
     border: none;
     border-radius: 50%;
-    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    background: linear-gradient(135deg, #7a1220, #c0392b);
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
@@ -1378,7 +1460,7 @@ input.code-input[type="password"] {
 
 #mafia-chat-send-btn:hover  { transform: scale(1.08); box-shadow: 0 4px 16px rgba(239,68,68,0.55); }
 #mafia-chat-send-btn:active { transform: scale(0.95); }
-#mafia-chat-send-btn:disabled { background: #1e293b; box-shadow: none; cursor: not-allowed; opacity: 0.4; }
+#mafia-chat-send-btn:disabled { background: #1e1712; box-shadow: none; cursor: not-allowed; opacity: 0.4; }
 
 #mafia-chat-send-btn svg {
     width: 16px;
@@ -1393,6 +1475,37 @@ input.code-input[type="password"] {
 
 
 
+
+/* ================================================================
+   O'YIN VAYBI — umumiy pardoz (tugmalar, scrollbar, seleksiya)
+   ================================================================ */
+button {
+    font-family: 'Poppins', sans-serif;
+}
+
+::selection {
+    background: var(--primary);
+    color: var(--ivory);
+}
+
+/* Nozik oltin scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--border-bronze); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* Fokus holati — klaviatura orqali navigatsiya uchun */
+button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+/* Logotip atrofidagi nozik oltin porlash */
+header img { filter: drop-shadow(0 0 6px rgba(212,175,55,0.5)); }
+
+@media (prefers-reduced-motion: reduce) {
+    header::before { animation: none; }
+}
 /* ================================================================
    SKIN ANIMATSIYALARI — har biri o'ziga xos efekt
    ================================================================ */

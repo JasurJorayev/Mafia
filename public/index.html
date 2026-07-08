@@ -12,12 +12,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Mafia.uz">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0a0f1e">
+    <meta name="theme-color" content="#0b0806">
     <title>Mafia.uz</title>
     <link rel="manifest" href="./manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Telegram Mini App SDK — MAJBURIY -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -43,25 +43,25 @@
          z-index:99999; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
         <div class="card" style="max-width:320px; width:90%; margin:0; position:relative;">
             <button onclick="closeAuthModal()" style="position:absolute; top:10px; right:12px;
-                background:none; border:none; color:#64748b; font-size:1.3rem; cursor:pointer;">✕</button>
+                background:none; border:none; color:#9c8a6c; font-size:1.3rem; cursor:pointer;">✕</button>
 
             <!-- Logo -->
             <div style="text-align:center; margin-bottom:16px;">
                 <img src="./svg/LOGO.png" alt="Mafia" style="width:80px; height:80px; object-fit:cover; border-radius:16px; box-shadow:0 4px 20px rgba(99,102,241,0.4);">
-                <div style="font-size:1.1rem; font-weight:800; color:#e2e8f0; margin-top:8px; letter-spacing:1px;">MAFIA.UZ</div>
+                <div style="font-size:1.1rem; font-weight:800; color:#ecdfc4; margin-top:8px; letter-spacing:1px;">MAFIA.UZ</div>
             </div>
             <!-- Tab switcher -->
-            <div style="display:flex; gap:0; margin-bottom:18px; border-radius:10px; overflow:hidden; border:1px solid #1e3a5f;">
+            <div style="display:flex; gap:0; margin-bottom:18px; border-radius:10px; overflow:hidden; border:1px solid #4a3320;">
                 <button id="tab-login" onclick="switchAuthTab('login')"
                     style="flex:1; padding:9px; border:none; cursor:pointer; font-size:0.9rem; font-weight:600;
-                    background:#6366f1; color:#fff; transition:.2s;">Kirish</button>
+                    background:#a4172b; color:#fff; transition:.2s;">Kirish</button>
                 <button id="tab-register" onclick="switchAuthTab('register')"
                     style="flex:1; padding:9px; border:none; cursor:pointer; font-size:0.9rem; font-weight:600;
-                    background:#0d1f3c; color:#64748b; transition:.2s;">Ro'yxat</button>
+                    background:#1a130f; color:#9c8a6c; transition:.2s;">Ro'yxat</button>
             </div>
 
-            <div id="auth-error" style="display:none; background:rgba(233,69,96,0.15); border:1px solid #e94560;
-                 color:#f87171; font-size:0.82rem; padding:8px 12px; border-radius:8px; margin-bottom:12px;"></div>
+            <div id="auth-error" style="display:none; background:rgba(233,69,96,0.15); border:1px solid #b8232f;
+                 color:#e0685a; font-size:0.82rem; padding:8px 12px; border-radius:8px; margin-bottom:12px;"></div>
 
             <!-- Login forma -->
             <div id="auth-login-form">
@@ -75,7 +75,7 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" fill="currentColor" fill-opacity="0.25"/></svg>
                     </button>
                 </div>
-                <button onclick="submitAuth()" style="width:100%; padding:11px; background:#6366f1;
+                <button onclick="submitAuth()" style="width:100%; padding:11px; background:#a4172b;
                     border:none; border-radius:10px; color:#fff; font-size:0.95rem; font-weight:700; cursor:pointer;">
                     Kirish ✓
                 </button>
@@ -93,7 +93,7 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" fill="currentColor" fill-opacity="0.25"/></svg>
                     </button>
                 </div>
-                <button onclick="submitAuth()" style="width:100%; padding:11px; background:#27ae60;
+                <button onclick="submitAuth()" style="width:100%; padding:11px; background:#2e8b3d;
                     border:none; border-radius:10px; color:#fff; font-size:0.95rem; font-weight:700; cursor:pointer;">
                     Ro'yxatdan o'tish ✓
                 </button>
@@ -106,77 +106,77 @@
          z-index:99999; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
         <div class="card" style="max-width:320px; width:90%; margin:0; position:relative; max-height:90vh; overflow-y:auto;">
             <button onclick="closeProfileModal()" style="position:absolute; top:10px; right:12px;
-                background:none; border:none; color:#64748b; font-size:1.3rem; cursor:pointer;">✕</button>
+                background:none; border:none; color:#9c8a6c; font-size:1.3rem; cursor:pointer;">✕</button>
 
             <!-- Avatar + ism -->
             <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px; margin-top:6px;">
                 <div id="profile-avatar-circle" style="width:52px; height:52px; border-radius:50%;
-                    background:#6366f1; display:flex; align-items:center; justify-content:center;
+                    background:#a4172b; display:flex; align-items:center; justify-content:center;
                     font-size:1.4rem; font-weight:700; color:#fff; flex-shrink:0; overflow:hidden;">
                     <img id="profile-avatar-img" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;">
                     <span id="profile-avatar-letter">?</span>
                 </div>
                 <div>
                     <!-- Ism skin bilan ko'rinishi -->
-                    <div id="profile-username-display" style="font-size:1.1rem; font-weight:700; color:#e2e8f0;">—</div>
-                    <div id="profile-level" style="font-size:0.8rem; color:#818cf8; margin-top:2px;">Daraja 1</div>
+                    <div id="profile-username-display" style="font-size:1.1rem; font-weight:700; color:#ecdfc4;">—</div>
+                    <div id="profile-level" style="font-size:0.8rem; color:#c99a2e; margin-top:2px;">Daraja 1</div>
                 </div>
             </div>
 
             <!-- Statistika -->
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px;">
-                <div style="background:#0d1f3c; border-radius:8px; padding:10px; text-align:center;">
-                    <div id="stat-played" style="font-size:1.3rem; font-weight:700; color:#e2e8f0;">0</div>
-                    <div style="font-size:0.72rem; color:#64748b;">O'yinlar</div>
+                <div style="background:#1a130f; border-radius:8px; padding:10px; text-align:center;">
+                    <div id="stat-played" style="font-size:1.3rem; font-weight:700; color:#ecdfc4;">0</div>
+                    <div style="font-size:0.72rem; color:#9c8a6c;">O'yinlar</div>
                 </div>
-                <div style="background:#0d1f3c; border-radius:8px; padding:10px; text-align:center;">
-                    <div id="stat-winrate" style="font-size:1.3rem; font-weight:700; color:#4ade80;">0%</div>
-                    <div style="font-size:0.72rem; color:#64748b;">Yutish</div>
+                <div style="background:#1a130f; border-radius:8px; padding:10px; text-align:center;">
+                    <div id="stat-winrate" style="font-size:1.3rem; font-weight:700; color:#5cb85c;">0%</div>
+                    <div style="font-size:0.72rem; color:#9c8a6c;">Yutish</div>
                 </div>
-                <div style="background:#0d1f3c; border-radius:8px; padding:10px; text-align:center;">
+                <div style="background:#1a130f; border-radius:8px; padding:10px; text-align:center;">
                     <div id="stat-coins" style="font-size:1.3rem; font-weight:700; color:#f1c40f;">0</div>
-                    <div style="font-size:0.72rem; color:#64748b;">💰 Tanga</div>
+                    <div style="font-size:0.72rem; color:#9c8a6c;">💰 Tanga</div>
                 </div>
             </div>
 
             <!-- Stillar tugmasi -->
             <button onclick="openSkinsPage()" style="width:100%; padding:11px; margin-bottom:10px;
-                background:linear-gradient(135deg,#1e1b4b,#312e81);
-                border:2px solid #6366f1; border-radius:12px;
-                color:#a78bfa; font-size:0.9rem; font-weight:700; cursor:pointer;
+                background:linear-gradient(135deg,#2a1610,#4a1f14);
+                border:2px solid #a4172b; border-radius:12px;
+                color:#e0c47a; font-size:0.9rem; font-weight:700; cursor:pointer;
                 display:flex; align-items:center; justify-content:center; gap:8px;">
                 <span style="font-size:1.1rem;">✨</span>
                 <span>Mening Stillarim</span>
                 <span id="profile-active-skin-preview" style="margin-left:4px;"></span>
-                <span style="margin-left:auto; color:#475569; font-size:0.8rem;">›</span>
+                <span style="margin-left:auto; color:#6b5a42; font-size:0.8rem;">›</span>
             </button>
 
-            <button onclick="logoutUser()" style="width:100%; padding:10px; background:#1a1a3a;
-                border:1px solid #e94560; border-radius:10px; color:#f87171; font-size:0.9rem;
+            <button onclick="logoutUser()" style="width:100%; padding:10px; background:#1a130f;
+                border:1px solid #b8232f; border-radius:10px; color:#e0685a; font-size:0.9rem;
                 font-weight:600; cursor:pointer;">Chiqish</button>
         </div>
     </div>
 
     <!-- ===== STILLAR SAHIFASI (To'liq ekran) ===== -->
     <div id="skins-page" style="display:none; position:fixed; inset:0;
-         background:#0a0f1e; z-index:150000; flex-direction:column;">
+         background:#0b0806; z-index:150000; flex-direction:column;">
 
         <!-- STICKY HEADER -->
-        <div style="position:sticky; top:0; z-index:10; background:#0a0f1e;
+        <div style="position:sticky; top:0; z-index:10; background:#0b0806;
             padding:14px 16px 12px; display:flex; align-items:center; gap:10px;
-            border-bottom:1px solid #0d1f3c;">
+            border-bottom:1px solid #1a130f;">
             <button onclick="closeSkinsPage()"
-                style="background:#0d1f3c; border:1px solid #1e3a5f; border-radius:10px;
-                padding:7px 13px; color:#94a3b8; font-size:0.85rem; cursor:pointer;
+                style="background:#1a130f; border:1px solid #4a3320; border-radius:10px;
+                padding:7px 13px; color:#b8a888; font-size:0.85rem; cursor:pointer;
                 white-space:nowrap;">
                 ← Orqaga
             </button>
             <div style="flex:1; min-width:0;">
-                <div style="font-size:1rem; font-weight:800; color:#e2e8f0;">✨ Stillar</div>
-                <div id="skins-page-subtitle" style="font-size:0.7rem; color:#64748b;"></div>
+                <div style="font-size:1rem; font-weight:800; color:#ecdfc4;">✨ Stillar</div>
+                <div id="skins-page-subtitle" style="font-size:0.7rem; color:#9c8a6c;"></div>
             </div>
-            <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);
-                border:1px solid #6366f1; border-radius:10px;
+            <div style="background:linear-gradient(135deg,#2a1610,#4a1f14);
+                border:1px solid #a4172b; border-radius:10px;
                 padding:6px 12px; font-size:0.85rem; color:#f1c40f; font-weight:800;
                 white-space:nowrap;">
                 💰 <span id="skins-page-coins">0</span>
@@ -188,12 +188,12 @@
 
             <!-- PREVIEW -->
             <div id="skins-active-preview" style="
-                background:linear-gradient(135deg,#1e1b4b,#0d1f3c);
-                border:2px solid #6366f1; border-radius:18px;
+                background:linear-gradient(135deg,#2a1610,#1a130f);
+                border:2px solid #a4172b; border-radius:18px;
                 padding:20px 16px; margin-bottom:18px; text-align:center;">
-                <div style="font-size:0.65rem; color:#64748b; text-transform:uppercase;
+                <div style="font-size:0.65rem; color:#9c8a6c; text-transform:uppercase;
                     letter-spacing:.08em; margin-bottom:10px;">HOZIRGI KO'RINISH</div>
-                <div id="skins-preview-name" style="font-size:1.5rem; font-weight:900; color:#e2e8f0; line-height:1.3;">
+                <div id="skins-preview-name" style="font-size:1.5rem; font-weight:900; color:#ecdfc4; line-height:1.3;">
                     Yuklanmoqda...
                 </div>
                 <div id="skins-preview-badge" style="margin-top:8px;"></div>
@@ -201,34 +201,34 @@
 
             <!-- MENING STILLARIM label -->
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                <span style="font-size:0.65rem; font-weight:700; color:#64748b;
+                <span style="font-size:0.65rem; font-weight:700; color:#9c8a6c;
                     text-transform:uppercase; letter-spacing:.08em;">🎨 MENING STILLARIM</span>
-                <div style="flex:1; height:1px; background:#1e3a5f;"></div>
+                <div style="flex:1; height:1px; background:#4a3320;"></div>
             </div>
 
             <!-- OWNED GRID -->
             <div id="skins-page-owned" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
-                <div style="color:#475569; font-size:0.82rem; text-align:center;
+                <div style="color:#6b5a42; font-size:0.82rem; text-align:center;
                     padding:20px; grid-column:1/-1;">Yuklanmoqda...</div>
             </div>
 
             <!-- DO'KON label -->
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                <span style="font-size:0.65rem; font-weight:700; color:#64748b;
+                <span style="font-size:0.65rem; font-weight:700; color:#9c8a6c;
                     text-transform:uppercase; letter-spacing:.08em;">🛒 DO'KON — YANGI STILLAR</span>
-                <div style="flex:1; height:1px; background:#1e3a5f;"></div>
+                <div style="flex:1; height:1px; background:#4a3320;"></div>
             </div>
 
             <!-- SHOP LIST -->
             <div id="skins-page-shop" style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
-                <div style="color:#475569; font-size:0.82rem; text-align:center; padding:16px;">Yuklanmoqda...</div>
+                <div style="color:#6b5a42; font-size:0.82rem; text-align:center; padding:16px;">Yuklanmoqda...</div>
             </div>
 
             <!-- Stars tugma -->
             <button onclick="closeSkinsPage(); openShopModal('coins')"
                 style="width:100%; padding:13px;
-                background:linear-gradient(135deg,#0c4a6e,#0ea5e9);
-                border:1px solid #0ea5e9; border-radius:14px; color:#fff;
+                background:linear-gradient(135deg,#2a2013,#c99a2e);
+                border:1px solid #c99a2e; border-radius:14px; color:#fff;
                 font-size:0.9rem; font-weight:700; cursor:pointer;
                 display:flex; align-items:center; justify-content:center; gap:8px;">
                 <span style="font-size:1.1rem;">⭐</span>
@@ -240,20 +240,20 @@
     <!-- ===== TASDIQLASH DIALOG ===== -->
     <div id="confirm-dialog-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75);
          z-index:200000; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
-        <div style="background:#0d1f3c; border:2px solid #7c3aed; border-radius:16px;
+        <div style="background:#1a130f; border:2px solid #c99a2e; border-radius:16px;
              padding:28px 24px; max-width:300px; width:88%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.6);">
             <div style="font-size:1.8rem; margin-bottom:12px;">🛒</div>
-            <p id="confirm-dialog-text" style="color:#e2e8f0; font-size:0.95rem; font-weight:600;
+            <p id="confirm-dialog-text" style="color:#ecdfc4; font-size:0.95rem; font-weight:600;
                margin:0 0 20px 0; line-height:1.5;"></p>
             <div style="display:flex; gap:10px; justify-content:center;">
                 <button id="confirm-no-btn"
-                    style="flex:1; padding:10px 0; border:2px solid #475569; border-radius:10px;
-                    background:transparent; color:#94a3b8; font-size:0.9rem; font-weight:700; cursor:pointer;">
+                    style="flex:1; padding:10px 0; border:2px solid #6b5a42; border-radius:10px;
+                    background:transparent; color:#b8a888; font-size:0.9rem; font-weight:700; cursor:pointer;">
                     Yo'q
                 </button>
                 <button id="confirm-yes-btn"
                     style="flex:1; padding:10px 0; border:none; border-radius:10px;
-                    background:linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff;
+                    background:linear-gradient(135deg,#c99a2e,#8a6a1a); color:#fff;
                     font-size:0.9rem; font-weight:700; cursor:pointer;">
                     Ha
                 </button>
@@ -265,21 +265,21 @@
     <!-- ===== DO'KON — TO'LIQ EKRAN SAHIFASI ===== -->
     <!-- ===== SKIN PREVIEW MODAL ===== -->
     <div id="skin-preview-modal" style="display:none; position:fixed; inset:0; z-index:999999;
-        background:rgba(0,0,0,0.88); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+        background:rgba(4,3,2,0.97); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
         align-items:flex-end; justify-content:center;">
         <div id="skin-preview-sheet" style="
-            background:#0d1430; border-radius:28px 28px 0 0;
-            border-top:2px solid #1e3a5f;
+            background:#1a130f; border-radius:28px 28px 0 0;
+            border-top:2px solid #4a3320;
             padding:28px 22px 36px; width:100%; max-width:480px;
             transform:translateY(100%); transition:transform 0.32s cubic-bezier(.22,.68,0,1.2);">
 
             <!-- Drag bar -->
-            <div style="width:42px;height:4px;background:#2d3f5e;border-radius:4px;
+            <div style="width:42px;height:4px;background:#3d2a1a;border-radius:4px;
                 margin:0 auto 24px;"></div>
 
             <!-- O'yinchi ismi JONLI animatsiyada — katta -->
             <div style="text-align:center; margin-bottom:8px;">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;
+                <div style="font-size:0.7rem;color:#9c8a6c;font-weight:600;
                     text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">
                     👤 Ismingiz o'yinda shunday ko'rinadi
                 </div>
@@ -296,30 +296,30 @@
 
             <!-- Skin info -->
             <div id="spm-info" style="display:flex;align-items:center;gap:14px;
-                background:#060d1f;border-radius:16px;padding:14px 16px;margin-bottom:20px;">
+                background:#100b08;border-radius:16px;padding:14px 16px;margin-bottom:20px;">
                 <div id="spm-icon" style="width:54px;height:54px;border-radius:14px;
                     display:flex;align-items:center;justify-content:center;font-size:1.9rem;flex-shrink:0;"></div>
                 <div>
-                    <div id="spm-label" style="font-size:1rem;font-weight:800;color:#e2e8f0;"></div>
-                    <div id="spm-desc"  style="font-size:0.72rem;color:#475569;margin-top:3px;"></div>
+                    <div id="spm-label" style="font-size:1rem;font-weight:800;color:#ecdfc4;"></div>
+                    <div id="spm-desc"  style="font-size:0.72rem;color:#6b5a42;margin-top:3px;"></div>
                 </div>
                 <div style="margin-left:auto;flex-shrink:0;">
                     <div id="spm-price" style="font-size:1.1rem;font-weight:900;color:#f1c40f;text-align:right;"></div>
-                    <div style="font-size:0.62rem;color:#475569;text-align:right;">tanga</div>
+                    <div style="font-size:0.62rem;color:#6b5a42;text-align:right;">tanga</div>
                 </div>
             </div>
 
             <!-- Tugmalar -->
             <div style="display:flex;gap:10px;">
                 <button onclick="closeSkinPreview()"
-                    style="flex:1;padding:14px;background:#1a2540;border:1px solid #2d3f5e;
-                    border-radius:14px;color:#94a3b8;font-size:0.9rem;font-weight:700;cursor:pointer;">
+                    style="flex:1;padding:14px;background:#22190f;border:1px solid #3d2a1a;
+                    border-radius:14px;color:#b8a888;font-size:0.9rem;font-weight:700;cursor:pointer;">
                     ✕ Yopish
                 </button>
                 <button id="spm-buy-btn"
                     style="flex:2;padding:14px;border:none;border-radius:14px;
                     font-size:0.95rem;font-weight:800;cursor:pointer;
-                    background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;">
+                    background:linear-gradient(135deg,#c99a2e,#8a6a1a);color:#fff;">
                     💜 Sotib olish
                 </button>
             </div>
@@ -327,23 +327,23 @@
     </div>
 
     <div id="shop-modal-overlay" style="display:none; position:fixed; inset:0;
-         background:#0a0f1e; z-index:100000; flex-direction:column;">
+         background:#0b0806; z-index:100000; flex-direction:column;">
 
         <!-- STICKY HEADER -->
-        <div style="position:sticky; top:0; z-index:10; background:#0a0f1e;
-            padding:14px 16px 12px; border-bottom:1px solid #0d1f3c;">
+        <div style="position:sticky; top:0; z-index:10; background:#0b0806;
+            padding:14px 16px 12px; border-bottom:1px solid #1a130f;">
 
             <!-- Qator 1: Orqaga + Sarlavha + Balans -->
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
                 <button onclick="closeShopModal()"
-                    style="background:#0d1f3c; border:1px solid #1e3a5f; border-radius:10px;
-                    padding:7px 13px; color:#94a3b8; font-size:0.85rem; cursor:pointer;
+                    style="background:#1a130f; border:1px solid #4a3320; border-radius:10px;
+                    padding:7px 13px; color:#b8a888; font-size:0.85rem; cursor:pointer;
                     white-space:nowrap;">← Orqaga</button>
                 <div style="flex:1; text-align:center;">
-                    <div style="font-size:1rem; font-weight:800; color:#e2e8f0;">🛒 Do'kon</div>
+                    <div style="font-size:1rem; font-weight:800; color:#ecdfc4;">🛒 Do'kon</div>
                 </div>
-                <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);
-                    border:1px solid #6366f1; border-radius:10px;
+                <div style="background:linear-gradient(135deg,#2a1610,#4a1f14);
+                    border:1px solid #a4172b; border-radius:10px;
                     padding:6px 12px; font-size:0.85rem; color:#f1c40f; font-weight:800;
                     white-space:nowrap;">
                     💰 <span id="shop-coins">…</span>
@@ -354,14 +354,14 @@
             <div style="display:flex; gap:8px;">
                 <button id="tab-names-btn" onclick="switchShopTab('names')"
                     style="flex:1; padding:9px 0; border-radius:10px;
-                    border:2px solid #7c3aed; background:#7c3aed;
+                    border:2px solid #c99a2e; background:#c99a2e;
                     color:#fff; font-size:0.85rem; font-weight:700; cursor:pointer;">
                     ✨ Stillar
                 </button>
                 <button id="tab-coins-btn" onclick="switchShopTab('coins')"
                     style="flex:1; padding:9px 0; border-radius:10px;
-                    border:2px solid #0ea5e9; background:transparent;
-                    color:#0ea5e9; font-size:0.85rem; font-weight:700; cursor:pointer;">
+                    border:2px solid #c99a2e; background:transparent;
+                    color:#c99a2e; font-size:0.85rem; font-weight:700; cursor:pointer;">
                     ⭐ Tanga
                 </button>
             </div>
@@ -373,10 +373,10 @@
             <!-- ===== TAB 1: STILLAR ===== -->
             <div id="shop-tab-names">
                 <div id="shop-names-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
-                    <div style="text-align:center;color:#475569;padding:20px;font-size:0.85rem;">Yuklanmoqda…</div>
+                    <div style="text-align:center;color:#6b5a42;padding:20px;font-size:0.85rem;">Yuklanmoqda…</div>
                 </div>
-                <div style="padding:10px 14px; background:#0d1f3c; border-radius:12px;
-                    border:1px solid #1e3a5f; font-size:0.75rem; color:#64748b; text-align:center;">
+                <div style="padding:10px 14px; background:#1a130f; border-radius:12px;
+                    border:1px solid #4a3320; font-size:0.75rem; color:#9c8a6c; text-align:center;">
                     🎮 O'yinda yutgan har bir o'yin uchun <b style="color:#f1c40f">+20 tanga</b> beriladi
                 </div>
             </div>
@@ -386,9 +386,9 @@
 
                 <!-- Label -->
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-                    <span style="font-size:0.65rem;font-weight:700;color:#64748b;
+                    <span style="font-size:0.65rem;font-weight:700;color:#9c8a6c;
                         text-transform:uppercase;letter-spacing:.08em;">⭐ TELEGRAM STARS BILAN SOTIB OLING</span>
-                    <div style="flex:1;height:1px;background:#1e3a5f;"></div>
+                    <div style="flex:1;height:1px;background:#4a3320;"></div>
                 </div>
 
                 <!-- 3 ta paket — grid, arzonidan qimmatiga -->
@@ -396,77 +396,77 @@
 
                     <!-- Paket 1 — STARTER (eng arzon) -->
                     <div onclick="buyCoinPackage('pack_150')"
-                        style="background:#0a1628; border:2px solid #0ea5e9; border-radius:16px;
+                        style="background:#1a130f; border:2px solid #c99a2e; border-radius:16px;
                         padding:14px 10px; display:flex; flex-direction:column; align-items:center;
                         gap:8px; cursor:pointer; position:relative; transition:transform .15s, box-shadow .15s;"
-                        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px #0ea5e944'"
+                        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px #c99a2e44'"
                         onmouseout="this.style.transform='';this.style.boxShadow=''">
-                        <div style="font-size:0.6rem;font-weight:800;color:#0ea5e9;
+                        <div style="font-size:0.6rem;font-weight:800;color:#c99a2e;
                             text-transform:uppercase;letter-spacing:.06em;">Starter</div>
                         <div style="font-size:2rem;">💰</div>
-                        <div style="font-weight:900; color:#e2e8f0; font-size:1.15rem; line-height:1;">150</div>
-                        <div style="font-size:0.68rem; color:#64748b;">tanga</div>
-                        <div style="width:100%;height:1px;background:#1e3a5f;margin:2px 0;"></div>
+                        <div style="font-weight:900; color:#ecdfc4; font-size:1.15rem; line-height:1;">150</div>
+                        <div style="font-size:0.68rem; color:#9c8a6c;">tanga</div>
+                        <div style="width:100%;height:1px;background:#4a3320;margin:2px 0;"></div>
                         <div style="font-weight:900; color:#FFD700; font-size:1rem;">⭐ 100</div>
-                        <div style="font-size:0.6rem; color:#94a3b8;">Stars</div>
+                        <div style="font-size:0.6rem; color:#b8a888;">Stars</div>
                     </div>
 
                     <!-- Paket 2 — POPULAR (o'rta, eng mashhur) -->
                     <div onclick="buyCoinPackage('pack_300')"
-                        style="background:#0d1035; border:2px solid #8b5cf6; border-radius:16px;
+                        style="background:#1a130f; border:2px solid #d4af5a; border-radius:16px;
                         padding:14px 10px; display:flex; flex-direction:column; align-items:center;
                         gap:8px; cursor:pointer; position:relative; transition:transform .15s, box-shadow .15s;
-                        box-shadow:0 4px 18px #8b5cf633; transform:scale(1.04);"
-                        onmouseover="this.style.transform='scale(1.04) translateY(-3px)';this.style.boxShadow='0 10px 28px #8b5cf655'"
-                        onmouseout="this.style.transform='scale(1.04)';this.style.boxShadow='0 4px 18px #8b5cf633'">
+                        box-shadow:0 4px 18px #d4af5a33; transform:scale(1.04);"
+                        onmouseover="this.style.transform='scale(1.04) translateY(-3px)';this.style.boxShadow='0 10px 28px #d4af5a55'"
+                        onmouseout="this.style.transform='scale(1.04)';this.style.boxShadow='0 4px 18px #d4af5a33'">
                         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);
-                            background:linear-gradient(90deg,#7c3aed,#a78bfa);color:#fff;
+                            background:linear-gradient(90deg,#c99a2e,#e0c47a);color:#fff;
                             font-size:0.58rem;font-weight:800;padding:3px 12px;
                             border-radius:20px;white-space:nowrap;">⭐ MASHHUR</div>
-                        <div style="font-size:0.6rem;font-weight:800;color:#a78bfa;
+                        <div style="font-size:0.6rem;font-weight:800;color:#e0c47a;
                             text-transform:uppercase;letter-spacing:.06em;">Popular</div>
                         <div style="font-size:2rem;">💰</div>
-                        <div style="font-weight:900; color:#e2e8f0; font-size:1.15rem; line-height:1;">300</div>
-                        <div style="font-size:0.68rem; color:#64748b;">tanga</div>
-                        <div style="width:100%;height:1px;background:#2d1b69;margin:2px 0;"></div>
+                        <div style="font-weight:900; color:#ecdfc4; font-size:1.15rem; line-height:1;">300</div>
+                        <div style="font-size:0.68rem; color:#9c8a6c;">tanga</div>
+                        <div style="width:100%;height:1px;background:#3a2408;margin:2px 0;"></div>
                         <div style="font-weight:900; color:#FFD700; font-size:1rem;">⭐ 200</div>
-                        <div style="font-size:0.6rem; color:#94a3b8;">Stars</div>
+                        <div style="font-size:0.6rem; color:#b8a888;">Stars</div>
                     </div>
 
                     <!-- Paket 3 — PRO (eng qimmat, eng ko'p) -->
                     <div onclick="buyCoinPackage('pack_500')"
-                        style="background:#0a1010; border:2px solid #f59e0b; border-radius:16px;
+                        style="background:#0a1010; border:2px solid #d9a521; border-radius:16px;
                         padding:14px 10px; display:flex; flex-direction:column; align-items:center;
                         gap:8px; cursor:pointer; position:relative; transition:transform .15s, box-shadow .15s;"
-                        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px #f59e0b44'"
+                        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px #d9a52144'"
                         onmouseout="this.style.transform='';this.style.boxShadow=''">
-                        <div style="font-size:0.6rem;font-weight:800;color:#f59e0b;
+                        <div style="font-size:0.6rem;font-weight:800;color:#d9a521;
                             text-transform:uppercase;letter-spacing:.06em;">Pro</div>
                         <div style="font-size:2rem;">💰</div>
-                        <div style="font-weight:900; color:#e2e8f0; font-size:1.15rem; line-height:1;">500</div>
-                        <div style="font-size:0.68rem; color:#64748b;">tanga</div>
+                        <div style="font-weight:900; color:#ecdfc4; font-size:1.15rem; line-height:1;">500</div>
+                        <div style="font-size:0.68rem; color:#9c8a6c;">tanga</div>
                         <div style="width:100%;height:1px;background:#1c1000;margin:2px 0;"></div>
                         <div style="font-weight:900; color:#FFD700; font-size:1rem;">⭐ 300</div>
-                        <div style="font-size:0.6rem; color:#94a3b8;">Stars</div>
+                        <div style="font-size:0.6rem; color:#b8a888;">Stars</div>
                     </div>
 
                 </div>
 
                 <!-- Qiymat taqqoslash satri -->
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; text-align:center;">
-                    <div style="font-size:0.62rem; color:#0ea5e9; font-weight:700;">1 ⭐ = 1.5 💰</div>
-                    <div style="font-size:0.62rem; color:#a78bfa; font-weight:700;">1 ⭐ = 1.5 💰</div>
-                    <div style="font-size:0.62rem; color:#f59e0b; font-weight:700;">1 ⭐ = 1.67 💰</div>
+                    <div style="font-size:0.62rem; color:#c99a2e; font-weight:700;">1 ⭐ = 1.5 💰</div>
+                    <div style="font-size:0.62rem; color:#e0c47a; font-weight:700;">1 ⭐ = 1.5 💰</div>
+                    <div style="font-size:0.62rem; color:#d9a521; font-weight:700;">1 ⭐ = 1.67 💰</div>
                 </div>
 
                 <!-- Izohlar -->
                 <div style="padding:11px 14px; background:#1a1200; border-radius:12px;
-                    border:1px solid #92400e; font-size:0.75rem; color:#fbbf24;
+                    border:1px solid #5a3a10; font-size:0.75rem; color:#e8b923;
                     text-align:center; margin-bottom:10px;">
                     ⭐ Stars — Telegram'ning rasmiy to'lov tizimi. Xavfsiz va tez!
                 </div>
-                <div style="padding:11px 14px; background:#0d1f3c; border-radius:12px;
-                    border:1px solid #1e3a5f; font-size:0.75rem; color:#64748b; text-align:center;">
+                <div style="padding:11px 14px; background:#1a130f; border-radius:12px;
+                    border:1px solid #4a3320; font-size:0.75rem; color:#9c8a6c; text-align:center;">
                     🎮 O'yinda yutgan har bir o'yin uchun <b style="color:#f1c40f">+20 tanga</b> beriladi
                 </div>
             </div>
@@ -479,74 +479,74 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <!-- Chap: Ismlar Do'koni -->
                 <button id="shop-btn" onclick="openShopModal()"
-                    style="display:flex; align-items:center; gap:5px; background:#1e1b4b;
-                    border:1px solid #7c3aed; border-radius:20px; padding:6px 14px;
-                    color:#a78bfa; font-size:0.82rem; cursor:pointer; transition:.2s;">
+                    style="display:flex; align-items:center; gap:5px; background:#2a1610;
+                    border:1px solid #c99a2e; border-radius:20px; padding:6px 14px;
+                    color:#e0c47a; font-size:0.82rem; cursor:pointer; transition:.2s;">
                     <span style="font-size:1rem;">🛒</span>
                     <span>Do'kon</span>
                 </button>
                 <!-- O'ng: Kirish / Profil -->
                 <button id="auth-btn" onclick="openAuthModal()"
-                    style="display:flex; align-items:center; gap:6px; background:#0d1f3c;
-                    border:1px solid #1e3a5f; border-radius:20px; padding:6px 14px;
-                    color:#818cf8; font-size:0.82rem; cursor:pointer; transition:.2s;">
+                    style="display:flex; align-items:center; gap:6px; background:#1a130f;
+                    border:1px solid #4a3320; border-radius:20px; padding:6px 14px;
+                    color:#c99a2e; font-size:0.82rem; cursor:pointer; transition:.2s;">
                     <span style="font-size:1rem;">👤</span>
                     <span id="auth-btn-text">Kirish</span>
                 </button>
             </div>
 
-            <p style="margin-bottom:12px;color:#aaa;font-size:0.95rem;">Ismingizni kiriting:</p>
+            <p style="margin-bottom:12px;color:#a4907a;font-size:0.95rem;">Ismingizni kiriting:</p>
             <input type="text" id="username-input" placeholder="Ismingiz..." maxlength="20"
                    onkeydown="if(event.key==='Enter') goToCreate()">
             <div class="lobby-btn-row">
-                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#22c55e;" onclick="goToCreate()">➕ Lobbi Ochish</button>
-                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#e94560;" onclick="goToJoin()">🚪 Lobbiga Kirish</button>
+                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#2e8b3d;" onclick="goToCreate()">➕ Lobbi Ochish</button>
+                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#b8232f;" onclick="goToJoin()">🚪 Lobbiga Kirish</button>
             </div>
             <div style="margin-top:10px;">
                 <button class="btn-lobby btn-online glow-btn" onclick="goToOnline()"
-                    style="width:100%; background:linear-gradient(135deg,#1d4ed8,#1e40af);
-                    border:2px solid #3b82f6; color:#fff; font-size:1rem; margin-top:6px;
-                    box-shadow:0 4px 18px rgba(29,78,216,0.55); --glow-color:#3b82f6;">
+                    style="width:100%; background:linear-gradient(135deg,#8a1322,#5a1018);
+                    border:2px solid #c99a2e; color:#fff; font-size:1rem; margin-top:6px;
+                    box-shadow:0 4px 18px rgba(29,78,216,0.55); --glow-color:#c99a2e;">
                     🌐 Online
                 </button>
             </div>
             <div style="margin-top:10px;text-align:center;">
                 <button class="btn-lobby glow-btn" onclick="goToRejoin()" 
-                    style="width:100%; background:#1a1a3a;
-                    border:2px solid #7c3aed; 
-                    color:#a78bfa; font-size:1rem; 
-                    margin-top:6px; --glow-color:#a78bfa;">🔄 Qayta Kirish
+                    style="width:100%; background:#1a130f;
+                    border:2px solid #c99a2e; 
+                    color:#e0c47a; font-size:1rem; 
+                    margin-top:6px; --glow-color:#e0c47a;">🔄 Qayta Kirish
                 </button>
             </div>
         </div>
 
         <div id="join-step" style="display:none;">
-            <p style="margin-bottom:12px;color:#aaa;font-size:0.95rem;">5 xonali lobbi kodini kiriting:</p>
+            <p style="margin-bottom:12px;color:#a4907a;font-size:0.95rem;">5 xonali lobbi kodini kiriting:</p>
             <input type="text" id="lobby-code-input" placeholder="Masalan: 47391" maxlength="5"
                    inputmode="numeric" onkeydown="if(event.key==='Enter') joinLobbyAction()">
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToName()">← Orqaga</button>
-                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#e94560;" onclick="joinLobbyAction()">Kirish ✓</button>
+                <button class="btn-lobby btn-join-l glow-btn" style="--glow-color:#b8232f;" onclick="joinLobbyAction()">Kirish ✓</button>
             </div>
         </div>
 
         <!-- ===== LOBBI YARATISH ===== -->
         <div id="create-step" style="display:none;">
-            <p style="margin-bottom:12px;color:#aaa;font-size:0.95rem;">Yangi lobbi</p>
+            <p style="margin-bottom:12px;color:#a4907a;font-size:0.95rem;">Yangi lobbi</p>
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToNameFromCreate()">← Orqaga</button>
-                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#22c55e;" onclick="createLobbyNow()">✓ Ochish</button>
+                <button class="btn-lobby btn-create glow-btn" style="--glow-color:#2e8b3d;" onclick="createLobbyNow()">✓ Ochish</button>
             </div>
         </div>
 
         <!-- ===== QAYTA KIRISH OYNASI ===== -->
         <div id="rejoin-step" style="display:none;">
-            <p style="margin-bottom:12px;color:#aaa;font-size:0.95rem;">Qayta kirish uchun lobbi kodini kiriting:</p>
+            <p style="margin-bottom:12px;color:#a4907a;font-size:0.95rem;">Qayta kirish uchun lobbi kodini kiriting:</p>
             <input type="text" id="rejoin-code-input" placeholder="Lobbi kodi (5 raqam)" maxlength="5"
                    inputmode="numeric" style="margin-bottom:10px;" onkeydown="if(event.key==='Enter') rejoinLobbyAction()">
             <div class="lobby-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToName()">← Orqaga</button>
-                <button class="btn-lobby btn-join-l glow-btn" onclick="rejoinLobbyAction()" style="background:#27ae60;border-color:#27ae60;color:#ffffff;--glow-color:#4ade80;">🔄 Qayta Kirish</button>
+                <button class="btn-lobby btn-join-l glow-btn" onclick="rejoinLobbyAction()" style="background:#2e8b3d;border-color:#2e8b3d;color:#ffffff;--glow-color:#5cb85c;">🔄 Qayta Kirish</button>
             </div>
         </div>
 
@@ -556,11 +556,11 @@
 
             <!-- Asosiy harakatlar -->
             <div class="online-action-row">
-                <button class="online-action-btn online-action-create glow-btn" style="--glow-color:#22c55e;" onclick="goToOnlineCreate()">
+                <button class="online-action-btn online-action-create glow-btn" style="--glow-color:#2e8b3d;" onclick="goToOnlineCreate()">
                     <span class="oab-icon">➕</span>
                     <span class="oab-text">Lobbi Ochish</span>
                 </button>
-                <button class="online-action-btn online-action-join glow-btn" style="--glow-color:#ef4444;" onclick="goToOnlineJoin()">
+                <button class="online-action-btn online-action-join glow-btn" style="--glow-color:#c0392b;" onclick="goToOnlineJoin()">
                     <span class="oab-icon">🚪</span>
                     <span class="oab-text">Kirish</span>
                 </button>
@@ -573,7 +573,7 @@
                     <button class="btn-refresh" onclick="loadPublicLobbies()">🔄 Yangilash</button>
                 </div>
                 <div id="public-lobbies-list">
-                    <p style="color:#555;font-size:0.85rem;text-align:center;padding:12px 0;">Yuklanmoqda...</p>
+                    <p style="color:#6b5a42;font-size:0.85rem;text-align:center;padding:12px 0;">Yuklanmoqda...</p>
                 </div>
             </div>
 
@@ -616,7 +616,7 @@
 
             <div class="create-btn-row">
                 <button class="btn-lobby btn-back" onclick="backToOnline()">← Orqaga</button>
-                <button class="btn-lobby btn-create-main glow-btn" style="--glow-color:#22c55e;" onclick="createOnlineLobbyAction()">✓ Yaratish</button>
+                <button class="btn-lobby btn-create-main glow-btn" style="--glow-color:#2e8b3d;" onclick="createOnlineLobbyAction()">✓ Yaratish</button>
             </div>
         </div>
 
@@ -651,7 +651,7 @@
 
             <div class="create-btn-row" style="margin-top:16px;">
                 <button class="btn-lobby btn-back" onclick="backToOnline()">← Orqaga</button>
-                <button class="btn-lobby btn-join-main glow-btn" style="--glow-color:#ef4444;" onclick="joinOnlineLobbyAction()">Kirish ✓</button>
+                <button class="btn-lobby btn-join-main glow-btn" style="--glow-color:#c0392b;" onclick="joinOnlineLobbyAction()">Kirish ✓</button>
             </div>
         </div>
     </div>
@@ -660,23 +660,54 @@
     <div id="waiting-room" style="display:none;">
         <div class="card lobby-info-card">
             <div class="lobby-code-display">
-                <span style="color:#aaa;font-size:0.85rem;">Lobbi kodi:</span>
+                <span style="color:#a4907a;font-size:0.85rem;">Lobbi kodi:</span>
                 <div class="big-code" id="display-lobby-code">—</div>
-                <small style="color:#aaa;">Do'stlarga shu kodni yuboring</small>
+                <small style="color:#a4907a;">Do'stlarga shu kodni yuboring</small>
             </div>
             <div id="lobby-admin-badge" style="display:none;" class="admin-badge">👑 Siz Admin (Lobbi egasi)</div>
         </div>
 
-        <div id="player-list-container" class="card" style="margin-top:16px;">
-            <h3>O'yinchilar (<span id="player-count">0</span>)</h3>
-            <div id="player-list"></div>
+        <!-- TAB BAR — O'yinchilar / Chat -->
+        <div class="game-tab-bar" style="margin-top:16px;">
+            <button class="game-tab active" id="wtab-btn-players" onclick="switchWaitingTab('players')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><circle cx="18" cy="9" r="3"/><path d="M21 21v-1a3 3 0 00-2-2.83"/></svg>
+                O'yinchilar
+            </button>
+            <button class="game-tab" id="wtab-btn-chat" onclick="switchWaitingTab('chat')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                Chat
+                <span id="lobby-chat-unread-badge" class="chat-unread-badge" style="display:none;">0</span>
+            </button>
+        </div>
+
+        <!-- TAB: O'YINCHILAR -->
+        <div id="wtab-content-players" class="tab-content active">
+            <div id="player-list-container" class="card" style="margin-top:12px;">
+                <h3>O'yinchilar (<span id="player-count">0</span>)</h3>
+                <div id="player-list"></div>
+            </div>
+        </div>
+
+        <!-- TAB: CHAT — lobbi ochilgandan o'yin boshlanguncha ishlaydi -->
+        <div id="wtab-content-chat" class="tab-content" style="display:none;">
+            <div class="card" style="margin-top:12px; padding:16px; text-align:left;">
+                <div id="lobby-chat-messages" style="height:260px; overflow-y:auto; display:flex;
+                     flex-direction:column; gap:6px; padding:4px 2px; margin-bottom:10px;"></div>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="lobby-chat-input" placeholder="Xabar yozing..." maxlength="200"
+                           style="flex:1; margin-bottom:0;">
+                    <button id="lobby-chat-send-btn" class="glow-btn" style="--glow-color:#c99a2e;
+                        background:linear-gradient(135deg,#c99a2e,#8a6a1a); border:none; border-radius:12px;
+                        color:#fff; padding:0 18px; font-weight:700; cursor:pointer;">➤</button>
+                </div>
+            </div>
         </div>
 
         <!-- Admin paneli -->
         <div class="admin-panel" id="admin-panel" style="display:none;">
             <div class="admin-btns">
-                <button class="btn-admin btn-start glow-btn" style="--glow-color:#22c55e;" onclick="startGameAction()">▶ O'yinni Boshlash</button>
-                <button class="btn-admin btn-reset glow-btn" style="--glow-color:#e74c3c;" onclick="resetGameAction()">🔄 Qayta Tiklash</button>
+                <button class="btn-admin btn-start glow-btn" style="--glow-color:#2e8b3d;" onclick="startGameAction()">▶ O'yinni Boshlash</button>
+                <button class="btn-admin btn-reset glow-btn" style="--glow-color:#c0392b;" onclick="resetGameAction()">🔄 Qayta Tiklash</button>
             </div>
         </div>
 
@@ -685,6 +716,7 @@
             <button class="btn-leave" onclick="leaveLobbyAction()">← Lobbydan chiqish</button>
         </div>
     </div>
+
 
     <!-- ===== O'YIN EKRANI ===== -->
     <div id="game-screen" style="display:none;">
@@ -703,8 +735,8 @@
             </button>
             <button class="game-tab" id="tab-btn-mafia-chat" onclick="switchGameTab('mafia-chat')" style="display:none;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span style="color:#f87171;">Mafia</span>
-                <span id="mafia-chat-unread-badge" class="chat-unread-badge" style="display:none;background:#ef4444;">0</span>
+                <span style="color:#e0685a;">Mafia</span>
+                <span id="mafia-chat-unread-badge" class="chat-unread-badge" style="display:none;background:#c0392b;">0</span>
             </button>
             <button class="game-tab" id="tab-btn-info" onclick="switchGameTab('info')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -771,28 +803,28 @@
                     <div class="info-role-item">
                         <span class="info-role-icon" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);">🔫</span>
                         <div>
-                            <div class="info-role-name" style="color:#f87171;">Mafia</div>
+                            <div class="info-role-name" style="color:#e0685a;">Mafia</div>
                             <div class="info-role-desc">Har tunda bitta fuqaroni o'ldiradi. Maqsad: fuqarolardan ko'p bo'lish.</div>
                         </div>
                     </div>
                     <div class="info-role-item">
                         <span class="info-role-icon" style="background:rgba(239,68,68,0.22);border:1px solid rgba(239,68,68,0.45);">👑</span>
                         <div>
-                            <div class="info-role-name" style="color:#fca5a5;">Don</div>
+                            <div class="info-role-name" style="color:#e0a89c;">Don</div>
                             <div class="info-role-desc">Mafia rahbari. Shifokorni aniqlash qobiliyatiga ega.</div>
                         </div>
                     </div>
                     <div class="info-role-item">
                         <span class="info-role-icon" style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);">💉</span>
                         <div>
-                            <div class="info-role-name" style="color:#38bdf8;">Shifokor</div>
+                            <div class="info-role-name" style="color:#d4af5a;">Shifokor</div>
                             <div class="info-role-desc">Har tunda bitta o'yinchini davolaydi. O'zini ham davolay oladi.</div>
                         </div>
                     </div>
                     <div class="info-role-item">
                         <span class="info-role-icon" style="background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);">👤</span>
                         <div>
-                            <div class="info-role-name" style="color:#4ade80;">Fuqaro</div>
+                            <div class="info-role-name" style="color:#5cb85c;">Fuqaro</div>
                             <div class="info-role-desc">Kunduz kuni muhokama va ovoz berish orqali mafiachini topadi.</div>
                         </div>
                     </div>
@@ -818,6 +850,7 @@
 // ===============================================================
 
 let _authUser  = null;
+let _userCoins = 0; // Foydalanuvchining hozirgi tanga balansi — yagona ishonchli manba
 let _authToken = localStorage.getItem('mafia_token') || null;
 
 // --- Sahifa ochilganda tokenni tekshiramiz ---
@@ -862,13 +895,13 @@ function updateAuthBtn() {
     if (!btn || !text) return;
     if (_authUser) {
         text.textContent = _authUser.username;
-        btn.style.borderColor = '#6366f1';
-        btn.style.color = '#818cf8';
+        btn.style.borderColor = '#a4172b';
+        btn.style.color = '#c99a2e';
         btn.onclick = openProfileModal;
     } else {
         text.textContent = 'Kirish';
-        btn.style.borderColor = '#1e3a5f';
-        btn.style.color = '#818cf8';
+        btn.style.borderColor = '#4a3320';
+        btn.style.color = '#c99a2e';
         btn.onclick = openAuthModal;
     }
 }
@@ -889,10 +922,10 @@ function switchAuthTab(tab) {
     const isLogin = tab === 'login';
     document.getElementById('auth-login-form').style.display    = isLogin ? '' : 'none';
     document.getElementById('auth-register-form').style.display = isLogin ? 'none' : '';
-    document.getElementById('tab-login').style.background    = isLogin ? '#6366f1' : '#0d1f3c';
-    document.getElementById('tab-login').style.color         = isLogin ? '#fff' : '#64748b';
-    document.getElementById('tab-register').style.background = isLogin ? '#0d1f3c' : '#27ae60';
-    document.getElementById('tab-register').style.color      = isLogin ? '#64748b' : '#fff';
+    document.getElementById('tab-login').style.background    = isLogin ? '#a4172b' : '#1a130f';
+    document.getElementById('tab-login').style.color         = isLogin ? '#fff' : '#9c8a6c';
+    document.getElementById('tab-register').style.background = isLogin ? '#1a130f' : '#2e8b3d';
+    document.getElementById('tab-register').style.color      = isLogin ? '#9c8a6c' : '#fff';
     clearAuthError();
 }
 
@@ -1008,6 +1041,7 @@ async function openProfileModal() {
             document.getElementById('stat-played').textContent   = profileData.stats.games_played;
             document.getElementById('stat-winrate').textContent  = profileData.stats.win_rate + '%';
             document.getElementById('stat-coins').textContent    = profileData.user.coins || 0;
+            _userCoins = profileData.user.coins || 0;
 
             if (profileData.user.avatar_url) {
                 img.src = profileData.user.avatar_url;
@@ -1043,7 +1077,7 @@ function renderProfileUsername(username, activeSkinId) {
         }
     }
     el.textContent = username;
-    el.style.color = '#e2e8f0';
+    el.style.color = '#ecdfc4';
 }
 
 // ===============================================================
@@ -1067,9 +1101,9 @@ async function loadSkinsPage() {
     // Loading holati
     document.getElementById('skins-preview-name').textContent = 'Yuklanmoqda...';
     document.getElementById('skins-page-owned').innerHTML =
-        '<div style="color:#475569;font-size:0.82rem;text-align:center;padding:20px;grid-column:1/-1;">Yuklanmoqda...</div>';
+        '<div style="color:#6b5a42;font-size:0.82rem;text-align:center;padding:20px;grid-column:1/-1;">Yuklanmoqda...</div>';
     document.getElementById('skins-page-shop').innerHTML =
-        '<div style="color:#475569;font-size:0.82rem;text-align:center;padding:16px;">Yuklanmoqda...</div>';
+        '<div style="color:#6b5a42;font-size:0.82rem;text-align:center;padding:16px;">Yuklanmoqda...</div>';
 
     try {
         const res  = await fetch('/api/shop/items', {
@@ -1083,6 +1117,7 @@ async function loadSkinsPage() {
 
         // Balans
         document.getElementById('skins-page-coins').textContent = data.coins || 0;
+        _userCoins = data.coins || 0;
         document.getElementById('skins-page-subtitle').textContent =
             (data.items?.filter(i => i.owned).length || 0) + ' ta stil sizda bor';
 
@@ -1102,9 +1137,9 @@ async function loadSkinsPage() {
 
 // Rarity rangini qaytaruvchi yordamchi
 function rarityColor(rarity) {
-    if (rarity === 'Mythic')     return '#22d3ee';
-    if (rarity === 'Legendary')  return '#f59e0b';
-    return '#818cf8'; // Epic
+    if (rarity === 'Mythic')     return '#d4af5a';
+    if (rarity === 'Legendary')  return '#d9a521';
+    return '#c99a2e'; // Epic
 }
 
 function renderSkinsPreview(activeSkinId) {
@@ -1113,8 +1148,8 @@ function renderSkinsPreview(activeSkinId) {
     const username = _authUser?.username || 'Foydalanuvchi';
 
     if (!activeSkinId) {
-        nameEl.innerHTML = `<span style="color:#e2e8f0;font-size:1.5rem;font-weight:900;">${username}</span>`;
-        badgeEl.innerHTML = '<span style="color:#64748b;font-size:0.75rem;">😐 Standart ko\'rinish</span>';
+        nameEl.innerHTML = `<span style="color:#ecdfc4;font-size:1.5rem;font-weight:900;">${username}</span>`;
+        badgeEl.innerHTML = '<span style="color:#9c8a6c;font-size:0.75rem;">😐 Standart ko\'rinish</span>';
         return;
     }
     const s = _skinsData?.find(i => i.id === activeSkinId);
@@ -1136,8 +1171,8 @@ function renderOwnedSkins(items, activeSkinId) {
     const owned = items ? items.filter(i => i.owned) : [];
     const all   = [
         { id: null, label: 'Standart', icon: '😐', rarity: 'Default',
-          gradient: 'linear-gradient(90deg,#94a3b8,#64748b)',
-          iconBg: '#1e3a5f', border: '#334155' },
+          gradient: 'linear-gradient(90deg,#b8a888,#9c8a6c)',
+          iconBg: '#4a3320', border: '#3a2e22' },
         ...owned
     ];
 
@@ -1145,22 +1180,22 @@ function renderOwnedSkins(items, activeSkinId) {
         // Faqat Standart bor
         el.innerHTML = `
         <div onclick="setActiveSkin(null)"
-            style="background:${!activeSkinId ? '#1a2744' : '#0d1f3c'};
-            border:2px solid ${!activeSkinId ? '#6366f1' : '#1e3a5f'};
+            style="background:${!activeSkinId ? '#241a14' : '#1a130f'};
+            border:2px solid ${!activeSkinId ? '#a4172b' : '#4a3320'};
             border-radius:14px; padding:14px 10px;
             display:flex; flex-direction:column; align-items:center;
             gap:8px; cursor:pointer; position:relative;
-            ${!activeSkinId ? 'box-shadow:0 0 14px #6366f144;' : ''}">
-            ${!activeSkinId ? '<div style="position:absolute;top:5px;right:5px;background:#6366f1;color:#fff;font-size:0.55rem;font-weight:800;padding:1px 6px;border-radius:20px;">AKTIV</div>' : ''}
-            <div style="background:#1e3a5f;border-radius:12px;width:50px;height:50px;
+            ${!activeSkinId ? 'box-shadow:0 0 14px #a4172b44;' : ''}">
+            ${!activeSkinId ? '<div style="position:absolute;top:5px;right:5px;background:#a4172b;color:#fff;font-size:0.55rem;font-weight:800;padding:1px 6px;border-radius:20px;">AKTIV</div>' : ''}
+            <div style="background:#4a3320;border-radius:12px;width:50px;height:50px;
                 display:flex;align-items:center;justify-content:center;font-size:1.6rem;">😐</div>
-            <div style="font-size:0.8rem;font-weight:700;color:#94a3b8;">Standart</div>
+            <div style="font-size:0.8rem;font-weight:700;color:#b8a888;">Standart</div>
         </div>
-        <div style="grid-column:2;background:#0a0f1e;border:2px dashed #1e3a5f;border-radius:14px;
+        <div style="grid-column:2;background:#0b0806;border:2px dashed #4a3320;border-radius:14px;
             padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;
             gap:6px;cursor:pointer;" onclick="closeSkinsPage();openShopModal('names')">
             <div style="font-size:1.4rem;">🛒</div>
-            <div style="font-size:0.72rem;color:#475569;text-align:center;line-height:1.4;">
+            <div style="font-size:0.72rem;color:#6b5a42;text-align:center;line-height:1.4;">
                 Do'kondan<br>stil oling
             </div>
         </div>`;
@@ -1170,10 +1205,10 @@ function renderOwnedSkins(items, activeSkinId) {
     el.innerHTML = all.map(item => {
         const isActive  = activeSkinId === item.id;
         const isDefault = item.id === null;
-        const rc        = isDefault ? '#64748b' : rarityColor(item.rarity);
+        const rc        = isDefault ? '#9c8a6c' : rarityColor(item.rarity);
         // Faqat AKTIV skin animatsiyali, qolganlar statik gradient
         const labelHtml = isDefault
-            ? `<div style="font-size:0.82rem;font-weight:700;color:#94a3b8;">Standart</div>`
+            ? `<div style="font-size:0.82rem;font-weight:700;color:#b8a888;">Standart</div>`
             : isActive && typeof renderPlayerName === 'function'
                 ? renderPlayerName(item.label, item.id)
                 : `<span style="font-size:0.82rem;font-weight:800;background:${item.gradient};
@@ -1181,8 +1216,8 @@ function renderOwnedSkins(items, activeSkinId) {
                     -webkit-text-fill-color:transparent;">${item.label}</span>`;
         return `
         <div onclick="setActiveSkin(${isDefault ? 'null' : `'${item.id}'`})"
-            style="background:${isActive ? '#12103a' : '#0d1f3c'};
-            border:2px solid ${isActive ? item.border : '#1e3a5f'};
+            style="background:${isActive ? '#1a130f' : '#1a130f'};
+            border:2px solid ${isActive ? item.border : '#4a3320'};
             border-radius:14px; padding:14px 10px;
             display:flex; flex-direction:column; align-items:center; gap:8px;
             cursor:pointer; position:relative; transition:.15s;
@@ -1207,8 +1242,8 @@ function renderShopSkinsInPage(items, coins) {
     const unowned = items ? items.filter(i => !i.owned) : [];
 
     if (unowned.length === 0) {
-        el.innerHTML = `<div style="color:#4ade80;font-size:0.88rem;text-align:center;
-            padding:18px;background:#052e16;border:1px solid #166534;border-radius:14px;">
+        el.innerHTML = `<div style="color:#5cb85c;font-size:0.88rem;text-align:center;
+            padding:18px;background:#0e1f12;border:1px solid #1f7a4d;border-radius:14px;">
             🎉 Barcha stillarni yig'ib oldingiz!</div>`;
         return;
     }
@@ -1229,7 +1264,7 @@ function renderShopSkinsInPage(items, coins) {
 
         return `
         <div onclick="openSkinPreview('${item.id}')"
-            style="background:#0d1f3c; border:2px solid ${item.border};
+            style="background:#1a130f; border:2px solid ${item.border};
             border-radius:16px; padding:14px 12px;
             display:flex; align-items:center; gap:13px;
             position:relative; cursor:pointer; transition:opacity .1s; active:opacity:.8">
@@ -1247,7 +1282,7 @@ function renderShopSkinsInPage(items, coins) {
                 <div style="line-height:1.3;">${staticPreview}</div>
                 <div style="font-size:0.68rem; color:${rc}; font-weight:700; margin-top:3px;">
                     ${item.rarity}
-                    <span style="color:#475569;font-weight:500;"> · ismingizda ko'rish uchun bosing</span>
+                    <span style="color:#6b5a42;font-weight:500;"> · ismingizda ko'rish uchun bosing</span>
                 </div>
             </div>
 
@@ -1287,16 +1322,15 @@ function openSkinPreview(skinId) {
 
     const label    = sServer?.label  || shopItem?.label  || skinId;
     const icon     = sServer?.icon   || shopItem?.icon   || sLocal?.icon   || '✨';
-    const iconBg   = sServer?.iconBg || shopItem?.iconBg || sLocal?.iconBg || '#1e3a5f';
-    const border   = sServer?.border || shopItem?.border || sLocal?.border || '#6366f1';
+    const iconBg   = sServer?.iconBg || shopItem?.iconBg || sLocal?.iconBg || '#4a3320';
+    const border   = sServer?.border || shopItem?.border || sLocal?.border || '#a4172b';
     const rarity   = sServer?.rarity || shopItem?.rarity || 'Epic';
     const price    = sServer?.price  || shopItem?.price  || 0;
     const desc     = sServer?.desc   || shopItem?.desc   || '';
     const gradient = sServer?.gradient || shopItem?.gradient || sLocal?.gradient || '';
 
     const username  = _authUser?.username || 'SizningIsmingiz';
-    const coinsEl   = document.getElementById('skins-page-coins') || document.getElementById('shop-coins');
-    const coins     = parseInt(coinsEl?.textContent) || 0;
+    const coins     = _userCoins;
     const canAfford = coins >= price;
 
     // Jonli animatsiya — faqat bitta
@@ -1308,6 +1342,10 @@ function openSkinPreview(skinId) {
             background-clip:text;-webkit-text-fill-color:transparent;">
             ${icon} ${username}</span>`;
     }
+    // Ikonka bilan bir xil rangda — ism ko'rsatiladigan quti ham "yonib" turadi
+    nameEl.style.borderColor = border + '88';
+    nameEl.style.boxShadow   = `0 0 22px ${border}55, inset 0 0 18px ${border}22`;
+    nameEl.style.background  = `radial-gradient(ellipse at center, ${border}14, rgba(255,255,255,0.03))`;
 
     // Rarity badge
     badge.innerHTML = `<span style="display:inline-block;background:${iconBg};
@@ -1323,10 +1361,10 @@ function openSkinPreview(skinId) {
     priceEl.textContent = `${price} 💰`;
 
     buyBtn.style.background = canAfford
-        ? 'linear-gradient(135deg,#7c3aed,#6d28d9)'
-        : '#1e293b';
-    buyBtn.style.color  = canAfford ? '#fff' : '#f59e0b';
-    buyBtn.style.border = canAfford ? 'none' : '1px solid #92400e';
+        ? 'linear-gradient(135deg,#c99a2e,#8a6a1a)'
+        : '#1e1712';
+    buyBtn.style.color  = canAfford ? '#fff' : '#d9a521';
+    buyBtn.style.border = canAfford ? 'none' : '1px solid #5a3a10';
     buyBtn.textContent  = canAfford ? '💜 Sotib olish' : '💰 Tanga yetarli emas';
     buyBtn.onclick = canAfford
         ? () => { _doBuyName(skinId); }
@@ -1364,7 +1402,7 @@ function closeSkinPreview() {
 
 async function buyNameFromSkinsPage(itemId, itemLabel, price) {
     if (!_authUser) return;
-    const coins = parseInt(document.getElementById('skins-page-coins')?.textContent) || 0;
+    const coins = _userCoins;
     if (coins < price) {
         closeSkinsPage();
         openShopModal('coins');
@@ -1479,17 +1517,17 @@ function switchShopTab(tab) {
     if (tab === 'coins') {
         namesTab.style.display  = 'none';
         coinsTab.style.display  = 'block';
-        coinsBtn.style.background = '#0ea5e9';
+        coinsBtn.style.background = '#c99a2e';
         coinsBtn.style.color      = '#fff';
         namesBtn.style.background = 'transparent';
-        namesBtn.style.color      = '#7c3aed';
+        namesBtn.style.color      = '#c99a2e';
     } else {
         coinsTab.style.display  = 'none';
         namesTab.style.display  = 'block';
-        namesBtn.style.background = '#7c3aed';
+        namesBtn.style.background = '#c99a2e';
         namesBtn.style.color      = '#fff';
         coinsBtn.style.background = 'transparent';
-        coinsBtn.style.color      = '#0ea5e9';
+        coinsBtn.style.color      = '#c99a2e';
     }
 }
 
@@ -1501,7 +1539,7 @@ async function openShopModal(tab) {
     document.getElementById('shop-modal-overlay').style.display = 'flex';
     document.getElementById('shop-coins').textContent = '…';
     document.getElementById('shop-names-list').innerHTML =
-        '<div style="text-align:center;color:#475569;padding:20px;font-size:0.85rem;">Yuklanmoqda…</div>';
+        '<div style="text-align:center;color:#6b5a42;padding:20px;font-size:0.85rem;">Yuklanmoqda…</div>';
 
     // Qaysi tab ochilishi kerakligini belgilaymiz
     switchShopTab(tab || 'names');
@@ -1516,14 +1554,16 @@ async function openShopModal(tab) {
 
         if (_authUser) {
             document.getElementById('shop-coins').textContent = data.coins;
+            _userCoins = data.coins || 0;
         } else {
             document.getElementById('shop-coins').textContent = '🔒 Kirish kerak';
         }
+        _skinsData = data.items; // Preview oynasi narxni to'g'ri topishi uchun keshlaymiz
         renderShopNames(data.items, _authUser ? data.coins : -1);
 
     } catch (err) {
         document.getElementById('shop-names-list').innerHTML =
-            `<div style="text-align:center;color:#f87171;padding:16px;font-size:0.85rem;">
+            `<div style="text-align:center;color:#e0685a;padding:16px;font-size:0.85rem;">
                 ❌ ${err.message || 'Yuklab bo\'lmadi'}
             </div>`;
     }
@@ -1533,21 +1573,21 @@ async function openShopModal(tab) {
 function renderShopNames(items, coins) {
     const list = document.getElementById('shop-names-list');
     if (!items || items.length === 0) {
-        list.innerHTML = '<div style="text-align:center;color:#475569;padding:20px;">Hozircha bo\'sh</div>';
+        list.innerHTML = '<div style="text-align:center;color:#6b5a42;padding:20px;">Hozircha bo\'sh</div>';
         return;
     }
     const isLoggedIn = !!_authUser;
     list.innerHTML = items.map(item => {
         const owned     = item.owned;
         const canAfford = isLoggedIn && coins >= item.price;
-        const rc = item.rarity === 'Legendary' ? '#f59e0b'
-                 : item.rarity === 'Mythic'    ? '#22d3ee'
-                 : '#818cf8';
+        const rc = item.rarity === 'Legendary' ? '#d9a521'
+                 : item.rarity === 'Mythic'    ? '#d4af5a'
+                 : '#c99a2e';
 
         if (owned) {
             // Sotib olingan — faqat belgi
             return `
-            <div style="background:#060f20; border:2px solid #166534; border-radius:16px;
+            <div style="background:#100b08; border:2px solid #1f7a4d; border-radius:16px;
                 padding:14px 12px; display:flex; align-items:center; gap:13px; opacity:0.7;">
                 <div style="background:${item.iconBg}; border-radius:14px;
                     width:52px; height:52px; flex-shrink:0;
@@ -1560,7 +1600,7 @@ function renderShopNames(items, coins) {
                         -webkit-text-fill-color:transparent;font-size:1rem;">${item.label}</span>
                     <div style="font-size:0.68rem;color:${rc};font-weight:700;margin-top:3px;">${item.rarity}</div>
                 </div>
-                <div style="background:#052e16;color:#4ade80;border:1px solid #166534;
+                <div style="background:#0e1f12;color:#5cb85c;border:1px solid #1f7a4d;
                     padding:7px 14px;border-radius:10px;font-size:0.78rem;font-weight:700;">
                     ✓ Olindi
                 </div>
@@ -1570,7 +1610,7 @@ function renderShopNames(items, coins) {
         // Sotib olinmagan — butun qatorni bosib preview ochiladi
         return `
         <div onclick="openSkinPreview('${item.id}')"
-            style="background:#0d1f3c; border:2px solid ${item.border}; border-radius:16px;
+            style="background:#1a130f; border:2px solid ${item.border}; border-radius:16px;
             padding:14px 12px; display:flex; align-items:center; gap:13px; cursor:pointer;">
             <div style="background:${item.iconBg}; border-radius:14px;
                 width:52px; height:52px; flex-shrink:0;
@@ -1584,7 +1624,7 @@ function renderShopNames(items, coins) {
                     -webkit-text-fill-color:transparent;font-size:1rem;">${item.label}</span>
                 <div style="font-size:0.68rem; color:${rc}; font-weight:700; margin-top:3px;">
                     ${item.rarity}
-                    <span style="color:#475569;font-weight:500;"> · bosing → ismingizda ko'ring</span>
+                    <span style="color:#6b5a42;font-weight:500;"> · bosing → ismingizda ko'ring</span>
                 </div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
@@ -1631,6 +1671,7 @@ async function _doBuyName(itemId) {
         // Balansni yangilaymiz
         const shopCoinsEl = document.getElementById('shop-coins');
         if (shopCoinsEl) shopCoinsEl.textContent = data.coins + ' tanga 💰';
+        _userCoins = data.coins || 0;
 
         _authUser.active_skin = itemId;
 
@@ -1731,6 +1772,7 @@ async function refreshCoinsBalance() {
         if (res.ok) {
             const el = document.getElementById('shop-coins');
             if (el) el.textContent = data.coins + ' tanga 💰';
+            _userCoins = data.coins || 0;
         }
     } catch {}
 }

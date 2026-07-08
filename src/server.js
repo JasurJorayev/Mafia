@@ -278,8 +278,8 @@ io.on('connection', (socket) => {
                 [lobbyCode]
             );
             if (!lobbyQ.rowCount) return;
-            // Faqat tanishuv va muhokama fazalarida ishlaydi
-            const allowedPhases = ['introduction', 'discussion'];
+            // Kutish xonasida, tanishuv va muhokama fazalarida ishlaydi
+            const allowedPhases = ['waiting', 'introduction', 'discussion'];
             if (!allowedPhases.includes(lobbyQ.rows[0].current_phase)) return;
 
             const playerQ = await pool.query(

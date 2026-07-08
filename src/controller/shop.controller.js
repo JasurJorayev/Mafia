@@ -455,16 +455,9 @@ export const getUserSkin = async (req, res) => {
                 const skinData = SHOP_NAMES.find(s => s.id === row.active_skin) || null;
                 return res.json({ active_skin: row.active_skin, skin_data: skinData });
             }
-            // user_id yo'q lekin username bo'yicha users jadvalidan topishga harakat qilamiz
-            const fallback = await pool.query(
-                'SELECT active_skin FROM users WHERE LOWER(username)=LOWER($1) AND is_active=true LIMIT 1',
-                [username]
-            );
-            if (fallback.rowCount > 0 && fallback.rows[0].active_skin) {
-                const activeSkin = fallback.rows[0].active_skin;
-                const skinData   = SHOP_NAMES.find(s => s.id === activeSkin) || null;
-                return res.json({ active_skin: activeSkin, skin_data: skinData });
-            }
+            // user_id yo'q — bu MEHMON o'yinchi. Boshqa (ro'yxatdan o'tgan)
+            // foydalanuvchi bilan username bir xil bo'lsa ham, mehmonga
+            // hech qachon o'sha odamning skinini ko'rsatmaymiz.
             return res.json({ active_skin: null, skin_data: null });
         }
 
