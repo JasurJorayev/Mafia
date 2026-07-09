@@ -10,6 +10,7 @@ import {
     googleAuth,
     getMe,
     getProfile,
+    getLeaderboard,
     updateProfile,
     changePassword,
 } from '../controller/auth.controller.js';
@@ -21,6 +22,7 @@ authRouter.post('/auth/register',         register);
 authRouter.post('/auth/login',            login);
 authRouter.post('/auth/google',           googleAuth);
 authRouter.get('/profile/:username',      getProfile);
+authRouter.get('/leaderboard',            getLeaderboard);
 
 // --- Himoyalangan (token kerak) ---
 authRouter.get('/auth/me',                requireAuth, getMe);

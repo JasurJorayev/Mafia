@@ -323,6 +323,44 @@ export const getProfile = async (req, res) => {
 };
 
 // ===============================================================
+// GET /api/leaderboard
+// Reyting — eng ko'p g'alaba qozongan (keyin eng ko'p o'ynagan)
+// o'yinchilar birinchi o'rinlarda turadi. Token kerak emas — ochiq.
+// ===============================================================
+export const getLeaderboard = async (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 50, 100);
+
+        const result = await pool.query(
+            `SELECT username, active_skin, games_played, games_won,
+                    CASE WHEN games_played > 0
+                         THEN ROUND((games_won::numeric / games_played) * 100)
+                         ELSE 0 END AS win_rate
+             FROM users
+             WHERE is_active = true AND games_played > 0
+             ORDER BY games_won DESC, games_played DESC, username ASC
+             LIMIT $1`,
+            [limit]
+        );
+
+        const leaderboard = result.rows.map((r, i) => ({
+            rank:         i + 1,
+            username:     r.username,
+            active_skin:  r.active_skin,
+            games_played: parseInt(r.games_played) || 0,
+            games_won:    parseInt(r.games_won)    || 0,
+            win_rate:     parseInt(r.win_rate)     || 0,
+        }));
+
+        res.json({ leaderboard });
+
+    } catch (err) {
+        console.error('getLeaderboard xato:', err.message);
+        res.status(500).json({ message: 'Server xatosi.' });
+    }
+};
+
+// ===============================================================
 // PATCH /api/profile/update
 // Header: Authorization: Bearer <token>
 // Body: { username?, bio?, avatar_url? }
