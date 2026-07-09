@@ -12,6 +12,7 @@ import { advancePhaseLogic } from './controller/player.controller.js';
 import authRouter from './router/auth.route.js';
 import shopRouter from './router/shop.route.js';
 import paymentRouter from './router/payment.route.js';
+import { COIN_PACKAGES as SHOP_COIN_PACKAGES } from './controller/payment.controller.js';
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -80,12 +81,15 @@ app.use('/api', paymentRouter);
 
 // ===============================================================
 // TELEGRAM BOT — tanga sotib olish uchun
-// ===============================================================
-const COIN_PACKAGES = {
-    'buy_150': { coins: 150, stars: 75,  title: '💰 150 Tanga', desc: "Mafia Online uchun 150 tanga to'plami" },
-    'buy_300': { coins: 300, stars: 140, title: '💰 300 Tanga', desc: "Mafia Online uchun 300 tanga to'plami" },
-    'buy_500': { coins: 500, stars: 220, title: '💰 500 Tanga', desc: "Mafia Online uchun 500 tanga to'plami" },
-};
+// MUHIM: narxlar endi payment.controller.js dagi COIN_PACKAGES'dan olinadi
+// (yagona manba) — shunda bot va ilova ichidagi do'kon narxlari
+// hech qachon bir-biridan farq qilmaydi.
+const COIN_PACKAGES = Object.fromEntries(
+    SHOP_COIN_PACKAGES.map(p => [
+        'buy_' + p.coins,
+        { coins: p.coins, stars: p.stars, title: p.title, desc: p.description }
+    ])
+);
 
 let bot = null;
 
@@ -119,19 +123,21 @@ if (process.env.BOT_TOKEN) {
             }
 
             // Oddiy /start
+            const priceLines = Object.entries(COIN_PACKAGES)
+                .map(([key, pkg]) => `/${key.replace('_', '\\_')} — ${pkg.coins} tanga (${pkg.stars} ⭐ Stars)`)
+                .join('\n');
             bot.sendMessage(chatId,
                 `👋 Salom! *Mafia Online* botiga xush kelibsiz!\n\n` +
                 `🎮 O'yin: [Mafia Online](https://mafia-production-7dd2.up.railway.app)\n\n` +
                 `💰 *Tanga sotib olish:*\n` +
-                `/buy\\_150 — 150 tanga (75 ⭐ Stars)\n` +
-                `/buy\\_300 — 300 tanga (140 ⭐ Stars)\n` +
-                `/buy\\_500 — 500 tanga (220 ⭐ Stars)`,
+                priceLines,
                 { parse_mode: 'Markdown' }
             );
         });
 
-        // /buy_150, /buy_300, /buy_500
-        bot.onText(/\/(buy_150|buy_300|buy_500)/, async (msg, match) => {
+        // /buy_150, /buy_300, /buy_500 (COIN_PACKAGES asosida dinamik)
+        const buyKeysPattern = Object.keys(COIN_PACKAGES).join('|');
+        bot.onText(new RegExp('\\/(' + buyKeysPattern + ')'), async (msg, match) => {
             const chatId = msg.chat.id;
             const key    = match[1];
             const pkg    = COIN_PACKAGES[key];
