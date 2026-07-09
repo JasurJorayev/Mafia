@@ -7,25 +7,26 @@ import pool from '../config/db.js';
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
 // Tanga paketlari (Stars narxi bilan)
+// Tanga paketlari (Stars narxi bilan)
 export const COIN_PACKAGES = [
     {
         id:          'pack_150',
         coins:       150,
-        stars:       100,         // 100 Telegram Star
+        stars:       100,         // 👈 shu raqamni o'zgartiring (150 tanga narxi, Stars)
         title:       '💰 150 Tanga',
         description: 'Mafia Online uchun 150 tanga to\'plami',
     },
     {
         id:          'pack_300',
         coins:       300,
-        stars:       200,         // 200 Telegram Star
+        stars:       200,         // 👈 shu raqamni o'zgartiring (300 tanga narxi, Stars)
         title:       '💰 300 Tanga',
         description: 'Mafia Online uchun 300 tanga to\'plami (Mashhur!)',
     },
     {
         id:          'pack_500',
         coins:       500,
-        stars:       300,         // 300 Telegram Star
+        stars:       300,         // 👈 shu raqamni o'zgartiring (500 tanga narxi, Stars)
         title:       '💰 500 Tanga',
         description: 'Mafia Online uchun 500 tanga to\'plami (Katta to\'plam)',
     },
