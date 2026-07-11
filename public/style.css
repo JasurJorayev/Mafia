@@ -334,6 +334,13 @@ input.code-input[type="password"] {
     border: 1px solid #4a3320;
     font-size: 0.95rem;
     gap: 8px;
+    /* MUHIM: faqat "layout style" — "paint" QO'SHILMAYDI, chunki
+       paint containment overflow:hidden kabi ishlaydi va skin
+       ikonkasining porlashini (box-shadow) kesib qo'yadi.
+       "layout style" esa bitta qatordagi animatsiya boshqa
+       qatorlarning reflow/repaint hisoblarini navbatga qo'shishini
+       to'xtatadi — ko'p o'yinchi bo'lganda LAG kamayadi. */
+    contain: layout style;
 }
 
 /* Ism + toj + "SEN" belgisi — hech qachon pastki qatorga tushmaydi.

@@ -155,6 +155,15 @@ let hasKilled = false;
 let hasHealed = false;
 let gameOverShown = false;
 
+// ===== RENDER OPTIMIZATSIYASI =====
+// Har gameLoop() chaqirilganda (3 soniyada bir) ro'yxatlarni
+// BEKORDAN to'liq qayta chizmaslik uchun — oldingi holatning
+// "imzosi" saqlanadi. Imzo o'zgarmagan bo'lsa, DOM umuman
+// tegilmaydi — bu skin animatsiyalarining har 3 soniyada
+// qayta boshlanib, LAG berishining oldini oladi.
+let _lastWaitingSignature = null;
+let _lastGameUISignature  = null;
+
 // ===== SKIN TIZIMI =====
 var SKIN_DATA = {
     fire_boss: {
@@ -1776,41 +1785,23 @@ function playerIcon(username, colorKey) {
     return colorEmoji(colorKey);
 }
 
-function updateWaitingUI(players) {
-    const list    = document.getElementById('player-list');
-    const counter = document.getElementById('player-count');
-    if (!list) return;
-    counter.innerText = players.length;
+// Lobbi ro'yxatining joriy holatini "imzo" (signature) satriga aylantiradi.
+// Faqat renderga ta'sir qiluvchi narsalar kiradi: username, rang, skin, admin.
+function buildWaitingSignature(players) {
+    return players.map(p =>
+        `${p.username}:${p.player_color}:${playerSkinCache[p.username] || ''}:${p.username === adminUsername ? 1 : 0}:${p.username === myUsername ? 1 : 0}`
+    ).join('|');
+}
+
+function renderWaitingRows(list, players) {
     list.innerHTML = '';
-
-    // Skinlarni olish (async, keyin qayta render)
-    fetchAllPlayerSkins(players).then(() => {
-        list.innerHTML = '';
-        players.forEach(p => {
-            const div = document.createElement('div');
-            const isMe = p.username === myUsername;
-            div.className = 'player-row' + (isMe ? ' player-row-me' : '');
-            const crown   = p.username === adminUsername ? ' 👑' : '';
-            const meBadge = isMe ? '<span class="me-badge">Sen</span>' : '';
-            // Skin bo'lsa — ikonka renderPlayerName ichida chiqadi, bo'lmasa rangli doira
-            const hasSkin = playerSkinCache[p.username] && SKIN_DATA[playerSkinCache[p.username]];
-            const prefix  = hasSkin ? '' : `<span style="margin-right:4px;">${colorEmoji(p.player_color)}</span>`;
-            div.innerHTML = `
-                <span>
-                    ${prefix}${renderPlayerName(p.username)}${crown} ${meBadge}
-                </span>
-                <span style="color:#a4907a;font-size:0.8rem;">Tayyor</span>`;
-            list.appendChild(div);
-        });
-    });
-
-    // Darxol render (skin yuklangandan oldin — rangli doira ko'rsatamiz)
     players.forEach(p => {
         const div = document.createElement('div');
         const isMe = p.username === myUsername;
         div.className = 'player-row' + (isMe ? ' player-row-me' : '');
         const crown   = p.username === adminUsername ? ' 👑' : '';
         const meBadge = isMe ? '<span class="me-badge">Sen</span>' : '';
+        // Skin bo'lsa — ikonka renderPlayerName ichida chiqadi, bo'lmasa rangli doira
         const hasSkin = playerSkinCache[p.username] && SKIN_DATA[playerSkinCache[p.username]];
         const prefix  = hasSkin ? '' : `<span style="margin-right:4px;">${colorEmoji(p.player_color)}</span>`;
         div.innerHTML = `
@@ -1820,6 +1811,35 @@ function updateWaitingUI(players) {
             <span style="color:#a4907a;font-size:0.8rem;">Tayyor</span>`;
         list.appendChild(div);
     });
+}
+
+function updateWaitingUI(players) {
+    const list    = document.getElementById('player-list');
+    const counter = document.getElementById('player-count');
+    if (!list) return;
+    counter.innerText = players.length;
+
+    // MUHIM: ro'yxat haqiqatan o'zgarmagan bo'lsa DOM'ga umuman tegmaymiz.
+    // Aks holda har 3 soniyada (gameLoop) barcha skin animatsiyalari
+    // qayta boshlanib, ko'plab o'yinchi bo'lganda sezilarli LAG berardi.
+    const sigNow = buildWaitingSignature(players);
+    if (sigNow !== _lastWaitingSignature || list.children.length === 0) {
+        renderWaitingRows(list, players);
+        _lastWaitingSignature = sigNow;
+    }
+
+    // Hali skini noma'lum o'yinchilar bo'lsa — orqa fonda yuklab olamiz
+    // va faqat natija haqiqatan o'zgargandagina qayta chizamiz.
+    const hasUnknown = players.some(p => playerSkinCache[p.username] === undefined);
+    if (hasUnknown) {
+        fetchAllPlayerSkins(players).then(() => {
+            const sigAfter = buildWaitingSignature(players);
+            if (sigAfter !== _lastWaitingSignature) {
+                renderWaitingRows(list, players);
+                _lastWaitingSignature = sigAfter;
+            }
+        });
+    }
 }
 
 // ===============================================================
@@ -1845,6 +1865,24 @@ function updateGameUI(me, players) {
 
     const list = document.getElementById('game-player-list');
     if (!list) return;
+
+    // MUHIM: agar o'yinchilar holati (tirikligi, roli, skini, tayyorlik
+    // belgisi va h.k.) o'zgarmagan bo'lsa — ro'yxatni umuman qayta
+    // chizmaymiz. Bu har 3 soniyada (gameLoop) barcha skin
+    // animatsiyalarining qayta boshlanib LAG berishining oldini oladi.
+    const readySig = gamePhase === 'discussion'
+        ? Array.from(voteReadyUsers).sort().join(',')
+        : '';
+    const meSig = me ? `${me.username}:${me.role}:${me.is_alive}:${me.voted_for || ''}` : '';
+    const sigNow = `${gamePhase}|${hasKilled}|${hasHealed}|${meSig}|${readySig}|` +
+        players.map(p =>
+            `${p.username}:${p.is_alive}:${p.role || ''}:${p.player_color}:${playerSkinCache[p.username] || ''}`
+        ).join('|');
+
+    if (sigNow === _lastGameUISignature && list.children.length !== 0) {
+        // Hech narsa o'zgarmagan — DOM'ga tegmaymiz, animatsiyalar davom etaveradi
+    } else {
+    _lastGameUISignature = sigNow;
     list.innerHTML = '';
 
     players.forEach(p => {
@@ -1913,6 +1951,7 @@ function updateGameUI(me, players) {
 
         list.appendChild(div);
     });
+    } // sigNow !== _lastGameUISignature bloki tugadi
 
     // ROL MA'LUMOTI
     const roleDiv = document.getElementById('role-display');
